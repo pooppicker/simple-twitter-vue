@@ -1,7 +1,10 @@
 /* reset css */
+@import url("https://fonts.googleapis.com/css?family=Noto+Sans+TC:400,700&display=swap&subset=chinese-traditional");
+
 body {
   margin: 0;
   padding: 0;
+  font-family: 'Noto Sans TC'
 }
 * {
   box-sizing: border-box;
