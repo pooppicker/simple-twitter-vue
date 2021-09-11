@@ -23,12 +23,6 @@ import NavBars from "./../components/NavBars";
 export default {
   name: "Home",
   components: {
-<<<<<<< HEAD
-
-  },
-};
-</script>
-=======
     NavBars,
   },
 };
@@ -47,4 +41,3 @@ export default {
   }
 }
 </style>
->>>>>>> 1d9fcdf0dea5eb1b3b262b0454bc66cb25d0ac58
