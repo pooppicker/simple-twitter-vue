@@ -8,6 +8,11 @@ const routes = [
   {
     path: "/",
     name: "Home",
+    redirect:"/twitter/Home"
+  },
+  {
+    path: "/twitter/Home",
+    name: "Home",
     component: Home,
   },
 ];
