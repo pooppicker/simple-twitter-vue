@@ -1,5 +1,5 @@
 <template>
-  <div class="container home">
+  <div class="container home-content">
     <div class="home">
     <div class="navbars">
       <!--navbar-->
@@ -34,8 +34,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.container {
+<style lang="scss">
+.home-content {
   height: 100vh;
   width: 100vw;
   //標示用
