@@ -36,17 +36,22 @@
 
 <style lang="scss" >
 @import "../assets/scss/colorAndSize.scss";
+@import "../assets/scss/efficientSetting.scss";
 
 .card {
   outline: black 2px solid;
   height: 100%;
-  margin-right: 10px;
+  margin-right: 20px;
   padding-top: 14px;
+  overflow: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
   .card-content {
     background-color: #f5f8fa;
     height: 770px;
     border-radius: 14px;
-    padding-top:14px; 
+    padding-top: 14px;
     margin: 0 14px;
     // padding: 0 15px;
     //border: green 2px solid;
@@ -58,6 +63,7 @@
       color: $color-black;
       .card-title {
         margin-left: 15px;
+        
       }
     }
     .card-body {
@@ -78,17 +84,7 @@
           .btn-addfollow,
           .btn-deletefollow {
             margin-top: 7px;
-            line-height: 69%;
-            width: 100%;
-            height: 35px;
-            padding: 10px 15px;
-            background-color: $color-orange;
-            color: white;
-            border-radius: 100px;
-            font-style: bold;
-            &:hover {
-              transform: scale(1.1, 1.1);
-            }
+            @extend %main-button;
           }
           .btn-addfollow {
             background-color: rgba(0, 0, 0, 0);
@@ -97,8 +93,7 @@
           }
         }
         .user-img {
-          height: 50px;
-          width: 50px;
+          @extend %avatar-size;
           margin-right: 15px;
         }
       }
@@ -110,6 +105,14 @@ hr {
   background-color: #e6ecf0;
   height: 1px;
   border: none;
+}
+
+//電腦版
+@media screen and (min-width: 576px) {
+.card {
+ outline: black 2px solid;
+  height: 100vh;
+}
 }
 </style>
 
