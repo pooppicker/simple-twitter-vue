@@ -1,7 +1,7 @@
 <template>
   <div class="container setting-content">
     <div class="setting">
-      <div class="navbars">
+      <div class="setting-navbars">
         <!--navbar-->
         <NavBars />
       </div>
@@ -93,13 +93,13 @@ export default {
     display: grid;
     grid-template-columns: 5fr 14fr 8.3fr;
     grid-gap: 1fr;
-    grid-template-areas: "nav sets sets sets";
+    grid-template-areas: "nav sets sets";
     height: 100%;
     max-width: 1440px;
     background-color: white;
     margin: 0 auto;
   }
-  .navbars {
+  .setting-navbars {
     grid-area: nav;
   }
   .setting-container {
@@ -126,7 +126,7 @@ export default {
       background-color: #f5f8fa;
       font-size: 15px;
       margin-bottom: 0.5rem;
-      width: 642px;
+      width: 100%;
     }
     .set-btn {
       min-width: 642px;
