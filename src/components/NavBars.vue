@@ -65,10 +65,8 @@ export default {
 <style lang="scss">
 .nav {
   border: black 2px solid;
-  width: 15%;
   height: 100%;
   padding-top: 14px;
-  position: fixed;
   margin-left: 10px;
 
   justify-content: space-between;
