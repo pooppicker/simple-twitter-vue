@@ -38,14 +38,16 @@
 @import "../assets/scss/colorAndSize.scss";
 
 .card {
-  border: black 2px solid;
+  outline: black 2px solid;
   height: 100%;
   margin-right: 10px;
+  padding-top: 14px;
   .card-content {
     background-color: #f5f8fa;
-    height: 756px;
+    height: 770px;
     border-radius: 14px;
-    margin: 14px;
+    padding-top:14px; 
+    margin: 0 14px;
     // padding: 0 15px;
     //border: green 2px solid;
     .card-header {

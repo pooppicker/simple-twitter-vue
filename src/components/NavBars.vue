@@ -69,11 +69,10 @@ export default {
 <style lang="scss">
 @import "../assets/scss/colorAndSize.scss";
 .nav {
-  border: black 2px solid;
+ outline: black 2px solid;
   height: 100%;
   padding-top: 14px;
   margin-left: 10px;
-
   justify-content: space-between;
   //連結點按的樣式
   .nav-link {
