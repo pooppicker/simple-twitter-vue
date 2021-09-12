@@ -39,7 +39,7 @@ export default {
   height: 100vh;
   width: 100vw;
   //標示用
-  border: red 2px solid;
+  outline: red 2px solid;
   .home {
     display:grid;
     grid-template-columns: 5fr 14fr 8.3fr; //已調成grid，比例在這裡喔！
@@ -49,7 +49,7 @@ export default {
     background-color:white;
     margin: 0 auto;
     //標示用
-    border: green 2px solid; 
+    outline: green 2px solid; 
     position: relative;
   }
 }
