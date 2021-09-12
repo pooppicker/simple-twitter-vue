@@ -71,40 +71,40 @@ $sizes: (
   25: 25%,
   50: 50%,
   75: 75%,
-  100: 100%
+  100: 100%,
 );
 @each $prop, $abbrev in (width: w, height: h) {
- @each $num, $val in $sizes {
-   .#{$abbrev}-#{$num} {
-     #{$prop}: $val;
-   }
- }
+  @each $num, $val in $sizes {
+    .#{$abbrev}-#{$num} {
+      #{$prop}: $val;
+    }
+  }
 }
 $spacer: 1rem;
 $spacers: (
   0: 0,
   1: (
-    $spacer * 0.25
+    $spacer * 0.25,
   ),
   2: (
-    $spacer * 0.5
+    $spacer * 0.5,
   ),
   3: (
-    $spacer * 0.75
+    $spacer * 0.75,
   ),
   4: $spacer,
   5: (
-    $spacer * 1.25
+    $spacer * 1.25,
   ),
   6: (
-    $spacer * 1.5
+    $spacer * 1.5,
   ),
   7: (
-    $spacer * 1.75
+    $spacer * 1.75,
   ),
   8: (
-    $spacer * 2
-  )
+    $spacer * 2,
+  ),
 );
 @each $prop, $abbrev in (margin: m, padding: p) {
   @each $num, $val in $spacers {
@@ -134,11 +134,32 @@ $spacers: (
   }
 }
 
+//載入我們設定的樣式
+@import "./colorAndSize.scss";
+
 %input-bottom {
   border-bottom: 2px solid #657786;
   font-size: 15px;
   padding: 0.5em;
-  &:hover, &:focus {
-    border-bottom: 2px solid #50B5FF;
+  &:hover,
+  &:focus {
+    border-bottom: 2px solid #50b5ff;
   }
+}
+
+%main-button {
+  line-height: 69%;
+  height: 35px;
+  padding: 10px 17px;
+  background-color: $color-orange;
+  color: white;
+  border-radius: 100px;
+  &:hover {
+    transform: scale(1.1, 1.1);
+  }
+}
+
+%avatar-size {
+  height: 50px;
+  width: 50px;
 }
