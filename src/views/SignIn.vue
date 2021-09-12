@@ -16,7 +16,7 @@
         <label for="password">密碼</label>
         <input id="password" type="password" class="form-control" autofocus required>
       </div>
-      <button type="submit" class="btn-signin mb-3 ">
+      <button type="submit" class="btn-signin mb-3">
         登入
       </button>
       <div class="text-center">
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import AcLogo from "./../components/icons/AcLogo.vue"
+import AcLogo from "../components/icons/AcLogo.vue"
 
 export default {
   components: {
