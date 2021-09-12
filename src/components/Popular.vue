@@ -2,7 +2,9 @@
   <div class="card">
     <div class="card-content">
       <div class="card-header">
+        <div class="card-title">
         Popular
+        </div>
         <hr />
       </div>
 
@@ -44,7 +46,7 @@
     height: 756px;
     border-radius: 14px;
     margin: 14px;
-    padding: 0 15px;
+   // padding: 0 15px;
     //border: green 2px solid;
     .card-header {
       padding-top: 10px;
@@ -54,14 +56,18 @@
       color: $color-black;
       font-style: bold;
       font-size: 18px;
+      .card-title {
+         margin-left: 15px ;
+      }
     }
     .card-body {
       flex: 1;
       height: 712px;
       //border: yellow 2px solid;
       .user-card {
-        height: 10%;
+        height: 10%;    
         .user-info {
+          margin: 0 15px;
           justify-content: space-between;
           .user.name {
             font-size: 15px;
@@ -73,18 +79,18 @@
             font-style: bold;
             color: $color-gray;
           }
-
           .btn-addfollow,
           .btn-deletefollow {
-            margin-top: 7px;
+            margin-top:7px;
+            line-height: 69%;
             width: 100%;
             height: 35px;
+            padding: 10px 15px;
             font-size: 15px;
             background-color: $color-orange;
             color: white;
             border-radius: 100px;
             font-style: bold;
-
             &:hover {
               transform: scale(1.1, 1.1);
             }
