@@ -1,6 +1,9 @@
 <template>
   <div class="container signin-container">
-    <form class="d-flex flex-column align-items-center">
+    <form
+      class="d-flex flex-column align-items-center"
+      @submit.prevent.stop="handleSubmit"
+    >
       <div class="text-center mb-4">
         <AcLogo class="mb-4" />
         <h3 class="mb-4">登入 Alphitter</h3>
@@ -8,6 +11,7 @@
       <div class="input-style mb-2">
         <label class="signin-label" for="account">帳號</label>
         <input
+          v-model="account"
           class="signin-input"
           id="account"
           type="account"
@@ -19,6 +23,7 @@
       <div class="input-style mb-2">
         <label class="signin-label" for="password">密碼</label>
         <input
+          v-model="password"
           class="signin-input"
           id="password"
           type="password"
@@ -30,7 +35,10 @@
       <div class="links">
         <p>
           <router-link class="signin-links" to="/signup"
-            >註冊 Alphitter</router-link>·<router-link class="signin-links" to="/admin/signin">後台登入</router-link>
+            >註冊 Alphitter</router-link
+          >·<router-link class="signin-links" to="/admin/signin"
+            >後台登入</router-link
+          >
         </p>
       </div>
     </form>
@@ -39,7 +47,6 @@
 
 <script>
 import AcLogo from "../components/icons/AcLogo.vue";
-
 export default {
   components: {
     AcLogo,
@@ -74,7 +81,7 @@ export default {
     background-color: #f5f8fa;
     font-size: 15px;
     margin-bottom: 0.5rem;
-    width: 450px;
+    width: 100%;
   }
   .signin-btn {
     width: 450px;
@@ -101,9 +108,9 @@ export default {
     }
   }
   .error-message {
-    border-bottom: 2px solid #FC5A5A;
+    border-bottom: 2px solid #fc5a5a;
     font-size: 13px;
-    color: #FC5A5A;
+    color: #fc5a5a;
   }
 }
 
