@@ -40,7 +40,7 @@
     <div class="logout">
       <ul>
         <li>
-          <router-link class="d-flex nav-link" to="">
+          <router-link class="d-flex nav-link" to="/logOut">
             <IconLogout />
 
             <h4>登出</h4>
@@ -87,7 +87,7 @@ export default {
       margin-right: 21px;
     }
 
-    &:hover {
+    &:hover,.router-link-exact-active {
       color: #ff6600;
       .nav-icon {
         .st0 {
@@ -96,6 +96,14 @@ export default {
       }
     }
   }
+  .router-link-exact-active {
+      color: $color-orange;
+      .nav-icon {
+        .st0 {
+          fill:$color-orange;
+        }
+      }
+    }
   //上方區域
   .nav-top {
     .ac-logo {
@@ -110,7 +118,7 @@ export default {
       .post-button {
         width: 90%;
         height: 38px;
-        background-color: #ff6600;
+        background-color: $color-orange;
         color: white;
         border-radius: 100px;
         &:hover {
