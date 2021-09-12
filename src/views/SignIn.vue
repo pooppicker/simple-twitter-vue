@@ -16,7 +16,7 @@
         />
         <div v-show="false" class="error-message">帳號不存在</div>
       </div>
-      
+
       <div class="input-style mb-2">
         <label class="signin-label" for="password">密碼</label>
         <input
@@ -28,14 +28,13 @@
         />
       </div>
       <button type="submit" class="signin-btn mb-3">登入</button>
-    </form>
-    <template>
-      <div class="link">
+      <div class="links">
         <p>
-          <router-link class="siginin-links" to="/signup">註冊 Alphitter</router-link>·<router-link class="siginin-links" to="/admin/signin">後台登入</router-link>
+          <router-link class="signin-links" to="/signup"
+            >註冊 Alphitter</router-link>·<router-link class="signin-links" to="/admin/signin">後台登入</router-link>
         </p>
       </div>
-    </template>
+    </form>
   </div>
 </template>
 
@@ -69,7 +68,7 @@ export default {
   .signin-input {
     background-color: #f5f8fa;
     font-size: 15px;
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
   }
   .signin-btn {
     width: 450px;
@@ -79,22 +78,22 @@ export default {
     background-color: #ff6600;
     border-radius: 50px;
   }
-  .link {
-    position: absolute;
-    left: 54%;
+  .links {
+    display: flex;
+    justify-content: end;
+    min-width: 450px;
     p {
       color: #0099ff;
       font-size: 13px;
       font-weight: 700;
     }
-    .siginin-links {
+    .signin-links {
       text-decoration: none;
       color: #0099ff;
       border-bottom: 1px solid #0099ff;
       display: inline-block;
     }
   }
-  
 }
 
 @import "../assets/scss/efficientSetting.scss";
