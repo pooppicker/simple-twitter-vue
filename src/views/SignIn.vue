@@ -1,20 +1,20 @@
 <template>
   <div class="container py-5">
-    <form class="w-100">
+    <form class="d-flex flex-column align-items-center">
       <div class="text-center mb-4">
         <AcLogo class="mb-4" />
         <h1 class="font-weight-normal">
           登入 Alphitter
         </h1>
       </div>
-      <div class="text-center mb-2">
+      <div class="input-style mb-2">
         <label for="account">帳號</label>
-        <input id="account" type="account" class="form-control" autofocus required>
+        <input id="account" type="account" autofocus required>
       </div>
 
-      <div class="text-center mb-2">
+      <div class="input-style mb-2">
         <label for="password">密碼</label>
-        <input id="password" type="password" class="form-control" autofocus required>
+        <input id="password" type="password" autofocus required>
       </div>
       <button type="submit" class="btn-signin mb-3">
         登入
@@ -39,3 +39,28 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.container {
+  margin: auto auto;
+}
+.input-style {
+  @extend %input-bottom;
+  background-color: #F5F8FA;
+  width: 400px;
+  height: 60px;
+}
+label {
+  font-size: 13px;
+  color: #657786;
+  display: block;
+}
+  
+input {
+  background-color: #F5F8FA;
+  font-size: 19px;
+}
+  
+
+@import "../assets/scss/efficientSetting.scss"
+</style>
