@@ -18,7 +18,7 @@
           </li>
 
           <li>
-            <router-link class="d-flex nav-link" to="">
+            <router-link class="d-flex nav-link" to="/twitter/user">
               <IconUser />
               <h4>個人資料</h4>
             </router-link>

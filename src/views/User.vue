@@ -21,14 +21,15 @@
             src="https://images.unsplash.com/27/perspective.jpg?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80"
             alt="cover"
           />
-        </div>
-        <!-- Images & btn-->
-        <div class="edit-area">
           <img
             class="user-avatar"
             src="https://image.flaticon.com/icons/png/512/847/847969.png"
             alt="avatar"
           />
+        </div>
+        <!-- Images & btn-->
+        <div class="edit-area">
+          
           <button type="submit" class="user-edit-btn">編輯個人資料</button>
         </div>
         <!-- Description -->
@@ -111,24 +112,24 @@ export default {
   }
   .cover-area {
     height: 250px;
-    
+    position: relative;
     img {
       object-fit: cover;
-      position: relative;
     }
-  }
-  .edit-area {
-    display: flex;
-    justify-content: end;
     .user-avatar {
-      position: fixed;
-      top: 35%;
-      left: 20%;
+      position: absolute;
+      top: 70%;
+      left: 2%;
       width: 140px;
       height: 140px;
       border: 4px solid #FFFFFF;
       border-radius: 50%;
     }
+  }
+  .edit-area {
+    display: flex;
+    justify-content: end;
+    
     .user-edit-btn {
       margin: 1rem 1rem;
       border: solid 1px $color-orange;
