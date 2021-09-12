@@ -1,15 +1,17 @@
 <template>
   <div class="container home">
     <div class="home">
-    <div>
+    <div class="navbars">
       <!--navbar-->
       <NavBars />
     </div>
     <div>
       <!--middle of home-->
+      <MiddleOfHome />
     </div>
     <div>
       <!--popular-->
+      <Popular />
     </div>
     </div>
   </div>
@@ -17,6 +19,8 @@
 
 <script>
 import NavBars from "./../components/NavBars";
+import MiddleOfHome from "./../components/MiddleOfHome";
+import Popular from "./../components/Popular";
 // @ is an alias to /src
 
 
@@ -24,6 +28,8 @@ export default {
   name: "Home",
   components: {
     NavBars,
+    Popular,
+    MiddleOfHome
   },
 };
 </script>
@@ -42,6 +48,9 @@ export default {
     max-width: 1440px;
     background-color:white;
     margin: 0 auto;
+    //標示用
+    border: green 2px solid; 
+    position: relative;
   }
 }
 </style>
