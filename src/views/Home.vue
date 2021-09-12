@@ -49,7 +49,7 @@ export default {
     background-color:white;
     margin: 0 auto;
     //標示用
-    outline: green 2px solid; 
+   // outline: green 2px solid; 
     position: relative;
   }
 }

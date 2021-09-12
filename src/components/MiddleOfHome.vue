@@ -193,10 +193,12 @@ export default {
 @import "../assets/scss/efficientSetting.scss";
 
 .middle-container {
+  border-left: 1px solid #e6ecf0;
+  border-right: 1px solid #e6ecf0;
   height: 100%;
   margin: 0 2%;
   padding-top: 14px;
-  outline: black 1px solid;
+  //outline: black 1px solid;
   overflow: scroll;
   &::-webkit-scrollbar {
     display: none;
@@ -283,7 +285,7 @@ export default {
 //電腦版
 @media screen and (min-width: 576px) {
   .middle-container {
-    outline: black 2px solid;
+    //outline: black 2px solid;
     height: 100vh;
   }
 }

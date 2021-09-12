@@ -11,7 +11,7 @@
       <div class="navigation">
         <ul>
           <li>
-            <router-link class="d-flex nav-link" to="">
+            <router-link class="d-flex nav-link" to="/twitter/home">
               <IconHome />
               <h4>首頁</h4>
             </router-link>
@@ -69,9 +69,8 @@ export default {
 <style lang="scss">
 @import "../assets/scss/colorAndSize.scss";
 
-
   .nav {
-  outline: black 2px solid;
+  //outline: black 2px solid;
   height: 100%;
   padding-top: 14px;
   margin-left: 20px;
