@@ -14,7 +14,6 @@
           autofocus
           required
         />
-        <div v-show="false" class="error-message">帳號不存在</div>
       </div>
 
       <div class="input-style mb-2">
@@ -45,6 +44,12 @@ export default {
   components: {
     AcLogo,
   },
+  data() {
+    return {
+      account: '',
+      password: ''
+    }
+  }
 };
 </script>
 
@@ -94,6 +99,11 @@ export default {
       border-bottom: 1px solid #0099ff;
       display: inline-block;
     }
+  }
+  .error-message {
+    border-bottom: 2px solid #FC5A5A;
+    font-size: 13px;
+    color: #FC5A5A;
   }
 }
 
