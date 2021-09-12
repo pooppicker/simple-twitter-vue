@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container signup-container">
     <form class="d-flex flex-column align-items-center">
       <div class="text-center mb-4">
         <AcLogo class="mb-4" />
@@ -81,8 +81,8 @@ export default {
 </script>
 
 <style lang="scss">
-.container {
-  margin-top: 4rem;
+.signup-container {
+  padding-top: 4rem;
   height: 100vh;
   width: 100vw;
   .input-style {
