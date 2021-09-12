@@ -68,11 +68,13 @@ export default {
 
 <style lang="scss">
 @import "../assets/scss/colorAndSize.scss";
-.nav {
-//  outline: black 2px solid;
+
+
+  .nav {
+  outline: black 2px solid;
   height: 100%;
   padding-top: 14px;
-  margin-left: 10px;
+  margin-left: 20px;
   justify-content: space-between;
   //連結點按的樣式
   .nav-link {
@@ -119,5 +121,17 @@ export default {
     }
   }
   //下方區域目前沒樣式
+
+
+//電腦版
+@media screen and (min-width: 576px) {
+.nav {
+ outline: black 2px solid;
+  height: 100vh;
 }
+}
+
+}
+
+
 </style>
