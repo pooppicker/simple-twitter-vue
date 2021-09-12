@@ -25,7 +25,7 @@
           </li>
 
           <li>
-            <router-link class="d-flex nav-link" to="">
+            <router-link class="d-flex nav-link" to="/twitter/Setting">
               <IconSetting />
               <h4>設定</h4>
             </router-link>

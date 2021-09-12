@@ -28,6 +28,11 @@ const routes = [
     component: () => import('../views/SignUp.vue')
   },
   {
+    path: "/twitter/Setting",
+    name: "Setting",
+    component: () => import('../views/UserSetting.vue')
+  },
+  {
     path: "/admin/signin",
     name: "admin-sign-in",
     component: () => import('../views/AdminSignIn.vue'),
