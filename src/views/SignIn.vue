@@ -47,7 +47,6 @@
 
 <script>
 import AcLogo from "../components/icons/AcLogo.vue";
-import { Toast } from "../utils/helpers"
 export default {
   components: {
     AcLogo,
