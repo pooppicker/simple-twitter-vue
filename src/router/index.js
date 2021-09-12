@@ -22,6 +22,11 @@ const routes = [
     name: "sign-in",
     component: SignIn,
   },
+  {
+    path: "/admin/signin",
+    name: "admin-sign-in",
+    component: () => import('../views/AdminSignIn.vue'),
+  }
 ];
 
 const router = new VueRouter({
