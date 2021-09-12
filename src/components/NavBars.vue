@@ -16,19 +16,15 @@
               首頁
             </router-link>
           </li>
-
           <li>
             <router-link class="d-flex nav-link" to="">
               <IconUser />
-
               個人資料
             </router-link>
           </li>
-
           <li>
             <router-link class="d-flex nav-link" to="">
-             <IconSetting />
-
+              <IconSetting />
               設定
             </router-link>
           </li>
@@ -36,13 +32,13 @@
         <button class="post-button">推文</button>
       </div>
     </div>
+
     <!--登出區塊-->
     <div class="logout">
       <ul>
         <li>
           <router-link class="d-flex nav-link" to="">
             <IconLogout />
-
             登出
           </router-link>
         </li>
@@ -52,19 +48,18 @@
 </template>
 
 <script>
-import IconLogout from "./icons/IconLogout"
-import IconHome from "./icons/IconHome"
-import IconSetting from "./icons/IconSetting"
-import IconUser from "./icons/IconUser"
+import IconLogout from "./icons/IconLogout";
+import IconHome from "./icons/IconHome";
+import IconSetting from "./icons/IconSetting";
+import IconUser from "./icons/IconUser";
 export default {
   components: {
     IconLogout,
     IconHome,
     IconSetting,
-    IconUser
-  }
-  
-}
+    IconUser,
+  },
+};
 </script>
 
 <style lang="scss">
@@ -77,27 +72,26 @@ export default {
   margin-left: 10px;
 
   justify-content: space-between;
-  //連結點案的樣式
+  //連結樣式
   .nav-link {
     //可以用scss改寫
     color: #1c1c1c;
     font-size: 18px;
     margin-bottom: 30px;
-
     font-style: bold;
     align-items: center;
     height: 100%;
     .nav-icon {
       width: 22.2px;
       margin-right: 21px;
- 
     }
 
+    //連結點按的樣式
     &:hover {
-      color: #ff6600;
+      color: #ff6600; //文字
       .nav-icon {
         .st0 {
-          fill: #ff6600;
+          fill: #ff6600; //icon
         }
       }
     }
@@ -129,7 +123,6 @@ export default {
       }
     }
   }
-  //下方區域
-
+  //下方區域目前沒樣式
 }
 </style>
