@@ -13,27 +13,27 @@
           <li>
             <router-link class="d-flex nav-link" to="">
               <IconHome />
-              首頁
+              <h4>首頁</h4>
             </router-link>
           </li>
 
           <li>
             <router-link class="d-flex nav-link" to="">
               <IconUser />
-
-              個人資料
+              <h4>個人資料</h4>
             </router-link>
           </li>
 
           <li>
             <router-link class="d-flex nav-link" to="">
-             <IconSetting />
-
-              設定
+              <IconSetting />
+              <h4>設定</h4>
             </router-link>
           </li>
         </ul>
-        <button class="post-button">推文</button>
+        <button class="post-button">
+          <h4>推文</h4>
+        </button>
       </div>
     </div>
     <!--登出區塊-->
@@ -43,7 +43,7 @@
           <router-link class="d-flex nav-link" to="">
             <IconLogout />
 
-            登出
+            <h4>登出</h4>
           </router-link>
         </li>
       </ul>
@@ -52,22 +52,22 @@
 </template>
 
 <script>
-import IconLogout from "./icons/IconLogout"
-import IconHome from "./icons/IconHome"
-import IconSetting from "./icons/IconSetting"
-import IconUser from "./icons/IconUser"
+import IconLogout from "./icons/IconLogout";
+import IconHome from "./icons/IconHome";
+import IconSetting from "./icons/IconSetting";
+import IconUser from "./icons/IconUser";
 export default {
   components: {
     IconLogout,
     IconHome,
     IconSetting,
-    IconUser
-  }
-  
-}
+    IconUser,
+  },
+};
 </script>
 
 <style lang="scss">
+@import "../assets/scss/colorAndSize.scss";
 .nav {
   border: black 2px solid;
   height: 100%;
@@ -78,11 +78,8 @@ export default {
   //連結點按的樣式
   .nav-link {
     //可以用scss改寫
-    color: #1c1c1c;
-    font-size: 18px;
+    color: $color-black;
     margin-bottom: 30px;
-
-    font-style: bold;
     align-items: center;
     height: 100%;
     .nav-icon {
@@ -108,18 +105,14 @@ export default {
         transform: scale(1.1, 1.1);
       }
     }
-
     .navigation {
       margin-top: 48px;
-
       .post-button {
         width: 90%;
         height: 38px;
         background-color: #ff6600;
         color: white;
-        font-size: 18px;
         border-radius: 100px;
-        font-style: bold;
         &:hover {
           transform: scale(1.1, 1.1);
         }
@@ -127,6 +120,5 @@ export default {
     }
   }
   //下方區域目前沒樣式
-
 }
 </style>
