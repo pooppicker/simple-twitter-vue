@@ -69,7 +69,7 @@ export default {
 <style lang="scss">
 @import "../assets/scss/colorAndSize.scss";
 .nav {
- outline: black 2px solid;
+//  outline: black 2px solid;
   height: 100%;
   padding-top: 14px;
   margin-left: 10px;

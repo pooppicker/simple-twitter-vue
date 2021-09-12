@@ -38,7 +38,7 @@
 @import "../assets/scss/colorAndSize.scss";
 
 .card {
-  outline: black 2px solid;
+  // outline: black 2px solid;
   height: 100%;
   margin-right: 10px;
   padding-top: 14px;
