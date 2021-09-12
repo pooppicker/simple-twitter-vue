@@ -1,7 +1,7 @@
 <template>
   <div class="container home">
     <div class="home">
-    <div>
+    <div class="navbars">
       <!--navbar-->
       <NavBars />
     </div>
@@ -50,6 +50,7 @@ export default {
     margin: 0 auto;
     //標示用
     border: green 2px solid; 
+    position: relative;
   }
 }
 </style>
