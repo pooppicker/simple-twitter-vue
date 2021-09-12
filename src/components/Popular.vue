@@ -39,7 +39,7 @@
 @import "../assets/scss/efficientSetting.scss";
 
 .card {
-  // outline: black 2px solid;
+    // outline: black 2px solid;
   height: 100%;
   margin-right: 20px;
   padding-top: 14px;
@@ -53,7 +53,6 @@
     border-radius: 14px;
     padding-top: 14px;
     margin: 0 14px;
-    // padding: 0 15px;
     //border: green 2px solid;
     .card-header {
       padding-top: 10px;
@@ -110,7 +109,7 @@ hr {
 //電腦版
 @media screen and (min-width: 576px) {
 .card {
- outline: black 2px solid;
+// outline: black 2px solid;
   height: 100vh;
 }
 }
