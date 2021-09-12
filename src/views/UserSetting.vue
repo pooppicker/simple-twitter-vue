@@ -7,7 +7,6 @@
       </div>
       <div class="setting-container">
         <h4>帳戶設定</h4>
-        <hr />
         <form class="d-flex flex-column align-items-start">
           <div class="set-input mb-2">
             <label class="setting-label" for="account">帳號</label>
@@ -105,9 +104,12 @@ export default {
   .setting-container {
     grid-area: sets;
     border-left: 1px solid #e6ecf0;
+    margin-left: 1.3%;
     h4 {
+      // outline: 1px solid black;
+      border-bottom: 1px solid #e6ecf0;
       font-size: 19px;
-      padding: 1rem;
+      padding: .7rem;
     }
     .set-input {
       @extend %input-bottom;

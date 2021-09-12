@@ -100,6 +100,7 @@ export default {
   flex-direction: column;
   border-left: 1px solid #e6ecf0;
   border-right: 1px solid #e6ecf0;
+  margin: 0 2%;
   .title-area {
     width: 100%;
     display: flex;
@@ -113,6 +114,7 @@ export default {
   .cover-area {
     height: 250px;
     position: relative;
+    cursor: pointer;
     img {
       object-fit: cover;
     }
@@ -169,12 +171,12 @@ export default {
       cursor: pointer;
       padding: 0 2rem;
       padding-bottom: .5rem;
-      margin: 0 1rem;
       color: $color-gray;
       font-weight: 700;
       font-size: 15px;
     }
     .tab-a {
+      padding: 0 3rem;
       color: $color-orange;
       border-bottom: 2px solid $color-orange;
       font-weight: 700;
