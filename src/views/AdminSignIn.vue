@@ -28,11 +28,8 @@
         />
       </div>
       <button type="submit" class="signin-btn mb-3">登入</button>
-      
       <div class="a-link">
-       
         <router-link class="admin-signin-link" to="/signin">前台登入</router-link>
-        
       </div>
       
     </form>
@@ -70,6 +67,7 @@ export default {
     background-color: #f5f8fa;
     font-size: 15px;
     margin-bottom: 0.5rem;
+    width: 450px;
   }
   .signin-btn {
     width: 450px;

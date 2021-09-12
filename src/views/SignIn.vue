@@ -69,6 +69,7 @@ export default {
     background-color: #f5f8fa;
     font-size: 15px;
     margin-bottom: 0.5rem;
+    width: 450px;
   }
   .signin-btn {
     width: 450px;
