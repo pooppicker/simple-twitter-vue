@@ -116,7 +116,7 @@ export default {
       margin-right: 21px;
     }
 
-    &:hover,.router-link-exact-active {
+    &:hover,.router-link-active {
       color: #ff6600;
       .nav-icon {
         .st0 {
@@ -125,7 +125,7 @@ export default {
       }
     }
   }
-  .router-link-exact-active {
+  .router-link-active {
       color: $color-orange;
       .nav-icon {
         .st0 {
