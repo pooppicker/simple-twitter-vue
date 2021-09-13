@@ -32,7 +32,7 @@
           </p>
           <!-- followers -->
           <div class="follow-area">
-            <div class="user-following"><span>34 個</span>跟隨中</div>
+            <router-link :to="{ name: 'User-following' }" class="user-following"><span>34 個</span>跟隨中</router-link>
             <div class="user-follower"><span>59 位</span>跟隨者</div>
           </div>
         </div>
@@ -144,6 +144,9 @@ export default {
     display: none;
   }
   .title-area {
+    background-color: white;
+    position: fixed;
+    z-index: 3;
     width: 100%;
     display: flex;
     padding: 0.7rem;
@@ -154,6 +157,7 @@ export default {
     }
   }
   .cover-area {
+    margin-top: 3.5em;
     height: 250px;
     position: relative;
     cursor: pointer;
