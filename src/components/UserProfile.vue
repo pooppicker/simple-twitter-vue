@@ -1,7 +1,6 @@
 <template>
   <!--下方推文區-->
-  <div class="tweets-part">
-    <!--v-for開始-->
+  <div class="user-profile-area">
     <div v-for="tweet in tweets" :key="tweet.id">
       <div class="tweet-card d-flex">
         <router-link :to="{ name: 'User', params: { id: tweet.id } }">
@@ -118,7 +117,7 @@ export default {
 @import "../assets/scss/colorAndSize.scss";
 @import "../assets/scss/efficientSetting.scss";
 
-.tweets-part {
+.user-profile-area {
   margin-top: 20px;
   .tweet-card {
     margin-left: 15px;

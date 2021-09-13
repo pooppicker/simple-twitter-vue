@@ -7,7 +7,7 @@
       </div>
       <div class="user-top">
         <div class="title-area">
-          <LeftArrow />
+          <router-link to="/"><LeftArrow /></router-link>
           <div class="user-title">
             <h4 class="user-profile-name">{{ profile.name }}</h4>
             <span class="span-setting">25 推文</span>
