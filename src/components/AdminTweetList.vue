@@ -108,6 +108,7 @@ export default {
         }
         .admin-tweets-delete-icon {
           cursor: pointer;
+          margin-right: 20px;
           &:hover {
             transform: scale(1.1, 1.1);
           }

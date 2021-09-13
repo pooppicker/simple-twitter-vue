@@ -7,7 +7,9 @@
       </div>
       <div class="user-top">
         <div class="title-area">
-          <router-link to="/"><LeftArrow /></router-link>
+          <div class="go-back" @click.stop.prevent="previousPage">
+            <LeftArrow />
+          </div>
           <div class="user-title">
             <h4 class="user-profile-name">{{ profile.name }}</h4>
             <span class="span-setting">25 推文</span>
@@ -21,10 +23,13 @@
         </div>
         <!-- Buttons -->
         <div class="edit-area">
-          <button v-if="false" type="submit" class="user-edit-btn">編輯個人資料</button>
-          <template v-else >
+          <button v-if="false" type="submit" class="user-edit-btn">
+            編輯個人資料
+          </button>
+          <template v-else>
             <IconMsg class="other-user-btn" />
-            <IconNotify v-if="true" class="other-user-btn"  /> <IconNotified v-else class="other-user-btn" />
+            <IconNotify v-if="true" class="other-user-btn" />
+            <IconNotified v-else class="other-user-btn" />
             <IconFollowing class="other-user-btn" />
           </template>
         </div>
@@ -37,16 +42,32 @@
           </p>
           <!-- followers -->
           <div class="follow-area">
-            <router-link :to="{ name: 'User-following', params: { id: profile.id }}" class="user-follows"><strong>34 個</strong>跟隨中</router-link>
-            <router-link :to="{ name: 'User-follower', params: { id: profile.id }}" class="user-followers"><strong>59 位</strong>跟隨者</router-link>
+            <router-link
+              :to="{ name: 'User-following', params: { id: profile.id } }"
+              class="user-follows"
+              ><strong>34 個</strong>跟隨中</router-link
+            >
+            <router-link
+              :to="{ name: 'User-follower', params: { id: profile.id } }"
+              class="user-followers"
+              ><strong>59 位</strong>跟隨者</router-link
+            >
           </div>
         </div>
         <!-- Tabs -->
         <div class="user-tabs">
-          <router-link :to="{ name: 'profile' }" active-class="tab-a" class="tab">
+          <router-link
+            :to="{ name: 'profile' }"
+            active-class="tab-a"
+            class="tab"
+          >
             推文
           </router-link>
-          <router-link :to="{ name: 'Tweets' }" active-class="tab-a" class="tab">
+          <router-link
+            :to="{ name: 'Tweets' }"
+            active-class="tab-a"
+            class="tab"
+          >
             推文與回覆
           </router-link>
           <router-link :to="{ name: 'Liked' }" active-class="tab-a" class="tab">
@@ -68,10 +89,10 @@
 import NavBars from "./../components/NavBars.vue";
 import Popular from "./../components/Popular.vue";
 import LeftArrow from "./../components/icons/IconBack.vue";
-import IconMsg from "./../components/icons/IconMsg.vue"
-import IconNotify from "./../components/icons/IconNotify.vue"
-import IconNotified from "./../components/icons/IconNotified.vue"
-import IconFollowing from "./../components/icons/IconFollowing.vue"
+import IconMsg from "./../components/icons/IconMsg.vue";
+import IconNotify from "./../components/icons/IconNotify.vue";
+import IconNotified from "./../components/icons/IconNotified.vue";
+import IconFollowing from "./../components/icons/IconFollowing.vue";
 
 const dummyData = {
   profile: {
@@ -101,7 +122,7 @@ export default {
     IconMsg,
     IconNotify,
     IconNotified,
-    IconFollowing
+    IconFollowing,
   },
   data() {
     return {
@@ -132,6 +153,9 @@ export default {
         account,
         cover,
       };
+    },
+    previousPage() {
+      this.$router.back();
     },
   },
 };
@@ -203,7 +227,7 @@ export default {
       cursor: pointer;
     }
     .other-user-btn {
-      margin-left: .6rem;
+      margin-left: 0.6rem;
       cursor: pointer;
     }
   }
