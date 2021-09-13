@@ -9,7 +9,7 @@
         <div class="title-area">
           <LeftArrow />
           <div class="user-title">
-            <h4 class="user-profile-name">John Doe</h4>
+            <h4 class="user-profile-name">{{ profile.name }}</h4>
             <span class="span-setting">25 推文</span>
           </div>
           <hr />
@@ -18,7 +18,7 @@
         <div class="cover-area">
           <img
             class="cover-photo"
-            src="https://images.unsplash.com/27/perspective.jpg?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80"
+            :src="profile.cover"
             alt="cover"
           />
           <img
@@ -29,16 +29,14 @@
         </div>
         <!-- Images & btn-->
         <div class="edit-area">
-          
           <button type="submit" class="user-edit-btn">編輯個人資料</button>
         </div>
         <!-- Description -->
         <div class="desc-area">
-          <h4 class="user-profile-name">John Doe</h4>
-          <span class="span-setting">@heyjohn</span>
+          <h4 class="user-profile-name">{{ profile.name }}</h4>
+          <span class="span-setting">{{ profile.account }}</span>
           <p>
-            Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet
-            sint.
+            {{ profile.introduction }}
           </p>
           <!-- followers -->
           <div class="follow-area">
@@ -69,6 +67,23 @@ import UserProfile from "./../components/UserProfile.vue";
 import Popular from "./../components/Popular.vue";
 import LeftArrow from "./../components/icons/IconBack.vue";
 
+const dummyData = {
+  profile: {
+    id: 3,
+    email: "user2@example.com",
+    password: "secretpassword",
+    name: "John Doe",
+    avatar: "https://i2.kknews.cc/SIG=t4a6t5/4r5r0002r2qo665o5699.jpg",
+    introduction: "Amet minim mollit non deserunt ullamco est sit aliqua dolor do ametsint.",
+    role: "user",
+    account: "@heyjohn",
+    cover:
+      "https://images.unsplash.com/photo-1491555103944-7c647fd857e6?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+    createdAt: "2021-07-04T17:03:01.000Z",
+    updatedAt: "2021-07-04T17:03:01.000Z",
+  },
+};
+
 export default {
   components: {
     NavBars,
@@ -76,6 +91,33 @@ export default {
     UserProfile,
     LeftArrow,
   },
+  data() {
+    return {
+      id: -1,
+      name: '',
+      avatar: '',
+      introduction: '',
+      account: '',
+      cover: ''
+    }
+  },
+  created() {
+    this.fetchUser()
+  },
+  methods: {
+    fetchUser() {
+      const {id, name, avatar, introduction, account, cover } = dummyData.profile
+      this.profile = {
+        ...this.profile,
+        id,
+        name,
+        avatar,
+        introduction,
+        account,
+        cover
+      }
+    }
+  }
 };
 </script>
 
@@ -104,7 +146,7 @@ export default {
   .title-area {
     width: 100%;
     display: flex;
-    padding: .7rem;
+    padding: 0.7rem;
     .user-title {
       display: block;
       margin-left: 2rem;
@@ -124,14 +166,14 @@ export default {
       left: 2%;
       width: 140px;
       height: 140px;
-      border: 4px solid #FFFFFF;
+      border: 4px solid #ffffff;
       border-radius: 50%;
     }
   }
   .edit-area {
     display: flex;
     justify-content: end;
-    
+
     .user-edit-btn {
       margin: 1rem 1rem;
       border: solid 1px $color-orange;
@@ -145,7 +187,7 @@ export default {
   .desc-area {
     margin: 1rem;
     p {
-      margin: .5rem 0;
+      margin: 0.5rem 0;
       color: $color-black;
     }
     .follow-area {
@@ -165,12 +207,12 @@ export default {
   }
   .user-tabs {
     display: flex;
-    border-bottom: 1px solid #E6ECF0;
+    border-bottom: 1px solid #e6ecf0;
     .tab {
       // outline: 1px solid black;
       cursor: pointer;
       padding: 0 2rem;
-      padding-bottom: .5rem;
+      padding-bottom: 0.5rem;
       color: $color-gray;
       font-weight: 700;
       font-size: 15px;
