@@ -133,7 +133,7 @@ export default {
   width: 100vw;
   .user-content {
     display: grid;
-    grid-template-columns: 5fr 14fr 8.3fr;
+    grid-template-columns: 5fr 13fr 9fr;
     grid-gap: 1fr;
     height: 100%;
     max-width: 1440px;
@@ -145,8 +145,8 @@ export default {
   display: flex;
   flex-direction: column;
   border-left: 1px solid #e6ecf0;
-  border-right: 1px solid #e6ecf0;
-  margin: 0 2%;
+  // border-right: 1px solid #e6ecf0;
+  margin-left: 2%;
   overflow: scroll;
   &::-webkit-scrollbar {
     display: none;
