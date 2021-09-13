@@ -104,7 +104,8 @@ export default {
     };
   },
   created() {
-    this.fetchUser();
+    const { id } = this.$route.params
+    this.fetchUser(id);
   },
   methods: {
     fetchUser() {
