@@ -79,7 +79,7 @@ export default {
   h4 {
     // outline: 1px solid black;
     position: fixed;
-    width: 60em;
+    width: 60.1em;
     border-bottom: 1px solid #e6ecf0;
     font-size: 19px;
     padding: 0.7rem;
