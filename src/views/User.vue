@@ -19,9 +19,14 @@
           <img class="cover-photo" :src="profile.cover" alt="cover" />
           <img class="user-avatar" :src="profile.avatar" alt="avatar" />
         </div>
-        <!-- Images & btn-->
+        <!-- Buttons -->
         <div class="edit-area">
-          <button type="submit" class="user-edit-btn">編輯個人資料</button>
+          <button v-if="false" type="submit" class="user-edit-btn">編輯個人資料</button>
+          <template v-else >
+            <IconMsg />
+            <IconNotify v-if="true" class="other-user-btn" /> <IconNotified v-else class="other-user-btn" />
+            <IconFollowing class="other-user-btn" />
+          </template>
         </div>
         <!-- Description -->
         <div class="desc-area">
@@ -63,6 +68,10 @@
 import NavBars from "./../components/NavBars.vue";
 import Popular from "./../components/Popular.vue";
 import LeftArrow from "./../components/icons/IconBack.vue";
+import IconMsg from "./../components/icons/IconMsg.vue"
+import IconNotify from "./../components/icons/IconNotify.vue"
+import IconNotified from "./../components/icons/IconNotified.vue"
+import IconFollowing from "./../components/icons/IconFollowing.vue"
 
 const dummyData = {
   profile: {
@@ -88,6 +97,10 @@ export default {
     NavBars,
     Popular,
     LeftArrow,
+    IconMsg,
+    IconNotify,
+    IconNotified,
+    IconFollowing
   },
   data() {
     return {
@@ -177,8 +190,8 @@ export default {
   .edit-area {
     display: flex;
     justify-content: end;
+    margin: 1rem 1rem;
     .user-edit-btn {
-      margin: 1rem 1rem;
       border: solid 1px $color-orange;
       color: $color-orange;
       border-radius: 100px;
@@ -186,6 +199,9 @@ export default {
       height: 35px;
       font-weight: bold;
       font-size: 15px;
+    }
+    .other-user-btn {
+      margin-left: .6rem;
     }
   }
   .desc-area {
