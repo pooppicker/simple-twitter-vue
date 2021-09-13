@@ -33,7 +33,7 @@ const routes = [
     component: () => import('../views/UserSetting.vue')
   },
   {
-    path: "/twitter/Replylist",
+    path: "/twitter/replylist/:id",
     name: "ReplyList",
     component: () => import('../views/ReplyList.vue')
   },

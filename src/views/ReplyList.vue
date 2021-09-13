@@ -1,12 +1,12 @@
 <template>
   <div class="container reply-list">
-    <div class="home">
+    <div class="replylist">
       <div class="navbars">
         <NavBars />
       </div>
-      <div class="reply-list-area">
+      
         <MiddleOfReply />
-      </div>
+      
       <div>
         <Popular />
       </div>
@@ -21,7 +21,6 @@ import Popular from "./../components/Popular.vue";
 // @ is an alias to /src
 
 export default {
-  name: "Home",
   components: {
     NavBars,
     Popular,
@@ -35,7 +34,7 @@ export default {
 .reply-list {
   height: 100vh;
   width: 100vw;
-  .home {
+  .replylist {
     @extend %views-grid;
     position: relative;
   }
