@@ -32,8 +32,8 @@
           </p>
           <!-- followers -->
           <div class="follow-area">
-            <router-link :to="{ name: 'User-following' }" class="user-follows"><strong>34 個</strong>跟隨中</router-link>
-            <router-link :to="{ name: 'User-follower' }" class="user-followers"><strong>59 位</strong>跟隨者</router-link>
+            <router-link :to="{ name: 'User-following',params: {id: profile.id }}" class="user-follows"><strong>34 個</strong>跟隨中</router-link>
+            <router-link :to="{ name: 'User-follower',params: {id: profile.id }}" class="user-followers"><strong>59 位</strong>跟隨者</router-link>
           </div>
         </div>
         <!-- Tabs -->
