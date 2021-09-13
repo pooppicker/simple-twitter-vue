@@ -107,7 +107,7 @@
   flex-direction: column;
   border-left: 1px solid #e6ecf0;
   //border-right: 1px solid #e6ecf0;
-  margin: 0 0 0 2%;
+  margin-left: 2%;
   .title-area {
      z-index: 1;
     background-color:white;

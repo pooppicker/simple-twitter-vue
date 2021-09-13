@@ -50,6 +50,7 @@
   z-index: 5;
   height: 100%;
   margin-right: 20px;
+  padding-left: 2%;
   padding-top: 14px;
   overflow: scroll;
   &::-webkit-scrollbar {

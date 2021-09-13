@@ -155,7 +155,7 @@ export default {
   outline: red 2px solid;
   .following {
     display:grid;
-    grid-template-columns: 5fr 14fr 8.3fr; //已調成grid，比例在這裡喔！
+     grid-template-columns: 5fr 13fr 9fr; //已調成grid，比例在這裡喔！
     grid-gap: 1fr;//每個區塊中間的gap
     height:100%; //9/12新增這裡唷！
     max-width: 1440px;

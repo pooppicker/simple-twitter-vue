@@ -204,9 +204,8 @@ export default {
 
 .middle-container {
   border-left: 1px solid #e6ecf0;
-  border-right: 1px solid #e6ecf0;
   height: 100%;
-  margin: 0 2%;
+  margin-left:2%;
   //outline: black 1px solid;
   overflow: scroll;
   position: relative;
