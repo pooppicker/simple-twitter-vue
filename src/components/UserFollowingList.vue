@@ -3,7 +3,7 @@
     <div class="title-area">
       <LeftArrow />
       <div class="user-title">
-        <h4 class="user-profile-name">John Doe</h4>
+        <h4 class="user-profile-name">{{user.name}}</h4>
         <span class="span-setting">25 推文</span>
       </div>
       <hr />
@@ -109,12 +109,12 @@
   //border-right: 1px solid #e6ecf0;
   margin-left: 2%;
   .title-area {
-     z-index: 1;
-    background-color:white;
+    z-index: 1;
+    background-color: white;
     width: 100%;
     display: flex;
     padding: 0.7rem;
-    position:fixed;
+    position: fixed;
     .user-title {
       display: block;
       margin-left: 2rem;
@@ -131,11 +131,12 @@
   }
 
   .follow-tabs {
-    background-color:white;
+    background-color: white;
     z-index: 1;
-    width:50%;
-    top:2em;
-    position:fixed;
+    width: 50%;
+    top: 2em;
+    padding-top: 1em;
+    position: fixed;
     display: flex;
     border-bottom: 1px solid #e6ecf0;
     margin-top: 1.5rem;
@@ -145,20 +146,23 @@
       padding-bottom: 0.5rem;
       font-weight: 700;
       font-size: 15px;
-    }
-    .tab-follower {
-      padding: 0 3rem;
-      font-weight: 700;
       color: $color-gray;
     }
+    .tab-follower {
+      padding-left: 3rem;
+      font-weight: 700;
+    }
     .router-link-exact-active {
-      color: $color-orange;
+      .tab {
+        color: $color-orange;
+      }
+
       border-bottom: 2px solid $color-orange;
     }
   }
 
   .tweets-part {
-    margin-top: 6em;
+    margin-top: 7em;
     .tweet-card {
       margin-left: 15px;
       .follow-card-top {
@@ -194,6 +198,9 @@
               background-color: rgba(0, 0, 0, 0);
               border: $color-orange 1px solid;
             }
+          }
+          .tweet-detail-text {
+            padding-bottom: 0.2em;
           }
         }
       }
