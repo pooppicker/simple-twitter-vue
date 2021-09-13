@@ -145,6 +145,10 @@ export default {
   border-left: 1px solid #e6ecf0;
   border-right: 1px solid #e6ecf0;
   margin: 0 2%;
+  overflow: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
   .title-area {
     width: 100%;
     display: flex;
