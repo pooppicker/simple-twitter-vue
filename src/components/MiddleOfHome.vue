@@ -203,7 +203,7 @@ export default {
 
 .middle-container {
   border-left: 1px solid #e6ecf0;
-  height: 100%;
+  height: 100vh;
   margin-left: 2%;
   //outline: black 1px solid;
   overflow: scroll;
@@ -213,8 +213,9 @@ export default {
   }
   h4 {
     // outline: 1px solid black;
+    z-index: 5;
     position: fixed;
-    width: 50em;
+    width: 40em;
     border-bottom: 1px solid #e6ecf0;
     font-size: 19px;
     padding: 0.7rem;
@@ -226,7 +227,7 @@ export default {
     height: 120px;
     border-bottom: solid #e6ecf0 10px;
     justify-content: space-between;
-    z-index: 5;
+    z-index: 4;
     .top-part {
       .current-user-imag {
         margin-top: 9px;
@@ -298,11 +299,6 @@ export default {
   }
 }
 
-//電腦版
-@media screen and (min-width: 576px) {
-  .middle-container {
-    //outline: black 2px solid;
-    height: 100vh;
-  }
-}
+//手機
+
 </style>
