@@ -79,6 +79,8 @@ const routes = [
 ];
 
 const router = new VueRouter({
+  linkExactActiveClass: 'active',
+  linkActiveClass: "tab-a",
   routes,
 });
 

@@ -38,9 +38,15 @@
         </div>
         <!-- Tabs -->
         <div class="user-tabs">
-          <router-link :to="{ name: 'profile' }" class="tab tab-a">推文</router-link>
-          <router-link :to="{ name: 'Tweets' }" class="tab">推文與回覆</router-link>
-          <router-link :to="{ name: 'Liked' }" class="tab">喜歡的內容</router-link>
+          <router-link :to="{ name: 'profile' }" class="tab">
+            推文
+          </router-link>
+          <router-link :to="{ name: 'Tweets' }" class="tab">
+            推文與回覆
+            </router-link>
+          <router-link :to="{ name: 'Liked' }" class="tab">
+            喜歡的內容
+            </router-link>
         </div>
         <!-- user bottom area -->
         <router-view />
