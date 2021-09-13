@@ -44,6 +44,10 @@
 
 .card {
   // outline: black 2px solid;
+  border-left: 1px solid #e6ecf0;
+  position: relative;
+  background-color: white;
+  z-index: 5;
   height: 100%;
   margin-right: 20px;
   padding-top: 14px;

@@ -148,6 +148,7 @@ $spacers: (
 }
 
 %main-button {
+  font-size: 15px;
   line-height: 69%;
   height: 35px;
   padding: 10px 17px;
@@ -160,6 +161,8 @@ $spacers: (
 }
 
 %avatar-size {
+  border-radius: 100%;
+  object-fit:cover;
   height: 50px;
   width: 50px;
 }
