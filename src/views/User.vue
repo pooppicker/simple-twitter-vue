@@ -45,6 +45,7 @@
         <!-- userProfile  -->
         <UserProfile />
         <UserTweet />
+        <UserLiked />
       </div>
       <div>
         <!--popular-->
@@ -58,6 +59,7 @@
 import NavBars from "./../components/NavBars.vue";
 import UserProfile from "./../components/UserProfile.vue";
 import UserTweet from "./../components/UserTweet.vue";
+import UserLiked from "./../components/UserLiked.vue"
 import Popular from "./../components/Popular.vue";
 import LeftArrow from "./../components/icons/IconBack.vue";
 
@@ -86,6 +88,7 @@ export default {
     Popular,
     UserProfile,
     UserTweet,
+    UserLiked,
     LeftArrow,
   },
   data() {
