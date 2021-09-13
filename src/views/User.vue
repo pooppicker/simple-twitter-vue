@@ -217,11 +217,11 @@ export default {
       font-weight: 700;
       font-size: 15px;
     }
-    .tab-a {
-      color: $color-orange;
-      border-bottom: 2px solid $color-orange;
-      font-weight: 700;
-    }
+    // .tab-a {
+    //   color: $color-orange;
+    //   border-bottom: 2px solid $color-orange;
+    //   font-weight: 700;
+    // }
   }
   .user-profile-area {
     margin-top: 20px;
