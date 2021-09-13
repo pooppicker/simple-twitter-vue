@@ -35,19 +35,14 @@ export default {
 </script>
 
 <style lang="scss">
+@import "../assets/scss/efficientSetting.scss";
 .home-content {
   height: 100vh;
   width: 100vw;
   //標示用
   outline: red 2px solid;
   .home {
-    display:grid;
-    grid-template-columns: 5fr 13fr 9fr; //已調成grid，比例在這裡喔！
-    grid-gap: 1fr;//每個區塊中間的gap
-    height:100%; //9/12新增這裡唷！
-    max-width: 1440px;
-    background-color:white;
-    margin: 0 auto;
+    @extend %views-grid;
     //標示用
    // outline: green 2px solid; 
     position: relative;

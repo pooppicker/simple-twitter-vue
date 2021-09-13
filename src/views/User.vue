@@ -127,18 +127,20 @@ export default {
 
 <style lang="scss">
 @import "../assets/scss/colorAndSize.scss";
+@import "../assets/scss/efficientSetting.scss";
 
 .user-container {
   height: 100vh;
   width: 100vw;
   .user-content {
-    display: grid;
-    grid-template-columns: 5fr 13fr 9fr;
-    grid-gap: 1fr;
-    height: 100%;
-    max-width: 1440px;
-    background-color: white;
-    margin: 0 auto;
+    @extend %views-grid;
+    //display: grid;
+    //grid-template-columns: 5fr 13fr 7.5fr;
+    //grid-gap: 1fr;
+    //height: 100%;
+    //max-width: 1440px;
+    //background-color: white;
+    //margin: 0 auto;
   }
 }
 .user-top {

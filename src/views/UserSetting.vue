@@ -77,6 +77,7 @@
 <script>
 import NavBars from "./../components/NavBars.vue";
 
+
 export default {
   components: {
     NavBars,
@@ -85,18 +86,20 @@ export default {
 </script>
 
 <style lang="scss">
+@import "../assets/scss/efficientSetting.scss";
 .setting-content {
   height: 100vh;
   width: 100vw;
   .setting {
-    display: grid;
-    grid-template-columns: 5fr 14fr 8.3fr;
-    grid-gap: 1fr;
+    @extend %views-grid;
+    //display: grid;
+   // grid-template-columns: 5fr 14fr 8.3fr;
+    //grid-gap: 1fr;
     grid-template-areas: "nav sets sets";
-    height: 100%;
-    max-width: 1440px;
-    background-color: white;
-    margin: 0 auto;
+   // height: 100%;
+   // max-width: 1440px;
+  //  background-color: white;
+    //margin: 0 auto;
   }
   .setting-navbars {
     grid-area: nav;
