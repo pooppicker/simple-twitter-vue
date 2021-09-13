@@ -31,13 +31,8 @@
       <!--v-for開始-->
       <div v-for="tweet in tweets" :key="tweet.TweetId">
         <div class="tweet-card d-flex">
-          <router-link
-                :to="{ name: 'User', params: { id: tweet.User.id } }"
-              >
-          <img
-            class="tweet-user-imag"
-            :src="tweet.User.avatar"
-          />
+          <router-link :to="{ name: 'User', params: { id: tweet.User.id } }">
+            <img class="tweet-user-imag" :src="tweet.User.avatar" />
           </router-link>
           <div class="tweet-detail">
             <div class="tweet-detail-title d-flex">
@@ -54,10 +49,14 @@
               {{ tweet.description }}
             </p>
             <div class="tweet-detail-icon d-flex">
-              <div class="reply-part d-flex">
-                <IconLiked />
-                <div class="icon-text">{{ tweet.RepliesCount }}</div>
-              </div>
+              <router-link
+                :to="{ name: 'Reply-list', params: { id: tweet.TweetId } }"
+              >
+                <div class="reply-part d-flex">
+                  <IconLiked />
+                  <div class="icon-text">{{ tweet.RepliesCount }}</div>
+                </div>
+              </router-link>
               <div class="liked-part d-flex">
                 <IconHeartFilled v-if="tweet.isLike" />
                 <IconHeartEmpty v-else />
@@ -205,7 +204,7 @@ export default {
 .middle-container {
   border-left: 1px solid #e6ecf0;
   height: 100%;
-  margin-left:2%;
+  margin-left: 2%;
   //outline: black 1px solid;
   overflow: scroll;
   position: relative;
@@ -292,6 +291,7 @@ export default {
         .icon-text {
           transform: translate(0, -3px);
           margin-left: 11px;
+          color: $color-gray
         }
       }
     }
