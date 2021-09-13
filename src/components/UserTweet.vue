@@ -110,6 +110,50 @@ const dummyTweets = [
       },
     },
   },
+  {
+    id: 10,
+    TweetId: 4,
+    comment: "sequi",
+    createdAt: "2021-07-07T19:31:27.000Z",
+    LikesCount: 99,
+    RepliesCount: 40,
+    isLike: false,
+    User: {
+      id: 5,
+      name: "user4",
+      avatar: "https://source.unsplash.com/1600x1200/?man/?random=40.46792589859454",
+      account: "@user4",
+    },
+    Tweet: {
+      description: "fugiat",
+      User: {
+        id: 2,
+        account: "user1",
+      },
+    },
+  },
+  {
+    id: 10,
+    TweetId: 4,
+    comment: "sequi",
+    createdAt: "2021-07-07T19:31:27.000Z",
+    LikesCount: 99,
+    RepliesCount: 40,
+    isLike: false,
+    User: {
+      id: 5,
+      name: "user4",
+      avatar: "https://source.unsplash.com/1600x1200/?man/?random=40.46792589859454",
+      account: "@user4",
+    },
+    Tweet: {
+      description: "fugiat",
+      User: {
+        id: 2,
+        account: "user1",
+      },
+    },
+  },
 ];
 
 export default {

@@ -218,7 +218,6 @@ export default {
       font-size: 15px;
     }
     .tab-a {
-      padding: 0 3rem;
       color: $color-orange;
       border-bottom: 2px solid $color-orange;
       font-weight: 700;
