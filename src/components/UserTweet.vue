@@ -15,20 +15,10 @@
               {{ tweet.User.account }}·{{ tweet.createdAt | fromNow }}
             </p>
           </div>
+          <div class="user-reply-to">回覆 <span class="user-reply-account">{{ tweet.Tweet.User.account }}</span></div>
           <p class="tweet-detail-text">
             {{ tweet.comment }}
           </p>
-          <div class="tweet-detail-icon d-flex">
-            <div class="reply-part d-flex">
-              <IconReply />
-              <div class="icon-text">{{ tweet.RepliesCount }}</div>
-            </div>
-            <div class="liked-part d-flex">
-              <IconHeartFilled v-if="tweet.isLike" />
-              <IconHeartEmpty v-else />
-              <div class="icon-text">{{ tweet.LikesCount }}</div>
-            </div>
-          </div>
         </div>
       </div>
       <hr />
@@ -38,9 +28,6 @@
 </template>
 
 <script>
-import IconReply from "./icons/IconReply.vue";
-import IconHeartEmpty from "./icons/IconHeartEmpty.vue";
-import IconHeartFilled from "./icons/IconHeartFilled.vue";
 import { fromNowFilter } from "./../utils/mixins";
 
 const dummyTweets = [
@@ -49,9 +36,6 @@ const dummyTweets = [
     TweetId: 4,
     comment: "sequi",
     createdAt: "2021-07-07T19:31:27.000Z",
-    LikesCount: 99,
-    RepliesCount: 40,
-    isLike: true,
     User: {
       id: 5,
       name: "user4",
@@ -62,7 +46,7 @@ const dummyTweets = [
       description: "fugiat",
       User: {
         id: 2,
-        account: "user1",
+        account: "@user",
       },
     },
   },
@@ -158,11 +142,6 @@ const dummyTweets = [
 
 export default {
   mixins: [fromNowFilter],
-  components: {
-    IconReply,
-    IconHeartEmpty,
-    IconHeartFilled,
-  },
   data() {
     return {
       tweets: [],

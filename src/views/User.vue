@@ -289,6 +289,13 @@ export default {
           margin-left: 11px;
         }
       }
+      .user-reply-to {
+        color: $color-gray;
+        .user-reply-account {
+          color: $color-orange;
+          cursor: pointer;
+        }
+      }
     }
   }
 
