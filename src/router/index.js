@@ -37,7 +37,25 @@ const routes = [
   {
     path: "/twitter/user/:id",
     name: "User",
-    component: () => import('../views/User.vue')
+    component: () => import('../views/User.vue'),
+    redirect: "/twitter/user/:id/profile",
+    children: [
+      {
+        path: "profile",
+        name: "profile",
+        component: () => import('../components/UserProfile.vue')
+      },
+      {
+        path: "Tweets",
+        name: "Tweets",
+        component: () => import('../components/UserTweet.vue')
+      },
+      {
+        path: "Liked",
+        name: "Liked",
+        component: () => import('../components/UserLiked.vue')
+      }
+    ]
   },
 
   {

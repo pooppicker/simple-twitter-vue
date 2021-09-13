@@ -38,14 +38,12 @@
         </div>
         <!-- Tabs -->
         <div class="user-tabs">
-          <div class="tab tab-a">推文</div>
-          <div class="tab">推文與回覆</div>
-          <div class="tab">喜歡的內容</div>
+          <router-link :to="{ name: 'profile' }" class="tab tab-a">推文</router-link>
+          <router-link :to="{ name: 'Tweets' }" class="tab">推文與回覆</router-link>
+          <router-link :to="{ name: 'Liked' }" class="tab">喜歡的內容</router-link>
         </div>
-        <!-- userProfile  -->
-        <UserProfile />
-        <UserTweet />
-        <UserLiked />
+        <!-- user bottom area -->
+        <router-view />
       </div>
       <div>
         <!--popular-->
@@ -57,9 +55,6 @@
 
 <script>
 import NavBars from "./../components/NavBars.vue";
-import UserProfile from "./../components/UserProfile.vue";
-import UserTweet from "./../components/UserTweet.vue";
-import UserLiked from "./../components/UserLiked.vue"
 import Popular from "./../components/Popular.vue";
 import LeftArrow from "./../components/icons/IconBack.vue";
 
@@ -86,9 +81,6 @@ export default {
   components: {
     NavBars,
     Popular,
-    UserProfile,
-    UserTweet,
-    UserLiked,
     LeftArrow,
   },
   data() {
