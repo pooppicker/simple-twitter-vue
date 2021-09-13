@@ -32,19 +32,19 @@
           </p>
           <!-- followers -->
           <div class="follow-area">
-            <router-link :to="{ name: 'User-following' }" class="user-following"><span>34 個</span>跟隨中</router-link>
-            <div class="user-follower"><span>59 位</span>跟隨者</div>
+            <router-link :to="{ name: 'User-following' }" class="user-follows"><strong>34 個</strong>跟隨中</router-link>
+            <router-link :to="{ name: 'User-follower' }" class="user-followers"><strong>59 位</strong>跟隨者</router-link>
           </div>
         </div>
         <!-- Tabs -->
         <div class="user-tabs">
-          <router-link :to="{ name: 'profile' }" class="tab">
+          <router-link :to="{ name: 'profile' }" active-class="tab-a" class="tab">
             推文
           </router-link>
-          <router-link :to="{ name: 'Tweets' }" class="tab">
+          <router-link :to="{ name: 'Tweets' }" active-class="tab-a" class="tab">
             推文與回覆
           </router-link>
-          <router-link :to="{ name: 'Liked' }" class="tab">
+          <router-link :to="{ name: 'Liked' }" active-class="tab-a" class="tab">
             喜歡的內容
           </router-link>
         </div>
@@ -177,7 +177,6 @@ export default {
   .edit-area {
     display: flex;
     justify-content: end;
-
     .user-edit-btn {
       margin: 1rem 1rem;
       border: solid 1px $color-orange;
@@ -186,6 +185,7 @@ export default {
       width: 120px;
       height: 35px;
       font-weight: bold;
+      font-size: 15px;
     }
   }
   .desc-area {
@@ -196,16 +196,19 @@ export default {
     }
     .follow-area {
       display: flex;
-      font-weight: 400;
-      color: $color-gray;
-      font-size: 14px;
       cursor: pointer;
-      .user-follower {
+      .user-followers {
         margin-left: 1rem;
       }
-      span {
+      strong {
         color: $color-black;
         font-weight: 600;
+      }
+      .user-followers,
+      .user-follows {
+        color: $color-gray;
+        font-weight: 500;
+        font-size: 14px;
       }
     }
   }
@@ -221,11 +224,11 @@ export default {
       font-weight: 700;
       font-size: 15px;
     }
-    // .tab-a {
-    //   color: $color-orange;
-    //   border-bottom: 2px solid $color-orange;
-    //   font-weight: 700;
-    // }
+    .tab-a {
+      color: $color-orange;
+      border-bottom: 2px solid $color-orange;
+      font-weight: 700;
+    }
   }
   .user-profile-area {
     margin-top: 20px;
