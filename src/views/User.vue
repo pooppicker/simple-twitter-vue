@@ -144,6 +144,9 @@ export default {
     display: none;
   }
   .title-area {
+    background-color: white;
+    position: fixed;
+    z-index: 3;
     width: 100%;
     display: flex;
     padding: 0.7rem;
@@ -154,6 +157,7 @@ export default {
     }
   }
   .cover-area {
+    margin-top: 3.5em;
     height: 250px;
     position: relative;
     cursor: pointer;
