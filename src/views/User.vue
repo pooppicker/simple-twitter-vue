@@ -90,6 +90,7 @@ const dummyData = {
     createdAt: "2021-07-04T17:03:01.000Z",
     updatedAt: "2021-07-04T17:03:01.000Z",
   },
+  isAdmin: true,
 };
 
 export default {
