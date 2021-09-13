@@ -23,8 +23,8 @@
         <div class="edit-area">
           <button v-if="false" type="submit" class="user-edit-btn">編輯個人資料</button>
           <template v-else >
-            <IconMsg />
-            <IconNotify v-if="true" class="other-user-btn" /> <IconNotified v-else class="other-user-btn" />
+            <IconMsg class="other-user-btn" />
+            <IconNotify v-if="true" class="other-user-btn"  /> <IconNotified v-else class="other-user-btn" />
             <IconFollowing class="other-user-btn" />
           </template>
         </div>
@@ -37,8 +37,8 @@
           </p>
           <!-- followers -->
           <div class="follow-area">
-            <router-link :to="{ name: 'User-following' }" class="user-follows"><strong>34 個</strong>跟隨中</router-link>
-            <router-link :to="{ name: 'User-follower' }" class="user-followers"><strong>59 位</strong>跟隨者</router-link>
+            <router-link :to="{ name: 'User-following', params: { id: profile.id }}" class="user-follows"><strong>34 個</strong>跟隨中</router-link>
+            <router-link :to="{ name: 'User-follower', params: { id: profile.id }}" class="user-followers"><strong>59 位</strong>跟隨者</router-link>
           </div>
         </div>
         <!-- Tabs -->
@@ -199,9 +199,11 @@ export default {
       height: 35px;
       font-weight: bold;
       font-size: 15px;
+      cursor: pointer;
     }
     .other-user-btn {
       margin-left: .6rem;
+      cursor: pointer;
     }
   }
   .desc-area {
