@@ -3,7 +3,7 @@
     <div class="nav-top">
       <!--logo區塊-->
       <div class="logo-part">
-        <router-link to="/twitter/home" class="text-center"
+        <router-link :to="{name: 'admin-main'}" class="text-center"
           ><img class="ac-logo" src="./../assets/ac-logo.png"
         /></router-link>
       </div>
