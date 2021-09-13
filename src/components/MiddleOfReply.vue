@@ -32,13 +32,44 @@
       </div>
       <!-- comments and likes -->
       <div class="comments-area">
-       <div class="coms-amount"><strong>30 </strong>回覆</div>
-       <div class="likes-amount"><strong>808 </strong>喜歡次數</div>
+        <div class="coms-amount"><strong>30 </strong>回覆</div>
+        <div class="likes-amount"><strong>808 </strong>喜歡次數</div>
       </div>
       <!-- icons -->
       <div class="icons-area">
         <IconReply class="ic" />
         <IconHeartEmpty class="ic ic-right" />
+      </div>
+      <!-- Down Part -->
+      <div class="user-replylist-area">
+        <div v-for="tweet in tweets" :key="tweet.id">
+          <div class="tweet-card d-flex">
+            <router-link :to="{ name: 'User', params: { id: tweet.id } }">
+              <img class="user-self-img" :src="tweet.User.avatar" />
+            </router-link>
+            <div class="tweet-detail">
+              <div class="tweet-detail-title d-flex">
+                <router-link :to="{ name: 'User', params: { id: tweet.id } }">
+                  <h5>{{ tweet.User.name }}</h5>
+                </router-link>
+                <p class="post-time">
+                  {{ tweet.User.account }}·{{ tweet.createdAt | fromNow }}
+                </p>
+              </div>
+              <div class="user-reply-to">
+                回覆
+                <span class="user-reply-account">{{
+                  tweet.Tweet.User.account
+                }}</span>
+              </div>
+              <p class="tweet-detail-text">
+                {{ tweet.comment }}
+              </p>
+            </div>
+          </div>
+          <hr />
+        </div>
+        <!--v-for結束-->
       </div>
     </div>
   </div>
@@ -48,63 +79,144 @@
 import LeftArrow from "./../components/icons/IconBack.vue";
 import IconReply from "./../components/icons/IconReply.vue";
 import IconHeartEmpty from "./../components/icons/IconHeartEmpty.vue";
-// const dummyTweet = {
-//   id: 5,
-//   description: "eaque",
-//   createdAt: "2021-07-07T19:31:27.000Z",
-//   LikesCount: 1,
-//   isLike: "false",
-//   User: {
-//     id: 2,
-//     name: "user1",
-//     avatar: "https://image.flaticon.com/icons/png/512/847/847969.png",
-//     account: "@user1",
-//   },
-//   Replies: [
-//     {
-//       id: 13,
-//       comment: "quisquam",
-//       createdAt: "2021-07-07T19:31:27.000Z",
-//       User: {
-//         id: 4,
-//         name: "user3",
-//         cover:
-//           "https://images.unsplash.com/photo-1567261585152-02a94eeda80a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1190&q=80",
-//         account: "@user1",
-//       },
-//     },
-//     {
-//       id: 14,
-//       comment: "cum",
-//       createdAt: "2021-07-07T19:31:27.000Z",
-//       User: {
-//         id: 5,
-//         name: "user4",
-//         cover:
-//           "https://images.unsplash.com/photo-1621328895567-f909e923c9d1?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
-//         account: "@user1",
-//       },
-//     },
-//     {
-//       id: 15,
-//       comment: "suscipit",
-//       createdAt: "2021-07-07T19:31:27.000Z",
-//       User: {
-//         id: 6,
-//         name: "user5",
-//         cover:
-//           "https://images.unsplash.com/photo-1621328895567-f909e923c9d1?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
-//         account: "@user1",
-//       },
-//     },
-//   ],
-// };
+import { fromNowFilter } from "./../utils/mixins";
+
+const dummyTweets = [
+  {
+    id: 10,
+    TweetId: 4,
+    comment: "sequi",
+    createdAt: "2021-07-07T19:31:27.000Z",
+    User: {
+      id: 5,
+      name: "user4",
+      avatar:
+        "https://source.unsplash.com/1600x1200/?man/?random=40.46792589859454",
+      account: "@user4",
+    },
+    Tweet: {
+      description: "fugiat",
+      User: {
+        id: 2,
+        account: "@user",
+      },
+    },
+  },
+  {
+    id: 10,
+    TweetId: 4,
+    comment: "sequi",
+    createdAt: "2021-07-07T19:31:27.000Z",
+    LikesCount: 99,
+    RepliesCount: 40,
+    isLike: false,
+    User: {
+      id: 5,
+      name: "user4",
+      avatar:
+        "https://source.unsplash.com/1600x1200/?man/?random=40.46792589859454",
+      account: "@user4",
+    },
+    Tweet: {
+      description: "fugiat",
+      User: {
+        id: 2,
+        account: "user1",
+      },
+    },
+  },
+  {
+    id: 10,
+    TweetId: 4,
+    comment: "sequi",
+    createdAt: "2021-07-07T19:31:27.000Z",
+    LikesCount: 99,
+    RepliesCount: 40,
+    isLike: true,
+    User: {
+      id: 5,
+      name: "user4",
+      avatar:
+        "https://source.unsplash.com/1600x1200/?man/?random=40.46792589859454",
+      account: "@user4",
+    },
+    Tweet: {
+      description: "fugiat",
+      User: {
+        id: 2,
+        account: "user1",
+      },
+    },
+  },
+  {
+    id: 10,
+    TweetId: 4,
+    comment: "sequi",
+    createdAt: "2021-07-07T19:31:27.000Z",
+    LikesCount: 99,
+    RepliesCount: 40,
+    isLike: false,
+    User: {
+      id: 5,
+      name: "user4",
+      avatar:
+        "https://source.unsplash.com/1600x1200/?man/?random=40.46792589859454",
+      account: "@user4",
+    },
+    Tweet: {
+      description: "fugiat",
+      User: {
+        id: 2,
+        account: "user1",
+      },
+    },
+  },
+  {
+    id: 10,
+    TweetId: 4,
+    comment: "sequi",
+    createdAt: "2021-07-07T19:31:27.000Z",
+    LikesCount: 99,
+    RepliesCount: 40,
+    isLike: false,
+    User: {
+      id: 5,
+      name: "user4",
+      avatar:
+        "https://source.unsplash.com/1600x1200/?man/?random=40.46792589859454",
+      account: "@user4",
+    },
+    Tweet: {
+      description: "fugiat",
+      User: {
+        id: 2,
+        account: "user1",
+      },
+    },
+  },
+];
 
 export default {
+  mixins: [fromNowFilter],
   components: {
     LeftArrow,
     IconReply,
-    IconHeartEmpty
+    IconHeartEmpty,
+  },
+  data() {
+    return {
+      tweets: [],
+    };
+  },
+
+  methods: {
+    fetchTweets() {
+      this.tweets = dummyTweets;
+    },
+  },
+
+  created() {
+    this.fetchTweets();
   },
 };
 </script>
@@ -138,10 +250,8 @@ export default {
     flex-direction: column;
     margin-top: 3.2rem;
     padding: 1rem;
-    // outline: 1px solid black;
     .image-and-name {
       display: flex;
-      // outline: 1px solid black;
       img {
         margin-right: 1rem;
         width: 50px;
@@ -196,7 +306,6 @@ export default {
     .icons-area {
       display: flex;
       padding: 1.5rem 0;
-      border-bottom: 1px solid #e6ecf0;
       .ic {
         width: 28px;
         height: 28px;
@@ -207,7 +316,54 @@ export default {
     }
   }
 }
+.user-replylist-area {
+  padding: 1rem 0;
+  border-top: 1px solid #e6ecf0;
+  // outline: 1px solid black;
+  .tweet-card {
+    margin-left: 15px;
+    padding: .2rem 0;
+    .user-self-img {
+      @extend %avatar-size;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+    .tweet-detail {
+      h5 {
+        color: $color-black;
+      }
 
+      .post-time {
+        font-size: 15px;
+        margin-left: 5px;
+        color: $color-gray;
+      }
+      &-text {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin: 6px 15px 0 0;
+      }
+    }
+    .user-reply-to {
+      color: $color-gray;
+      .user-reply-account {
+        color: $color-orange;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+//電腦版
+@media screen and (min-width: 576px) {
+  .middle-container {
+    //outline: black 2px solid;
+    height: 100vh;
+  }
+}
 .user-profile-name {
   font-size: 18px;
   color: $color-black;
