@@ -20,7 +20,7 @@
           </p>
           <div class="tweet-detail-icon d-flex">
             <div class="reply-part d-flex">
-              <IconLiked />
+              <IconReply />
               <div class="icon-text">{{ tweet.RepliesCount }}</div>
             </div>
             <div class="liked-part d-flex">
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import IconLiked from "./icons/IconLike";
+import IconReply from "./icons/IconReply";
 import IconHeartEmpty from "./icons/IconHeartEmpty";
 import { fromNowFilter } from "./../utils/mixins";
 
@@ -87,12 +87,42 @@ const dummyTweets = [
       account: "@user1",
     },
   },
+  {
+    id: 15,
+    isLike: false,
+    TweetId: 1,
+    createdAt: "2021-07-07T19:31:27.000Z",
+    description: "Hi, this is John Doe",
+    LikesCount: 2,
+    RepliesCount: 2,
+    User: {
+      id: 2,
+      name: "John Doe",
+      avatar: "https://source.unsplash.com/1600x1200/?man/?random=38.46792589859454",
+      account: "@heyjohn",
+    },
+  },
+  {
+    id: 15,
+    isLike: false,
+    TweetId: 1,
+    createdAt: "2021-07-07T19:31:27.000Z",
+    description: "Hi, this is John Doe",
+    LikesCount: 2,
+    RepliesCount: 2,
+    User: {
+      id: 2,
+      name: "John Doe",
+      avatar: "https://source.unsplash.com/1600x1200/?man/?random=38.46792589859454",
+      account: "@heyjohn",
+    },
+  },
 ];
 
 export default {
   mixins: [fromNowFilter],
   components: {
-    IconLiked,
+    IconReply,
     IconHeartEmpty,
   },
   data() {

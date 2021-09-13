@@ -16,16 +16,8 @@
         </div>
         <!-- Cover Photo -->
         <div class="cover-area">
-          <img
-            class="cover-photo"
-            :src="profile.cover"
-            alt="cover"
-          />
-          <img
-            class="user-avatar"
-            :src="profile.avatar"
-            alt="avatar"
-          />
+          <img class="cover-photo" :src="profile.cover" alt="cover" />
+          <img class="user-avatar" :src="profile.avatar" alt="avatar" />
         </div>
         <!-- Images & btn-->
         <div class="edit-area">
@@ -65,7 +57,7 @@
 <script>
 import NavBars from "./../components/NavBars.vue";
 import UserProfile from "./../components/UserProfile.vue";
-import UserTweet from "./../components/UserTweet.vue"
+import UserTweet from "./../components/UserTweet.vue";
 import Popular from "./../components/Popular.vue";
 import LeftArrow from "./../components/icons/IconBack.vue";
 
@@ -75,11 +67,14 @@ const dummyData = {
     email: "user2@example.com",
     password: "secretpassword",
     name: "John Doe",
-    avatar: "https://source.unsplash.com/1600x1200/?man/?random=38.46792589859454",
-    introduction: "Amet minim mollit non deserunt ullamco est sit aliqua dolor do ametsint.",
+    avatar:
+      "https://source.unsplash.com/1600x1200/?man/?random=38.46792589859454",
+    introduction:
+      "Amet minim mollit non deserunt ullamco est sit aliqua dolor do ametsint.",
     role: "user",
     account: "@heyjohn",
-    cover: "https://source.unsplash.com/1600x900/?nature/?random=79.00129583279121",
+    cover:
+      "https://source.unsplash.com/1600x900/?nature/?random=79.00129583279121",
     createdAt: "2021-07-04T17:03:01.000Z",
     updatedAt: "2021-07-04T17:03:01.000Z",
   },
@@ -95,20 +90,23 @@ export default {
   },
   data() {
     return {
-      id: -1,
-      name: '',
-      avatar: '',
-      introduction: '',
-      account: '',
-      cover: ''
-    }
+      profile: {
+        id: -1,
+        name: "",
+        avatar: "",
+        introduction: "",
+        account: "",
+        cover: "",
+      },
+    };
   },
   created() {
-    this.fetchUser()
+    this.fetchUser();
   },
   methods: {
     fetchUser() {
-      const {id, name, avatar, introduction, account, cover } = dummyData.profile
+      const { id, name, avatar, introduction, account, cover } =
+        dummyData.profile;
       this.profile = {
         ...this.profile,
         id,
@@ -116,10 +114,10 @@ export default {
         avatar,
         introduction,
         account,
-        cover
-      }
-    }
-  }
+        cover,
+      };
+    },
+  },
 };
 </script>
 
