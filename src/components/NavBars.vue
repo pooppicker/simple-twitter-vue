@@ -18,7 +18,7 @@
           </li>
 
           <li>
-            <router-link class="d-flex nav-link" to="/twitter/user">
+            <router-link class="d-flex nav-link" :to="{name: 'User',params: {id: curretUser.id}}">
               <IconUser />
               <h4>個人資料</h4>
             </router-link>
@@ -56,6 +56,23 @@ import IconLogout from "./icons/IconLogout";
 import IconHome from "./icons/IconHome";
 import IconSetting from "./icons/IconSetting";
 import IconUser from "./icons/IconUser";
+
+const dummtCurretUser ={ 
+  "id": 15,
+  "email": "user1@example.com",
+  "name": "user1",
+  "avatar": "https://image.flaticon.com/icons/png/512/847/847969.png",
+  "introduction": null,
+  "role": "user",
+  "account": "user1",
+  "cover": "https://images.unsplash.com/27/perspective.jpg?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+  "createdAt": "2021-07-05T11:04:52.000Z",
+  "updatedAt": "2021-07-05T11:04:52.000Z",
+  "Followers": [],
+  "Followings": [],
+  "Likes": []
+}
+
 export default {
   components: {
     IconLogout,
@@ -63,8 +80,20 @@ export default {
     IconSetting,
     IconUser,
   },
+
+  data() {
+    return {
+      curretUser: dummtCurretUser
+    }
+  }
 };
+
+
+
 </script>
+
+
+
 
 <style lang="scss">
 @import "../assets/scss/colorAndSize.scss";

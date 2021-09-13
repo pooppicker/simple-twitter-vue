@@ -1,5 +1,6 @@
 <template>
   <div class="container middle-container">
+    <!--上方使用者輸入區-->
     <h4>首頁</h4>
     <div class="user-post-part">
       <div class="user-post-panel d-flex flex-column">
@@ -25,19 +26,28 @@
         </div>
       </div>
     </div>
+    <!--下方推文區-->
     <div class="tweets-part">
       <!--v-for開始-->
       <div v-for="tweet in tweets" :key="tweet.TweetId">
         <div class="tweet-card d-flex">
+          <router-link
+                :to="{ name: 'User', params: { id: tweet.User.id } }"
+              >
           <img
             class="tweet-user-imag"
-            src="https://image.flaticon.com/icons/png/512/847/847969.png"
+            :src="tweet.User.avatar"
           />
+          </router-link>
           <div class="tweet-detail">
             <div class="tweet-detail-title d-flex">
-              <h5>{{ tweet.User.name }}</h5>
+              <router-link
+                :to="{ name: 'User', params: { id: tweet.User.id } }"
+              >
+                <h5>{{ tweet.User.name }}</h5>
+              </router-link>
               <p class="post-time">
-                {{ tweet.User.account }}·{{ tweet.createdAt }}
+                {{ tweet.User.account }}·{{ tweet.createdAt | fromNow }}
               </p>
             </div>
             <p class="tweet-detail-text">
@@ -67,6 +77,7 @@
 import IconLiked from "./icons/IconLike";
 import IconHeartFilled from "./icons/IconHeartFilled";
 import IconHeartEmpty from "./icons/IconHeartEmpty";
+import { fromNowFilter } from "./../utils/mixins";
 
 const dummyTweets = [
   {
@@ -162,6 +173,7 @@ const dummyTweets = [
 ];
 
 export default {
+  mixins: [fromNowFilter],
   components: {
     IconLiked,
     IconHeartFilled,
@@ -249,6 +261,10 @@ export default {
         margin-right: 10px;
       }
       .tweet-detail {
+        h5 {
+          color: $color-black;
+        }
+
         .post-time {
           font-size: 15px;
           margin-left: 5px;
