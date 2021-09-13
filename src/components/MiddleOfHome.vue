@@ -1,12 +1,8 @@
 <template>
   <div class="container middle-container">
+    <!--上方使用者輸入區-->
+    <h4>首頁</h4>
     <div class="user-post-part">
-      <div class="title-part">
-      <div class="title">
-        <h4>首頁</h4>
-      </div>
-      <hr />
-      </div>
       <div class="user-post-panel d-flex flex-column">
         <div class="top-part d-flex">
           <img
@@ -30,21 +26,32 @@
         </div>
       </div>
     </div>
+    <!--下方推文區-->
     <div class="tweets-part">
       <!--v-for開始-->
       <div v-for="tweet in tweets" :key="tweet.TweetId">
         <div class="tweet-card d-flex">
+          <router-link
+                :to="{ name: 'User', params: { id: tweet.User.id } }"
+              >
           <img
             class="tweet-user-imag"
-            src="https://image.flaticon.com/icons/png/512/847/847969.png"
+            :src="tweet.User.avatar"
           />
+          </router-link>
           <div class="tweet-detail">
             <div class="tweet-detail-title d-flex">
-              <h5>{{ tweet.User.name }}</h5>
-              <p class="post-time">{{tweet.User.account}}·{{ tweet.createdAt }}</p>
+              <router-link
+                :to="{ name: 'User', params: { id: tweet.User.id } }"
+              >
+                <h5>{{ tweet.User.name }}</h5>
+              </router-link>
+              <p class="post-time">
+                {{ tweet.User.account }}·{{ tweet.createdAt | fromNow }}
+              </p>
             </div>
             <p class="tweet-detail-text">
-              {{tweet.description}}
+              {{ tweet.description }}
             </p>
             <div class="tweet-detail-icon d-flex">
               <div class="reply-part d-flex">
@@ -52,7 +59,8 @@
                 <div class="icon-text">{{ tweet.RepliesCount }}</div>
               </div>
               <div class="liked-part d-flex">
-                <IconHeartFilled v-if="tweet.isLike"/> <IconHeartEmpty v-else />
+                <IconHeartFilled v-if="tweet.isLike" />
+                <IconHeartEmpty v-else />
                 <div class="icon-text">{{ tweet.LikesCount }}</div>
               </div>
             </div>
@@ -69,6 +77,7 @@
 import IconLiked from "./icons/IconLike";
 import IconHeartFilled from "./icons/IconHeartFilled";
 import IconHeartEmpty from "./icons/IconHeartEmpty";
+import { fromNowFilter } from "./../utils/mixins";
 
 const dummyTweets = [
   {
@@ -164,6 +173,7 @@ const dummyTweets = [
 ];
 
 export default {
+  mixins: [fromNowFilter],
   components: {
     IconLiked,
     IconHeartFilled,
@@ -197,20 +207,19 @@ export default {
   border-right: 1px solid #e6ecf0;
   height: 100%;
   margin: 0 2%;
-  padding-top: 14px;
   //outline: black 1px solid;
   overflow: scroll;
+  position: relative;
   &::-webkit-scrollbar {
     display: none;
   }
-
-  position: relative;
-  .title-part{
-
-  .title {
-    margin-left: 10px;
+  h4 {
+    // outline: 1px solid black;
+    border-bottom: 1px solid #e6ecf0;
+    font-size: 19px;
+    padding: 0.7rem;
   }
-  }
+
   .user-post-panel {
     height: 120px;
     border-bottom: solid #e6ecf0 10px;
@@ -252,6 +261,10 @@ export default {
         margin-right: 10px;
       }
       .tweet-detail {
+        h5 {
+          color: $color-black;
+        }
+
         .post-time {
           font-size: 15px;
           margin-left: 5px;
