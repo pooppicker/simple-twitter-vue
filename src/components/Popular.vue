@@ -11,10 +11,14 @@
         <div class="user-card" v-for="user in users" :key="user.id">
           <div class="user-info d-flex">
             <div class="user-detail d-flex">
-              <img class="user-img" :src="user.avatar" />
+              <router-link :to="{ name: 'User', params: { id: user.id } }">
+                <img class="user-img" :src="user.avatar" />
+              </router-link>
               <div class="user">
-                <h5 class="user-name">{{ user.name }}</h5>
+                <router-link :to="{ name: 'User', params: { id: user.id } }">
+                  <h5 class="user-name">{{ user.name }}</h5>
                 <h5 class="user-account">{{ user.account }}</h5>
+                </router-link>
               </div>
             </div>
             <div>
@@ -39,7 +43,7 @@
 @import "../assets/scss/efficientSetting.scss";
 
 .card {
-    // outline: black 2px solid;
+  // outline: black 2px solid;
   height: 100%;
   margin-right: 20px;
   padding-top: 14px;
@@ -62,7 +66,6 @@
       color: $color-black;
       .card-title {
         margin-left: 15px;
-        
       }
     }
     .card-body {
@@ -74,7 +77,7 @@
         .user-info {
           margin: 0 15px;
           justify-content: space-between;
-          .user.name {
+          .user-name {
             color: $color-black;
           }
           .user-account {
@@ -108,10 +111,10 @@ hr {
 
 //電腦版
 @media screen and (min-width: 576px) {
-.card {
-// outline: black 2px solid;
-  height: 100vh;
-}
+  .card {
+    // outline: black 2px solid;
+    height: 100vh;
+  }
 }
 </style>
 

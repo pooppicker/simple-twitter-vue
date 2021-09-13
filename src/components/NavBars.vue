@@ -3,7 +3,7 @@
     <div class="nav-top">
       <!--logo區塊-->
       <div class="logo-part">
-        <router-link to="/" class="text-center"
+        <router-link to="/twitter/home" class="text-center"
           ><img class="ac-logo" src="./../assets/ac-logo.png"
         /></router-link>
       </div>
@@ -162,7 +162,6 @@ export default {
 //電腦版
 @media screen and (min-width: 576px) {
 .nav {
- outline: black 2px solid;
   height: 100vh;
 }
 }
