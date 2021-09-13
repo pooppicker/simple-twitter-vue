@@ -43,10 +43,10 @@
           </router-link>
           <router-link :to="{ name: 'Tweets' }" class="tab">
             推文與回覆
-            </router-link>
+          </router-link>
           <router-link :to="{ name: 'Liked' }" class="tab">
             喜歡的內容
-            </router-link>
+          </router-link>
         </div>
         <!-- user bottom area -->
         <router-view />
@@ -102,7 +102,7 @@ export default {
     };
   },
   created() {
-    const { id } = this.$route.params
+    const { id } = this.$route.params;
     this.fetchUser(id);
   },
   methods: {
@@ -221,6 +221,56 @@ export default {
       color: $color-orange;
       border-bottom: 2px solid $color-orange;
       font-weight: 700;
+    }
+  }
+  .user-profile-area {
+    margin-top: 20px;
+    .tweet-card {
+      margin-left: 15px;
+      .user-self-img {
+        @extend %avatar-size;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+      .tweet-detail {
+        h5 {
+          color: $color-black;
+        }
+
+        .post-time {
+          font-size: 15px;
+          margin-left: 5px;
+          color: $color-gray;
+        }
+        &-text {
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          margin: 6px 15px 0 0;
+        }
+        &-icon {
+          font-size: 13px;
+          color: $color-gray;
+          margin-top: 14px;
+          .reply-part {
+            margin-right: 51px;
+          }
+        }
+        .icon-text {
+          transform: translate(0, -3px);
+          margin-left: 11px;
+        }
+      }
+    }
+  }
+
+  //電腦版
+  @media screen and (min-width: 576px) {
+    .middle-container {
+      //outline: black 2px solid;
+      height: 100vh;
     }
   }
 }
