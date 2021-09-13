@@ -1,9 +1,11 @@
 <template>
   <div class="middle-of-follow">
     <div class="title-area">
-      <LeftArrow />
+      <div class="go-back" @click.stop.prevent="previousPage">
+        <LeftArrow />
+      </div>
       <div class="user-title">
-        <h4 class="user-profile-name">{{user.name}}</h4>
+        <h4 class="user-profile-name">{{ user.name }}</h4>
         <span class="span-setting">25 推文</span>
       </div>
       <hr />
@@ -249,6 +251,9 @@ export default {
     fetchUser() {
       this.followUsers = this.innitialFollowUser;
       this.user = this.innitialUser;
+    },
+    previousPage() {
+      this.$router.back();
     },
   },
 
