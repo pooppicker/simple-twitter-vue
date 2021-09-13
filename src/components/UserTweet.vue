@@ -16,7 +16,7 @@
             </p>
           </div>
           <p class="tweet-detail-text">
-            {{ tweet.description }}
+            {{ tweet.comment }}
           </p>
           <div class="tweet-detail-icon d-flex">
             <div class="reply-part d-flex">
@@ -24,7 +24,8 @@
               <div class="icon-text">{{ tweet.RepliesCount }}</div>
             </div>
             <div class="liked-part d-flex">
-              <IconHeartEmpty />
+              <IconHeartFilled v-if="tweet.isLike" />
+              <IconHeartEmpty v-else />
               <div class="icon-text">{{ tweet.LikesCount }}</div>
             </div>
           </div>
@@ -37,23 +38,76 @@
 </template>
 
 <script>
-import IconReply from "./icons/IconReply";
-import IconHeartEmpty from "./icons/IconHeartEmpty";
+import IconReply from "./icons/IconReply.vue";
+import IconHeartEmpty from "./icons/IconHeartEmpty.vue";
+import IconHeartFilled from "./icons/IconHeartFilled.vue";
 import { fromNowFilter } from "./../utils/mixins";
 
 const dummyTweets = [
   {
-    TweetId: 1,
+    id: 10,
+    TweetId: 4,
+    comment: "sequi",
     createdAt: "2021-07-07T19:31:27.000Z",
-    description: "est",
-    LikesCount: 2,
-    RepliesCount: 2,
+    LikesCount: 99,
+    RepliesCount: 40,
     isLike: true,
     User: {
-      id: 2,
-      name: "user1",
-      avatar: "https://image.flaticon.com/icons/png/512/847/847969.png",
-      account: "@user1",
+      id: 5,
+      name: "user4",
+      avatar: "https://source.unsplash.com/1600x1200/?man/?random=40.46792589859454",
+      account: "@user4",
+    },
+    Tweet: {
+      description: "fugiat",
+      User: {
+        id: 2,
+        account: "user1",
+      },
+    },
+  },
+  {
+    id: 10,
+    TweetId: 4,
+    comment: "sequi",
+    createdAt: "2021-07-07T19:31:27.000Z",
+    LikesCount: 99,
+    RepliesCount: 40,
+    isLike: false,
+    User: {
+      id: 5,
+      name: "user4",
+      avatar: "https://source.unsplash.com/1600x1200/?man/?random=40.46792589859454",
+      account: "@user4",
+    },
+    Tweet: {
+      description: "fugiat",
+      User: {
+        id: 2,
+        account: "user1",
+      },
+    },
+  },
+  {
+    id: 10,
+    TweetId: 4,
+    comment: "sequi",
+    createdAt: "2021-07-07T19:31:27.000Z",
+    LikesCount: 99,
+    RepliesCount: 40,
+    isLike: true,
+    User: {
+      id: 5,
+      name: "user4",
+      avatar: "https://source.unsplash.com/1600x1200/?man/?random=40.46792589859454",
+      account: "@user4",
+    },
+    Tweet: {
+      description: "fugiat",
+      User: {
+        id: 2,
+        account: "user1",
+      },
     },
   },
 ];
@@ -63,6 +117,7 @@ export default {
   components: {
     IconReply,
     IconHeartEmpty,
+    IconHeartFilled,
   },
   data() {
     return {
