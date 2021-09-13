@@ -92,14 +92,7 @@ export default {
   width: 100vw;
   .setting {
     @extend %views-grid;
-    //display: grid;
-   // grid-template-columns: 5fr 14fr 8.3fr;
-    //grid-gap: 1fr;
     grid-template-areas: "nav sets sets";
-   // height: 100%;
-   // max-width: 1440px;
-  //  background-color: white;
-    //margin: 0 auto;
   }
   .setting-navbars {
     grid-area: nav;

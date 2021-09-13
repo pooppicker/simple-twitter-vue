@@ -134,20 +134,12 @@ export default {
   width: 100vw;
   .user-content {
     @extend %views-grid;
-    //display: grid;
-    //grid-template-columns: 5fr 13fr 7.5fr;
-    //grid-gap: 1fr;
-    //height: 100%;
-    //max-width: 1440px;
-    //background-color: white;
-    //margin: 0 auto;
   }
 }
 .user-top {
   display: flex;
   flex-direction: column;
   border-left: 1px solid #e6ecf0;
-  // border-right: 1px solid #e6ecf0;
   margin-left: 2%;
   overflow: scroll;
   &::-webkit-scrollbar {
