@@ -75,24 +75,66 @@ export default {
   .home-content {
     height: 100%;
     .home {
-      grid-template-columns: 5fr 20fr;
+      grid-template-columns: 1fr;
+       grid-template-rows: 5fr 20fr;
     }
+    .nav{
+        border-bottom: 1px solid #e6ecf0;
+      height: 60px;
+     flex-direction: row;
+     position: fixed;
+     width: 100vw;
+     background-color: white;
+     top:0;
+     z-index: 6;
+     padding-left: 1em;
+     margin: 0 0 0 0;
+     ;
+    }
+
+    
     .nav-top,.logout {
+      display: flex;
+      flex-direction: row;;
+      .navigation {
+        margin: 0 0 0 20px;
+        display: flex;
+      }
+
+      .ac-logo {
+        transform: translate(0, 3px);
+      }
       .nav-link {
-        flex-direction: column;
         width: 100%;
         margin: 0px 0px 0px 0px;
       }
       ul {
+        display: flex;
         h4 {
           display: none;
         }
       }
       .nav-icon {
-        width: 50px;
-        height: 50px;
-        margin:0px 0px 20px 0px;
+        width: 30px;
+        height: 30px;
+        margin:0px 10px 0px 0px;
+         transform: translate(0, -1px);
       }
+
+    }
+
+    .middle-container {
+      width: 100%;
+      border-left: white 0px solid;
+      margin-left: 0px;
+      margin-right: 0px;
+      h4 {
+        display:none;
+      }
+      .user-post-panel {
+        margin-top: 4em;
+      }
+
     }
 
     .popular {
