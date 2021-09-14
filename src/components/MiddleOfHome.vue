@@ -275,6 +275,9 @@ export default {
       .tweet-detail {
         h5 {
           color: $color-black;
+            &:hover {
+              color: $color-orange;
+            }
         }
 
         .post-time {
