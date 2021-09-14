@@ -49,17 +49,22 @@
               {{ tweet.description }}
             </p>
             <div class="tweet-detail-icon d-flex">
-              <router-link
-                :to="{ name: 'Reply-list', params: { id: tweet.TweetId } }"
-              >
-                <div class="reply-part d-flex">
+              <div class="reply-part d-flex">
+                <router-link
+                  :to="{ name: 'Reply-list', params: { id: tweet.TweetId } }"
+                >
                   <IconLiked />
-                  <div class="icon-text">{{ tweet.RepliesCount }}</div>
-                </div>
-              </router-link>
+                </router-link>
+                <div class="icon-text">{{ tweet.RepliesCount }}</div>
+              </div>
+
               <div class="liked-part d-flex">
-                <IconHeartFilled v-if="tweet.isLike" />
-                <IconHeartEmpty v-else />
+                <div @click.stop.prevent="addHeart(tweet)">
+                  <IconHeartFilled v-if="tweet.isLike" />
+                  <IconHeartEmpty
+                    v-else
+                  />
+                </div>
                 <div class="icon-text">{{ tweet.LikesCount }}</div>
               </div>
             </div>
@@ -188,6 +193,10 @@ export default {
     fetchTweets() {
       this.tweets = dummyTweets;
     },
+
+    addHeart(tweet) {
+      tweet.isLike = !tweet.isLike
+    },
   },
 
   created() {
@@ -288,11 +297,14 @@ export default {
           .reply-part {
             margin-right: 51px;
           }
+          &:hover {
+            cursor: pointer;
+          }
         }
         .icon-text {
           transform: translate(0, -3px);
           margin-left: 11px;
-          color: $color-gray
+          color: $color-gray;
         }
       }
     }
@@ -300,5 +312,4 @@ export default {
 }
 
 //手機
-
 </style>
