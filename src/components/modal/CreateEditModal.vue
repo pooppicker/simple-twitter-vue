@@ -35,12 +35,19 @@
             <div class="modal-input-area">
               <div class="name-input-style mb-2">
                 <label class="edit-label" for="name">名稱</label>
-                <input class="edit-input" id="name" type="text" autofocus />
+                <input
+                  class="edit-input"
+                  id="name"
+                  type="text"
+                  maxlength="50"
+                  autofocus
+                />
               </div>
-              <div class="modal-txt limit">8/50</div>
+              <div class="modal-txt-limit">8/50</div>
               <div class="modal-input-style mb-2">
                 <label class="edit-label" for="name">自我介紹</label>
                 <textarea
+                  v-model="tweetText"
                   class="edit-input"
                   id="name"
                   type="text"
@@ -49,7 +56,7 @@
                   autofocus
                 />
               </div>
-              <div class="modal-txt limit">0/160</div>
+              <div class="modal-txt-limit">0/160</div>
             </div>
           </slot>
         </form>
@@ -74,10 +81,19 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      tweetText: "",
+    };
+  },
 };
 </script>
 
 <style lang="scss">
+* {
+  font-family: "Noto Sans TC";
+}
+
 #modal-overlay {
   position: fixed;
   top: 0;
@@ -198,7 +214,7 @@ export default {
     @extend %input-bottom;
     background-color: #f5f8fa;
     width: 100%;
-    height: 52px;
+    height: 55px;
     border-radius: 4px 4px 0px 0px;
   }
   .modal-input-style {
@@ -207,6 +223,12 @@ export default {
     background-color: #f5f8fa;
     border-radius: 4px 4px 0px 0px;
     width: 100%;
+  }
+  .modal-txt-limit {
+    display: flex;
+    justify-content: end;
+    font-size: 15px;
+    color: #657786;
   }
 }
 @keyframes scale-in {
