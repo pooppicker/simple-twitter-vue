@@ -18,7 +18,10 @@
           </li>
 
           <li>
-            <router-link class="d-flex nav-link" :to="{name: 'User',params: {id: curretUser.id}}">
+            <router-link
+              class="d-flex nav-link"
+              :to="{ name: 'User', params: { id: curretUser.id } }"
+            >
               <IconUser />
               <h4>個人資料</h4>
             </router-link>
@@ -57,21 +60,23 @@ import IconHome from "./icons/IconHome";
 import IconSetting from "./icons/IconSetting";
 import IconUser from "./icons/IconUser";
 
-const dummtCurretUser ={ 
-  "id": 15,
-  "email": "user1@example.com",
-  "name": "user1",
-  "avatar": "https://image.flaticon.com/icons/png/512/847/847969.png",
-  "introduction": null,
-  "role": "user",
-  "account": "user1",
-  "cover": "https://images.unsplash.com/27/perspective.jpg?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
-  "createdAt": "2021-07-05T11:04:52.000Z",
-  "updatedAt": "2021-07-05T11:04:52.000Z",
-  "Followers": [],
-  "Followings": [],
-  "Likes": []
-}
+
+const dummtCurretUser = {
+  id: 15,
+  email: "user1@example.com",
+  name: "user1",
+  avatar: "https://image.flaticon.com/icons/png/512/847/847969.png",
+  introduction: null,
+  role: "user",
+  account: "user1",
+  cover:
+    "https://images.unsplash.com/27/perspective.jpg?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+  createdAt: "2021-07-05T11:04:52.000Z",
+  updatedAt: "2021-07-05T11:04:52.000Z",
+  Followers: [],
+  Followings: [],
+  Likes: [],
+};
 
 export default {
   components: {
@@ -83,13 +88,10 @@ export default {
 
   data() {
     return {
-      curretUser: dummtCurretUser
-    }
-  }
+      curretUser: dummtCurretUser,
+    };
+  },
 };
-
-
-
 </script>
 
 
@@ -98,7 +100,7 @@ export default {
 <style lang="scss">
 @import "../assets/scss/colorAndSize.scss";
 
-  .nav {
+.nav {
   //outline: black 2px solid;
   height: 100%;
   padding-top: 14px;
@@ -116,7 +118,8 @@ export default {
       margin-right: 21px;
     }
 
-    &:hover,.router-link-active {
+    &:hover,
+    .router-link-active {
       color: #ff6600;
       .nav-icon {
         .st0 {
@@ -126,13 +129,13 @@ export default {
     }
   }
   .router-link-active {
-      color: $color-orange;
-      .nav-icon {
-        .st0 {
-          fill:$color-orange;
-        }
+    color: $color-orange;
+    .nav-icon {
+      .st0 {
+        fill: $color-orange;
       }
     }
+  }
   //上方區域
   .nav-top {
     .ac-logo {
@@ -158,15 +161,11 @@ export default {
   }
   //下方區域目前沒樣式
 
-
-//電腦版
-@media screen and (min-width: 576px) {
-.nav {
-  height: 100vh;
+  //電腦版
+  @media screen and (min-width: 576px) {
+    .nav {
+      height: 100vh;
+    }
+  }
 }
-}
-
-}
-
-
 </style>

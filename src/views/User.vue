@@ -31,8 +31,6 @@
           >
             編輯個人資料
           </button>
-          <!-- v-Modal -->
-          <CreateEditModal v-if="openModal" :onClose="handleCloseModal" />
           <template v-if="false">
             <IconMsg class="other-user-btn" />
             <IconNotify v-if="true" class="other-user-btn" />
@@ -40,6 +38,10 @@
             <IconFollowing class="other-user-btn" />
           </template>
         </div>
+
+        <!-- Modal -->
+        <CreateEditModal v-if="openModal" :onClose="handleCloseModal" />
+
         <!-- Description -->
         <div class="desc-area">
           <h4 class="user-profile-name">{{ profile.name }}</h4>
