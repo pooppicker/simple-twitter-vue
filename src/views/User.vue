@@ -23,10 +23,33 @@
         </div>
         <!-- Buttons -->
         <div class="edit-area">
-          <button v-if="false" type="submit" class="user-edit-btn">
+          <button
+            id="show-modal"
+            @click="handleOpenModal"
+            type="submit"
+            class="user-edit-btn"
+          >
             編輯個人資料
           </button>
-          <template v-else>
+          <!-- v-Modal -->
+          <CreateEditModal v-if="openModal" :onClose="handleCloseModal">
+            <div class="modal-title-area">
+              <div class="go-back" @click.stop.prevent="previousPage">
+                <LeftArrow />
+              </div>
+              <div class="modal-user-title">
+                <h4 class="modal-profile-name">編輯個人資料</h4>
+                <button class="save-btn">儲存</button>
+              </div>
+              
+            </div>
+            <!-- Cover Photo -->
+            <div class="modal-cover-area">
+              <img class="modal-cover-photo" :src="profile.cover" alt="cover" />
+              <img class="modal-user-avatar" :src="profile.avatar" alt="avatar" />
+            </div>
+          </CreateEditModal>
+          <template v-if="false">
             <IconMsg class="other-user-btn" />
             <IconNotify v-if="true" class="other-user-btn" />
             <IconNotified v-else class="other-user-btn" />
@@ -93,6 +116,7 @@ import IconMsg from "./../components/icons/IconMsg.vue";
 import IconNotify from "./../components/icons/IconNotify.vue";
 import IconNotified from "./../components/icons/IconNotified.vue";
 import IconFollowing from "./../components/icons/IconFollowing.vue";
+import CreateEditModal from "./../components/CreateEditModal.vue";
 
 const dummyData = {
   profile: {
@@ -123,6 +147,7 @@ export default {
     IconNotify,
     IconNotified,
     IconFollowing,
+    CreateEditModal,
   },
   data() {
     return {
@@ -134,6 +159,7 @@ export default {
         account: "",
         cover: "",
       },
+      openModal: false,
     };
   },
   created() {
@@ -156,6 +182,12 @@ export default {
     },
     previousPage() {
       this.$router.back();
+    },
+    handleOpenModal() {
+      this.openModal = true;
+    },
+    handleCloseModal() {
+      this.openModal = false;
     },
   },
 };
