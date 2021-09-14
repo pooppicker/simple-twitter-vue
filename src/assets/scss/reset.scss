@@ -67,4 +67,9 @@ input:invalid {
 input:focus, textarea:focus, select:focus {
   outline: none;
 }
+textarea {
+  border: none;
+  border-style: none;
+  resize: none;
+}
 
