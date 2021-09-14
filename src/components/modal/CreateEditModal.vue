@@ -16,6 +16,9 @@
           </slot>
           <slot name="body">
             <div class="modal-cover-area">
+              <IconUploadPhoto class="upload-cover" />
+              <IconCloseWhite class="delete-cover" />
+              <IconUploadPhoto class="upload-avatar" />
               <img
                 class="modal-cover-photo"
                 src="https://source.unsplash.com/1600x900/?nature/?random=79.00129583279121"
@@ -30,7 +33,7 @@
           </slot>
           <slot name="footer">
             <div class="modal-input-area">
-              <div class="input-style mb-2">
+              <div class="name-input-style mb-2">
                 <label class="edit-label" for="name">名稱</label>
                 <input class="edit-input" id="name" type="text" autofocus />
               </div>
@@ -41,8 +44,8 @@
                   class="edit-input"
                   id="name"
                   type="text"
-                  rows="8"
-                  cols="60"
+                  rows="4"
+                  maxlength="160"
                   autofocus
                 />
               </div>
@@ -57,9 +60,13 @@
 
 <script>
 import IconCloseOrange from "./../icons/IconClose.vue";
+import IconCloseWhite from "./../icons/IconCloseWhite.vue";
+import IconUploadPhoto from "./../icons/IconUploadPhoto.vue";
 export default {
   components: {
     IconCloseOrange,
+    IconCloseWhite,
+    IconUploadPhoto,
   },
   props: {
     onClose: {
@@ -71,38 +78,6 @@ export default {
 </script>
 
 <style lang="scss">
-/* .modal {
-  width: 600px;
-  height: 657px;
-  margin: 0px auto;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 14px;
-  box-shadow: 0 2px 8px 3px;
-  transition: all 0.2s ease-in;
-  font-family: Helvetica, Arial, sans-serif;
-}
-.fadeIn-enter {
-  opacity: 0;
-}
-
-.fadeIn-leave-active {
-  opacity: 0;
-  transition: all 0.2s step-end;
-}
-
-.fadeIn-enter .modal,
-.fadeIn-leave-active.modal {
-  transform: scale(1.1);
-}
-button {
-  padding: 7px;
-  margin-top: 10px;
-  background-color: green;
-  color: white;
-  font-size: 1.1rem;
-} */
-
 #modal-overlay {
   position: fixed;
   top: 0;
@@ -111,7 +86,6 @@ button {
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.4);
   z-index: 9999;
-  animation: background-color-in 0.1s linear;
 }
 #modal-container {
   position: relative;
@@ -126,15 +100,15 @@ button {
   border-radius: 14px;
   min-height: 657px;
   min-width: 600px;
-  margin: 5%;
-  // animation: scale-in 0.1s linear;
+  margin: 2%;
+  animation: scale-in 0.1s linear;
 }
 .modal-title-area {
   z-index: 3;
   width: 100%;
   display: flex;
   justify-content: space-between;
-  padding: 0 0.7rem .7rem;
+  padding: 0 0.7rem 0.7rem;
   .modal-user-title {
     display: flex;
     .go-close {
@@ -158,18 +132,90 @@ button {
   height: 200px;
   width: 100%;
   position: relative;
-  cursor: pointer;
   img {
     object-fit: cover;
+  }
+  .upload-cover {
+    position: absolute;
+    top: 50%;
+    left: 42%;
+    z-index: 999;
+    cursor: pointer;
+  }
+  .delete-cover {
+    position: absolute;
+    top: 50%;
+    left: 53%;
+    z-index: 999;
+    cursor: pointer;
+  }
+  .upload-cover,
+  .delete-cover {
+    &:hover {
+      transform: scale(1.2, 1.2);
+    }
+  }
+  .upload-avatar {
+    position: absolute;
+    bottom: -5%;
+    left: 10%;
+    z-index: 999;
+    cursor: pointer;
+    &:hover {
+      transform: scale(1.2, 1.2);
+    }
+  }
+  .modal-cover-photo {
+    position: relative;
+    filter: opacity(70%);
   }
   .modal-user-avatar {
     position: absolute;
     top: 70%;
     left: 2%;
-    width: 140px;
-    height: 140px;
+    width: 120px;
+    height: 120px;
     border: 4px solid #ffffff;
     border-radius: 50%;
+    filter: opacity(85%);
   }
 }
+.modal-input-area {
+  margin: 5rem 1rem 0;
+  display: flex;
+  flex-direction: column;
+  .edit-label {
+    font-size: 13px;
+    color: #657786;
+    display: block;
+  }
+  .edit-input {
+    font-size: 19px;
+    background-color: #f5f8fa;
+    width: 570px;
+  }
+  .name-input-style {
+    @extend %input-bottom;
+    background-color: #f5f8fa;
+    width: 100%;
+    height: 52px;
+    border-radius: 4px 4px 0px 0px;
+  }
+  .modal-input-style {
+    @extend %input-bottom;
+    margin-top: 1rem;
+    background-color: #f5f8fa;
+    border-radius: 4px 4px 0px 0px;
+    width: 100%;
+  }
+}
+@keyframes scale-in {
+  from {
+    transform: scale(0.9);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@import "/src/assets/scss/efficientSetting.scss";
 </style>
