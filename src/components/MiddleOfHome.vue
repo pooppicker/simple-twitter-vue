@@ -3,12 +3,13 @@
     <!--上方使用者輸入區-->
     <h4>首頁</h4>
     <div class="user-post-part">
-      <div class="user-post-panel d-flex flex-column">
-        <div class="top-part d-flex">
+      <form class="user-post-panel d-flex flex-column">
+        <div class="top-part d-flex" @submit.stop.prevent="handleSubmit">
           <img
             class="current-user-imag"
             src="https://image.flaticon.com/icons/png/512/847/847969.png"
           />
+        
           <div class="input-post">
             <label class="post-label" for="post-input"></label>
             <textarea
@@ -17,7 +18,6 @@
               type="text"
               class="post-input"
                maxLength="140"
-              autofocus
               required
               placeholder="有什麼新鮮事?"
               v-model="tweetText"
@@ -26,9 +26,10 @@
         </div>
         <div class="bottom-part">
           <span v-if="tweetText.length===140" class="input-error">字數不可超過140字</span>
-          <button class="tweet-button">推文</button>
+          <button class="tweet-button" type="submit" :disabled="tweetText.trim().length===0">推文</button>
         </div>
-      </div>
+      
+      </form>
     </div>
     <!--下方推文區-->
     <div class="tweets-part">
@@ -202,6 +203,13 @@ export default {
     addHeart(tweet) {
       tweet.isLike = !tweet.isLike
     },
+
+    handleSubmit() {
+      this.tweets.unshift({
+        
+      })
+
+    },
   },
 
   created() {
@@ -256,6 +264,7 @@ export default {
         margin-left: 10px;
         margin-top: 20px;
         .post-input {
+          padding-right:1em ;
           font-size: 18px;
           flex: 1;
           width: 100%;
@@ -276,9 +285,12 @@ export default {
       .tweet-button {
         @extend %main-button;
         font-size: 18px;
-        margin: 0px 10px 0 20px;
-        
+        margin: 0px 10px 0 20px; 
+         &:disabled {
+        opacity:0.6;
+      }  
       }
+     
     }
   }
   .tweets-part {
