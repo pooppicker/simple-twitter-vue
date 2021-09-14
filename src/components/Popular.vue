@@ -17,15 +17,23 @@
               <div class="user">
                 <router-link :to="{ name: 'User', params: { id: user.id } }">
                   <h5 class="user-name">{{ user.name }}</h5>
-                <h5 class="user-account">{{ user.account }}</h5>
+                  <h5 class="user-account">{{ user.account }}</h5>
                 </router-link>
               </div>
             </div>
             <div>
-              <button v-if="user.isFollowed" class="btn btn-deletefollow">
+              <button
+                v-if="user.isFollowed"
+                class="btn btn-deletefollow"
+                @click.prevent.stop="cancelFollow(user)"
+              >
                 <h5>正在跟隨</h5>
               </button>
-              <button v-else class="btn btn-addfollow">
+              <button
+                v-else
+                class="btn btn-addfollow"
+                @click.prevent.stop="addFollow(user)"
+              >
                 <h5>跟隨</h5>
               </button>
             </div>
@@ -227,6 +235,12 @@ export default {
   methods: {
     fetchUser() {
       this.users = dummyUsers;
+    },
+    cancelFollow(user) {
+      user.isFollowed = false;
+    },
+    addFollow(user) {
+      user.isFollowed = true;
     },
   },
 
