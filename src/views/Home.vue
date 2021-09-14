@@ -8,6 +8,7 @@
       <div>
         <!--middle of home-->
         <MiddleOfHome />
+        
       </div>
       <div class="popular">
         <!--popular-->
@@ -21,9 +22,8 @@
 import NavBars from "./../components/NavBars";
 import MiddleOfHome from "./../components/MiddleOfHome";
 import Popular from "./../components/Popular";
+
 // @ is an alias to /src
-
-
 
 export default {
   name: "Home",
@@ -88,7 +88,6 @@ export default {
       z-index: 6;
       padding-left: 1em;
       margin: 0 0 0 0;
-     
     }
 
     .nav-top,
@@ -115,7 +114,7 @@ export default {
       }
       .nav-icon {
         width: 50px;
-        height:50px;
+        height: 50px;
         margin: 0 30% 0 20%;
         transform: translate(0, -1px);
       }
@@ -130,8 +129,7 @@ export default {
         top: 3em;
         width: 100%;
         background-color: $color-orange;
-        color:white;
-  
+        color: white;
       }
       .user-post-panel {
         margin-top: 7em;

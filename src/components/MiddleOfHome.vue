@@ -50,16 +50,17 @@
                 {{ tweet.User.account }}·{{ tweet.createdAt | fromNow }}
               </p>
             </div>
-            <p class="tweet-detail-text">
-              {{ tweet.description }}
-            </p>
+            <router-link
+              :to="{ name: 'Reply-list', params: { id: tweet.TweetId } }"
+            >
+              <p class="tweet-detail-text">
+                {{ tweet.description }}
+              </p>
+            </router-link>
             <div class="tweet-detail-icon d-flex">
               <div class="reply-part d-flex">
-                <router-link
-                  :to="{ name: 'Reply-list', params: { id: tweet.TweetId } }"
-                >
-                  <IconLiked />
-                </router-link>
+                
+                <IconLiked />
                 <div class="icon-text">{{ tweet.RepliesCount }}</div>
               </div>
 
@@ -191,7 +192,7 @@ export default {
   data() {
     return {
       tweets: [],
-      tweetText:""
+      tweetText: "",
     };
   },
 
@@ -201,14 +202,11 @@ export default {
     },
 
     addHeart(tweet) {
-      tweet.isLike = !tweet.isLike
+      tweet.isLike = !tweet.isLike;
     },
 
     handleSubmit() {
-      this.tweets.unshift({
-
-      })
-
+      this.tweets.unshift({});
     },
   },
 
@@ -264,33 +262,32 @@ export default {
         margin-left: 10px;
         margin-top: 20px;
         .post-input {
-          padding-right:1em ;
+          padding-right: 1em;
           font-size: 18px;
           flex: 1;
           width: 100%;
           height: 100%;
-           resize : none;
+          resize: none;
           //height: 4em;
-          border:none;
-          word-break:break-all;
+          border: none;
+          word-break: break-all;
         }
       }
     }
     .bottom-part {
       text-align: right;
       .input-error {
-        color:#FC5A5A;
+        color: #fc5a5a;
         font-size: 15px;
       }
       .tweet-button {
         @extend %main-button;
         font-size: 18px;
-        margin: 0px 10px 0 20px; 
-         &:disabled {
-        opacity:0.6;
-      }  
+        margin: 0px 10px 0 20px;
+        &:disabled {
+          opacity: 0.6;
+        }
       }
-     
     }
   }
   .tweets-part {
@@ -304,15 +301,18 @@ export default {
       .tweet-detail {
         h5 {
           color: $color-black;
-            &:hover {
-              color: $color-orange;
-            }
+          &:hover {
+            color: $color-orange;
+          }
         }
 
         .post-time {
           font-size: 15px;
           margin-left: 5px;
           color: $color-gray;
+        }
+        .tweet-detail-text {
+          color: $color-black;
         }
         &-text {
           display: -webkit-box;
