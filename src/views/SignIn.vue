@@ -21,7 +21,9 @@
       </div>
 
       <div class="input-style mb-2">
-        <label class="signin-label" for="password">密碼</label>
+        <label class="signin-label" for="password" 
+          >密碼</label
+        >
         <input
           v-model="password"
           class="signin-input"
@@ -31,7 +33,23 @@
           required
         />
       </div>
-      <button type="submit" class="signin-btn mb-3">登入</button>
+      <button
+        v-if="isProcessing"
+        type="submit"
+        class="signin-btn mb-3"
+        @click.stop.prevent="handleSubmit"
+        disabled
+      >
+        驗證中 ...
+      </button>
+      <button
+        v-else
+        type="submit"
+        class="signin-btn mb-3"
+        @click.stop.prevent="handleSubmit"
+      >
+        登入
+      </button>
       <div class="links">
         <p>
           <router-link class="signin-links" to="/signup"
@@ -47,19 +65,66 @@
 
 <script>
 import AcLogo from "../components/icons/AcLogo.vue";
+import authorizationAPI from "./../apis/authorization";
+import { Toast } from "./../utils/helpers";
+
 export default {
   components: {
     AcLogo,
   },
   data() {
     return {
-      account: '',
-      password: ''
-    }
-  }
+      account: "",
+      password: "",
+      isProcessing: false,
+    };
+  },
+  methods: {
+    async handleSubmit() {
+      try {
+        if (!this.account || !this.password) {
+          Toast.fire({
+            icon: "warning",
+            title: "請填入 帳號 和 密碼",
+          });
+          return;
+        }
+        this.isProcessing = true;
+        const response = await authorizationAPI.signIn({
+          account: this.account,
+          password: this.password,
+        });
+        const { data } = response;
+        console.log(data)
+
+        if (data.status !== "success") {
+          throw new Error(data.message);
+        }
+
+        localStorage.setItem("token", data.token);
+        console.log(data.token)
+        this.$router.push('/twitter/Home')
+      } catch (error) {
+        console.log(error)
+        this.password = "";
+        this.isProcessing = false;
+
+        Toast.fire({
+          icon: "warning",
+          title: "請確認您輸入了正確的帳號密碼",
+        });
+      }
+    },
+  },
 };
 </script>
 
+
+
+
+
+
+<!--樣式分隔線-->
 <style lang="scss">
 .signin-container {
   padding-top: 4rem;
@@ -90,6 +155,9 @@ export default {
     font-weight: 700;
     background-color: #ff6600;
     border-radius: 50px;
+    &:disabled {
+      opacity: 0.6;
+    }
   }
   .links {
     display: flex;
