@@ -23,6 +23,8 @@ import MiddleOfHome from "./../components/MiddleOfHome";
 import Popular from "./../components/Popular";
 // @ is an alias to /src
 
+
+
 export default {
   name: "Home",
   components: {
@@ -49,24 +51,18 @@ export default {
 }
 
 //嘗試rwd
-@media screen and (max-width: 1200px) {
-  .home-content {
-    height: 100vh;
-    h5 {
-      font-size: 10px;
-    }
-  }
-}
 
-@media screen and (max-width: 992px) {
-  .middle-container {
-    h4 {
-      width: 30em;
+@media screen and (max-width: 1022px) {
+  .home-content {
+    .middle-container {
+      h4 {
+        width: 30em;
+      }
     }
-  }
-  .popular {
-    .btn {
-      display: none;
+    .popular {
+      .btn {
+        display: none;
+      }
     }
   }
 }
@@ -74,35 +70,38 @@ export default {
 @media screen and (max-width: 768px) {
   .home-content {
     height: 100%;
+    h5 {
+      font-size: 15px;
+    }
     .home {
       grid-template-columns: 1fr;
-       grid-template-rows: 5fr 20fr;
+      grid-template-rows: 5fr 20fr;
     }
-    .nav{
-        border-bottom: 1px solid #e6ecf0;
+    .nav {
+      border-bottom: 1px solid #e6ecf0;
       height: 60px;
-     flex-direction: row;
-     position: fixed;
-     width: 100vw;
-     background-color: white;
-     top:0;
-     z-index: 6;
-     padding-left: 1em;
-     margin: 0 0 0 0;
-     ;
+      flex-direction: row;
+      position: fixed;
+      width: 100vw;
+      background-color: white;
+      top: 0;
+      z-index: 6;
+      padding-left: 1em;
+      margin: 0 0 0 0;
+     
     }
 
-    
-    .nav-top,.logout {
+    .nav-top,
+    .logout {
       display: flex;
-      flex-direction: row;;
+      flex-direction: row;
       .navigation {
         margin: 0 0 0 20px;
         display: flex;
       }
 
       .ac-logo {
-        transform: translate(0, 3px);
+        transform: translate(0, 6px);
       }
       .nav-link {
         width: 100%;
@@ -115,12 +114,11 @@ export default {
         }
       }
       .nav-icon {
-        width: 30px;
-        height: 30px;
-        margin:0px 10px 0px 0px;
-         transform: translate(0, -1px);
+        width: 50px;
+        height:50px;
+        margin: 0 30% 0 20%;
+        transform: translate(0, -1px);
       }
-
     }
 
     .middle-container {
@@ -129,12 +127,15 @@ export default {
       margin-left: 0px;
       margin-right: 0px;
       h4 {
-        display:none;
+        top: 3em;
+        width: 100%;
+        background-color: $color-orange;
+        color:white;
+  
       }
       .user-post-panel {
-        margin-top: 4em;
+        margin-top: 7em;
       }
-
     }
 
     .popular {
