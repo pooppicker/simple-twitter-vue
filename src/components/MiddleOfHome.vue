@@ -11,17 +11,21 @@
           />
           <div class="input-post">
             <label class="post-label" for="post-input"></label>
-            <input
-              name="tweet"
+            <textarea
+              name="text"
+              row="4"
               type="text"
               class="post-input"
+               maxLength="140"
               autofocus
               required
               placeholder="有什麼新鮮事?"
+              v-model="tweetText"
             />
           </div>
         </div>
         <div class="bottom-part">
+          <span v-if="tweetText.length===140" class="input-error">字數不可超過140字</span>
           <button class="tweet-button">推文</button>
         </div>
       </div>
@@ -186,6 +190,7 @@ export default {
   data() {
     return {
       tweets: [],
+      tweetText:""
     };
   },
 
@@ -232,12 +237,15 @@ export default {
   }
 
   .user-post-panel {
+    display: relative;
+    padding-bottom: 10px;
     margin-top: 3.2em;
-    height: 120px;
+    height: 130px;
     border-bottom: solid #e6ecf0 10px;
     justify-content: space-between;
     z-index: 4;
     .top-part {
+      height: 100%;
       .current-user-imag {
         margin-top: 9px;
         margin-left: 15px;
@@ -251,16 +259,25 @@ export default {
           font-size: 18px;
           flex: 1;
           width: 100%;
+          height: 100%;
+           resize : none;
+          //height: 4em;
+          border:none;
+          word-break:break-all;
         }
       }
     }
     .bottom-part {
       text-align: right;
+      .input-error {
+        color:#FC5A5A;
+        font-size: 15px;
+      }
       .tweet-button {
         @extend %main-button;
         font-size: 18px;
-        margin-right: 10px;
-        margin-bottom: 10px;
+        margin: 0px 10px 0 20px;
+        
       }
     }
   }
