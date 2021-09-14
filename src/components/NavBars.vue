@@ -34,9 +34,10 @@
             </router-link>
           </li>
         </ul>
-        <button class="post-button">
+        <button class="post-button" @click="handleOpenModal">
           <h4>推文</h4>
         </button>
+        <CreatePostModal v-if="openModal" :onClose="handleCloseModal" />
       </div>
     </div>
     <!--登出區塊-->
@@ -59,7 +60,7 @@ import IconLogout from "./icons/IconLogout";
 import IconHome from "./icons/IconHome";
 import IconSetting from "./icons/IconSetting";
 import IconUser from "./icons/IconUser";
-
+import CreatePostModal from "./modal/CreatPostModal.vue"
 
 const dummtCurretUser = {
   id: 15,
@@ -84,13 +85,23 @@ export default {
     IconHome,
     IconSetting,
     IconUser,
+    CreatePostModal
   },
 
   data() {
     return {
       curretUser: dummtCurretUser,
+      openModal: false,
     };
   },
+  methods: {
+    handleOpenModal() {
+      this.openModal = true;
+    },
+    handleCloseModal() {
+      this.openModal = false;
+    },
+  }
 };
 </script>
 
