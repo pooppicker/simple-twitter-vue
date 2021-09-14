@@ -1,7 +1,7 @@
 <template>
-  <div id="modal-overlay">
-    <div id="modal-container">
-      <div id="modal">
+  <div class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal">
         <form>
           <slot name="head">
             <div class="create-title-area">
@@ -62,7 +62,7 @@ export default {
 </script>
 
 <style lang="scss">
-#modal-overlay {
+.modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -71,14 +71,14 @@ export default {
   background-color: rgba(0, 0, 0, 0.4);
   z-index: 9999;
 }
-#modal-container {
+.modal-container {
   position: relative;
   display: grid;
   place-items: start center;
   width: 100%;
   height: 100%;
 }
-#modal {
+.modal {
   padding: 14px 0;
   background-color: #fff;
   border-radius: 14px;
