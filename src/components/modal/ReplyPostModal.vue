@@ -12,6 +12,29 @@
             </div>
           </slot>
           <slot name="body">
+            <div class="single-reply-area">
+              <div class="img-create-area">
+                <img
+                  class="create-user-avatar"
+                  src="https://source.unsplash.com/1600x1200/?man/?random=40.46792589859454"
+                />
+                <div class="vl"></div>
+              </div>
+              <div class="single-reply-info">
+                <div class="single-name-account">
+                  <h5 >Apple</h5>
+                  <span>@apple・3 小時</span>
+                </div>
+                <div class="para">
+                  <p>
+                    Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis
+                    ullamco cillum dolor. Voluptate exercitation incididunt
+                    aliquip deserunt reprehenderit elit laborum.
+                  </p>
+                  <span class="reply-to">回覆給 </span><span class="reply-to orange">@apple</span>
+                </div>
+              </div>
+            </div>
             <div class="create-tweet-area">
               <div class="img-create-area">
                 <img
@@ -29,14 +52,14 @@
                   maxLength="140"
                   autofocus
                   required
-                  placeholder="有什麼新鮮事?"
+                  placeholder="推你的回覆"
                 />
               </div>
             </div>
           </slot>
           <slot name="footer">
             <div class="create-tweet-btn">
-              <button class="click-to-create" type="submit">推文</button>
+              <button class="click-to-create" type="submit">回覆</button>
             </div>
           </slot>
         </form>
@@ -95,6 +118,60 @@ export default {
     cursor: pointer;
   }
 }
+.single-reply-area {
+  width: 100%;
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  // outline: 1px solid black;
+  padding: 0.5rem 1rem;
+  .create-user-avatar {
+    margin-top: .2rem;
+    margin-bottom: 0.5rem;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .vl {
+    margin-left: 1.5rem;
+    height: 80px;
+    border-left: 2px solid #ccd6dd;
+  }
+}
+.single-reply-info {
+  margin-left: 1rem;
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+  .single-name-account {
+    margin-bottom: .5rem;
+    // outline: 1px solid black;
+    display: flex;
+    h5 {
+      font-weight: 700;
+    }
+    span {
+      padding-left: .2rem;
+      font-size: 15px;
+      color: #657786;
+    }
+  }
+  .para {
+    p {
+      margin-bottom: .5rem;
+      font-size: 16px;
+      color: #1C1C1C;
+    }
+    .reply-to {
+      color: #657786;
+      font-size: 14px;
+    }
+    .orange {
+      color: #ff6600;
+    }
+  }
+}
 .create-tweet-area {
   width: 100%;
   display: flex;
@@ -113,8 +190,8 @@ export default {
     height: 150px;
     font-size: 18px;
     resize: none;
-    margin-top: .7rem;
-    margin-left: .7rem;
+    margin-top: 0.7rem;
+    margin-left: 0.7rem;
     // outline: 1px solid black;
   }
 }
@@ -125,9 +202,9 @@ export default {
   .click-to-create {
     width: 66px;
     height: 38px;
-    background: #FF6600;
+    background: #ff6600;
     border-radius: 100px;
-    color: #FFFFFF;
+    color: #ffffff;
     font-size: 18px;
     margin-right: 0.7rem;
   }
