@@ -25,7 +25,7 @@
                   <h5 >Apple</h5>
                   <span>@apple・3 小時</span>
                 </div>
-                <div class="para">
+                <div class="paragraph">
                   <p>
                     Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis
                     ullamco cillum dolor. Voluptate exercitation incididunt
@@ -157,7 +157,7 @@ export default {
       color: #657786;
     }
   }
-  .para {
+  .paragraph {
     p {
       margin-bottom: .5rem;
       font-size: 16px;

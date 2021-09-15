@@ -37,9 +37,13 @@
       </div>
       <!-- icons -->
       <div class="icons-area">
-        <IconReply class="ic" />
+        <div @click="handleOpenModal">
+          <IconReply class="ic"/>
+        </div>
         <IconHeartEmpty class="ic ic-right" />
       </div>
+      <!-- Modal -->
+      
       <!-- Down Part -->
       <div class="user-replylist-area">
         <div v-for="tweet in tweets" :key="tweet.id">
@@ -70,6 +74,7 @@
           <hr />
         </div>
         <!--v-for結束-->
+        <ReplyPostModal v-if="openModal" :onClose="handleCloseModal" />
       </div>
     </div>
   </div>
@@ -80,6 +85,7 @@ import LeftArrow from "./../components/icons/IconBack.vue";
 import IconReply from "./../components/icons/IconReply.vue";
 import IconHeartEmpty from "./../components/icons/IconHeartEmpty.vue";
 import { fromNowFilter } from "./../utils/mixins";
+import ReplyPostModal from "./modal/ReplyPostModal.vue";
 
 const dummyTweets = [
   {
@@ -202,16 +208,24 @@ export default {
     LeftArrow,
     IconReply,
     IconHeartEmpty,
+    ReplyPostModal,
   },
   data() {
     return {
       tweets: [],
+      openModal: false,
     };
   },
 
   methods: {
     fetchTweets() {
       this.tweets = dummyTweets;
+    },
+    handleOpenModal() {
+      this.openModal = true;
+    },
+    handleCloseModal() {
+      this.openModal = false;
     },
   },
 
@@ -309,6 +323,7 @@ export default {
       .ic {
         width: 28px;
         height: 28px;
+        cursor: pointer;
       }
       .ic-right {
         margin-left: 10rem;
@@ -322,7 +337,7 @@ export default {
   // outline: 1px solid black;
   .tweet-card {
     margin-left: 15px;
-    padding: .2rem 0;
+    padding: 0.2rem 0;
     .user-self-img {
       @extend %avatar-size;
       border-radius: 50%;
