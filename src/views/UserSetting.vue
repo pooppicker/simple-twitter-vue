@@ -77,7 +77,6 @@
 <script>
 import NavBars from "./../components/NavBars.vue";
 
-
 export default {
   components: {
     NavBars,
@@ -101,11 +100,12 @@ export default {
     grid-area: sets;
     border-left: 1px solid #e6ecf0;
     margin-left: 1.3%;
+    overflow: scroll;
     h4 {
       // outline: 1px solid black;
       border-bottom: 1px solid #e6ecf0;
       font-size: 19px;
-      padding: .7rem;
+      padding: 0.7rem;
     }
     .set-input {
       @extend %input-bottom;
@@ -141,5 +141,36 @@ export default {
     }
   }
 }
-@import "../assets/scss/efficientSetting.scss";
+//手機板
+@media screen and (max-width: 768px) {
+  .setting-content {
+    .setting {
+      grid-template-columns: 0fr 1fr 0fr;
+    }
+    .setting-container {
+      border-left: none;
+      margin-left: 0;
+    }
+    .setting-container {
+      h4 {
+        // outline: 1px solid black;
+        margin-top: 3em;
+        width: 100vw;
+        background-color: $color-orange;
+        border-bottom: 1px solid #e6ecf0;
+        font-size: 19px;
+        padding: 0.7rem;
+        color: white;
+      }
+      .set-input {
+        width: 100%;
+        margin: 1rem 0 1rem 0rem;
+      }
+      .set-btn {
+        min-width: 100%;
+        padding-right: 1em;
+      }
+    }
+  }
+}
 </style>

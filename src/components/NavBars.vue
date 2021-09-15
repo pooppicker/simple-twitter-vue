@@ -1,5 +1,5 @@
 <template>
-  <nav class="d-flex flex-column nav">
+  <nav class="d-flex  nav">
     <div class="nav-top">
       <!--logo區塊-->
       <div class="logo-part">
@@ -60,7 +60,7 @@ import IconLogout from "./icons/IconLogout";
 import IconHome from "./icons/IconHome";
 import IconSetting from "./icons/IconSetting";
 import IconUser from "./icons/IconUser";
-import CreatePostModal from "./modal/CreatPostModal.vue"
+import CreatePostModal from "./modal/CreatPostModal.vue";
 
 const dummtCurretUser = {
   id: 15,
@@ -85,7 +85,7 @@ export default {
     IconHome,
     IconSetting,
     IconUser,
-    CreatePostModal
+    CreatePostModal,
   },
 
   data() {
@@ -101,7 +101,7 @@ export default {
     handleCloseModal() {
       this.openModal = false;
     },
-  }
+  },
 };
 </script>
 
@@ -113,6 +113,7 @@ export default {
 
 .nav {
   //outline: black 2px solid;
+  flex-direction: column;
   height: 100%;
   padding-top: 14px;
   margin-left: 20px;
@@ -170,12 +171,70 @@ export default {
       }
     }
   }
-  //下方區域目前沒樣式
 
-  //電腦版
-  @media screen and (min-width: 576px) {
-    .nav {
-      height: 100vh;
+ 
+}
+ //手機版
+@media screen and (max-width: 768px) {
+  .nav {
+    border-bottom: 1px solid #e6ecf0;
+    height: 60px;
+    flex-direction: row;
+    position: fixed;
+    width: 100vw;
+    background-color: white;
+    top: 0;
+    z-index: 6;
+    padding-left: 1em;
+    margin: 0 0 0 0;
+    justify-content: stretch;
+    .nav-top,
+    .logout {
+
+      display: flex;
+      flex-direction: row;
+      .navigation {
+        margin: 0 0 0 20px;
+        display: flex;
+      }
+
+      .ac-logo {
+        transform: translate(0, 6px);
+      }
+      .nav-link {
+        width: 100%;
+        margin: 0px 0px 0px 0px;
+      }
+      ul {
+        display: flex;
+        h4 {
+          display: none;
+        }
+      }
+      .nav-icon {
+        width: 50px;
+        height: 50px;
+        margin: 0 30% 0 20%;
+        transform: translate(0, -1px);
+      }
+    }
+    .nav-top{
+      flex:1;
+      .navigation {
+        width: 100%;
+        justify-content: space-between;
+        .post-button{
+                      background-color: rgba(0, 0, 0, 0);
+            border: solid 1px $color-orange;
+            color: $color-orange;
+  
+       width: 20%;
+       h4{
+         font-size: 13px;
+       }
+        }
+          
+      }
     }
   }
 }
