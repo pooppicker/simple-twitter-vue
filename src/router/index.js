@@ -9,8 +9,8 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    name: "Home",
-    redirect:"/twitter/Home"
+    name: "",
+    redirect:"/signin"
   },
   {
     path: "/twitter/Home",
