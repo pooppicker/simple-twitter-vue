@@ -58,12 +58,12 @@
               </p>
             </router-link>
             <div class="tweet-detail-icon d-flex">
-              <div class="reply-part d-flex">
+              <div class="reply-part d-flex" @click="handleOpenModal">
                 
                 <IconLiked />
                 <div class="icon-text">{{ tweet.RepliesCount }}</div>
               </div>
-
+              
               <div class="liked-part d-flex">
                 <div @click.stop.prevent="addHeart(tweet)">
                   <IconHeartFilled v-if="tweet.isLike" />
@@ -80,6 +80,7 @@
       </div>
       <!--v-for結束-->
     </div>
+    <ReplyPostModal v-if="openModal" :onClose="handleCloseModal" />
   </div>
 </template>
 
@@ -88,6 +89,7 @@ import IconLiked from "./icons/IconLike";
 import IconHeartFilled from "./icons/IconHeartFilled";
 import IconHeartEmpty from "./icons/IconHeartEmpty";
 import { fromNowFilter } from "./../utils/mixins";
+import ReplyPostModal from "./modal/ReplyPostModal.vue";
 
 const dummyTweets = [
   {
@@ -188,11 +190,13 @@ export default {
     IconLiked,
     IconHeartFilled,
     IconHeartEmpty,
+    ReplyPostModal
   },
   data() {
     return {
       tweets: [],
       tweetText: "",
+      openModal: false,
     };
   },
 
@@ -207,6 +211,12 @@ export default {
 
     handleSubmit() {
       this.tweets.unshift({});
+    },
+    handleOpenModal() {
+      this.openModal = true;
+    },
+    handleCloseModal() {
+      this.openModal = false;
     },
   },
 

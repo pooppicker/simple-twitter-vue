@@ -19,12 +19,15 @@
             {{ tweet.description }}
           </p>
           <div class="tweet-detail-icon d-flex">
-            <div class="reply-part d-flex">
+            <div class="reply-part d-flex" @click="handleOpenModal">
               <IconReply />
               <div class="icon-text">{{ tweet.RepliesCount }}</div>
             </div>
             <div class="liked-part d-flex">
-              <IconHeartEmpty />
+              <div @click.stop.prevent="addHeart(tweet)">
+                <IconHeartFilled v-if="tweet.isLike" />
+                <IconHeartEmpty v-else />
+              </div>
               <div class="icon-text">{{ tweet.LikesCount }}</div>
             </div>
           </div>
@@ -33,13 +36,16 @@
       <hr />
     </div>
     <!--v-for結束-->
+    <ReplyPostModal v-if="openModal" :onClose="handleCloseModal" />
   </div>
 </template>
 
 <script>
-import IconReply from "./icons/IconReply";
-import IconHeartEmpty from "./icons/IconHeartEmpty";
+import IconReply from "./icons/IconReply.vue";
+import IconHeartFilled from "./icons/IconHeartFilled.vue"
+import IconHeartEmpty from "./icons/IconHeartEmpty.vue";
 import { fromNowFilter } from "./../utils/mixins";
+import ReplyPostModal from "./modal/ReplyPostModal.vue";
 
 const dummyTweets = [
   {
@@ -53,7 +59,8 @@ const dummyTweets = [
     User: {
       id: 2,
       name: "John Doe",
-      avatar: "https://source.unsplash.com/1600x1200/?man/?random=38.46792589859454",
+      avatar:
+        "https://source.unsplash.com/1600x1200/?man/?random=38.46792589859454",
       account: "@heyjohn",
     },
   },
@@ -68,7 +75,8 @@ const dummyTweets = [
     User: {
       id: 2,
       name: "user1",
-      avatar: "https://source.unsplash.com/1600x1200/?man/?random=38.46792589859454",
+      avatar:
+        "https://source.unsplash.com/1600x1200/?man/?random=38.46792589859454",
       account: "@user1",
     },
   },
@@ -83,7 +91,8 @@ const dummyTweets = [
     User: {
       id: 2,
       name: "user1",
-      avatar: "https://source.unsplash.com/1600x1200/?man/?random=38.46792589859454",
+      avatar:
+        "https://source.unsplash.com/1600x1200/?man/?random=38.46792589859454",
       account: "@user1",
     },
   },
@@ -98,7 +107,8 @@ const dummyTweets = [
     User: {
       id: 2,
       name: "John Doe",
-      avatar: "https://source.unsplash.com/1600x1200/?man/?random=38.46792589859454",
+      avatar:
+        "https://source.unsplash.com/1600x1200/?man/?random=38.46792589859454",
       account: "@heyjohn",
     },
   },
@@ -113,7 +123,8 @@ const dummyTweets = [
     User: {
       id: 2,
       name: "John Doe",
-      avatar: "https://source.unsplash.com/1600x1200/?man/?random=38.46792589859454",
+      avatar:
+        "https://source.unsplash.com/1600x1200/?man/?random=38.46792589859454",
       account: "@heyjohn",
     },
   },
@@ -124,16 +135,28 @@ export default {
   components: {
     IconReply,
     IconHeartEmpty,
+    ReplyPostModal,
+    IconHeartFilled
   },
   data() {
     return {
       tweets: [],
+      openModal: false,
     };
   },
 
   methods: {
     fetchTweets() {
       this.tweets = dummyTweets;
+    },
+    addHeart(tweet) {
+      tweet.isLike = !tweet.isLike;
+    },
+    handleOpenModal() {
+      this.openModal = true;
+    },
+    handleCloseModal() {
+      this.openModal = false;
     },
   },
 
@@ -180,6 +203,9 @@ export default {
         margin-top: 14px;
         .reply-part {
           margin-right: 51px;
+        }
+        &:hover {
+          cursor: pointer;
         }
       }
       .icon-text {

@@ -12,7 +12,7 @@
           </div>
           <div class="user-title">
             <h4 class="user-profile-name">{{ profile.name }}</h4>
-            <span class="span-setting">25 推文</span>
+            <span class="span-setting">{{ profile.TweetsCount }} 推文</span>
           </div>
           <hr />
         </div>
@@ -24,6 +24,7 @@
         <!-- Buttons -->
         <div class="edit-area">
           <button
+            v-if="!isCurrentUser"
             id="show-modal"
             @click="handleOpenModal"
             type="submit"
@@ -31,9 +32,12 @@
           >
             編輯個人資料
           </button>
-          <template v-if="false">
+          <template v-else>
             <IconMsg class="other-user-btn" />
-            <IconNotify v-if="true" class="other-user-btn" />
+            <IconNotify
+              v-if="true"
+              class="other-user-btn"
+            />
             <IconNotified v-else class="other-user-btn" />
             <IconFollowing class="other-user-btn" />
           </template>
@@ -54,12 +58,14 @@
             <router-link
               :to="{ name: 'User-following', params: { id: profile.id } }"
               class="user-follows"
-              ><strong>34 個</strong>跟隨中</router-link
+              ><strong>{{ profile.FollowingCount }} 個</strong
+              >跟隨中</router-link
             >
             <router-link
               :to="{ name: 'User-follower', params: { id: profile.id } }"
               class="user-followers"
-              ><strong>59 位</strong>跟隨者</router-link
+              ><strong>{{ profile.FollowersCount }} 位</strong
+              >跟隨者</router-link
             >
           </div>
         </div>
@@ -120,8 +126,11 @@ const dummyData = {
       "https://source.unsplash.com/1600x900/?nature/?random=79.00129583279121",
     createdAt: "2021-07-04T17:03:01.000Z",
     updatedAt: "2021-07-04T17:03:01.000Z",
+    TweetsCount: 10,
+    FollowersCount: 0,
+    FollowingCount: 5,
+    isCurrentUser: true,
   },
-  isAdmin: true,
 };
 
 export default {
@@ -144,6 +153,9 @@ export default {
         introduction: "",
         account: "",
         cover: "",
+        TweetsCount: "",
+        FollowersCount: "",
+        FollowingCount: "",
       },
       openModal: false,
     };
@@ -154,8 +166,17 @@ export default {
   },
   methods: {
     fetchUser() {
-      const { id, name, avatar, introduction, account, cover } =
-        dummyData.profile;
+      const {
+        id,
+        name,
+        avatar,
+        introduction,
+        account,
+        cover,
+        TweetsCount,
+        FollowersCount,
+        FollowingCount,
+      } = dummyData.profile;
       this.profile = {
         ...this.profile,
         id,
@@ -164,6 +185,9 @@ export default {
         introduction,
         account,
         cover,
+        TweetsCount,
+        FollowersCount,
+        FollowingCount,
       };
     },
     previousPage() {
@@ -357,25 +381,26 @@ export default {
       grid-template-columns: 0fr 1fr 0fr;
     }
   }
-  .user-top{
+  .user-top {
     margin-left: 0%;
     .cover-area {
-    margin-top: 6em}
-  .title-area {
-    top: 3.7em;
-    width: 100%;
-    background-color: $color-orange;
-    color: white;
-    position: fixed;
-    z-index: 3;
-    width: 100%;
-    padding: 0.7rem;
-    .user-title {
-      display: block;
-      margin-left: 2rem;
-      line-height: 1;
+      margin-top: 6em;
     }
-  }
+    .title-area {
+      top: 3.7em;
+      width: 100%;
+      background-color: $color-orange;
+      color: white;
+      position: fixed;
+      z-index: 3;
+      width: 100%;
+      padding: 0.7rem;
+      .user-title {
+        display: block;
+        margin-left: 2rem;
+        line-height: 1;
+      }
+    }
   }
 }
 </style>
