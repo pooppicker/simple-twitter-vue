@@ -162,20 +162,21 @@ $spacers: (
 
 %avatar-size {
   border-radius: 100%;
-  object-fit:cover;
+  object-fit: cover;
   height: 50px;
   width: 50px;
 }
 
 %views-grid {
-    display: grid;
-    grid-template-columns: 5fr 13fr 7.5fr;
-    grid-gap: 1fr;
-    height: 100%;
-    max-width: 1440px;
-    background-color: white;
-    margin: 0 auto;
+  display: grid;
+  grid-template-columns: 5fr 13fr 7.5fr;
+  grid-gap: 1fr;
+  height: 100%;
+  max-width: 1440px;
+  background-color: white;
+  margin: 0 auto;
 }
+
 
 .go-back {
   cursor: pointer;

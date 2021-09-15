@@ -8,7 +8,6 @@
       <div>
         <!--middle of home-->
         <MiddleOfHome />
-        
       </div>
       <div class="popular">
         <!--popular-->
@@ -59,11 +58,11 @@ export default {
         width: 30em;
       }
     }
-    .popular {
+   /* .popular {
       .btn {
         display: none;
       }
-    }
+    }*/
   }
 }
 
@@ -77,7 +76,8 @@ export default {
       grid-template-columns: 1fr;
       grid-template-rows: 5fr 20fr;
     }
-    .nav {
+
+   /* .nav {
       border-bottom: 1px solid #e6ecf0;
       height: 60px;
       flex-direction: row;
@@ -88,37 +88,38 @@ export default {
       z-index: 6;
       padding-left: 1em;
       margin: 0 0 0 0;
-    }
-
-    .nav-top,
-    .logout {
-      display: flex;
-      flex-direction: row;
-      .navigation {
-        margin: 0 0 0 20px;
+      .nav-top,
+      .logout {
         display: flex;
-      }
+        flex-direction: row;
+        .navigation {
+          margin: 0 0 0 20px;
+          display: flex;
+        }
 
-      .ac-logo {
-        transform: translate(0, 6px);
-      }
-      .nav-link {
-        width: 100%;
-        margin: 0px 0px 0px 0px;
-      }
-      ul {
-        display: flex;
-        h4 {
-          display: none;
+        .ac-logo {
+          transform: translate(0, 6px);
+        }
+        .nav-link {
+          width: 100%;
+          margin: 0px 0px 0px 0px;
+        }
+        ul {
+          display: flex;
+          h4 {
+            display: none;
+          }
+        }
+        .nav-icon {
+          width: 50px;
+          height: 50px;
+          margin: 0 30% 0 20%;
+          transform: translate(0, -1px);
         }
       }
-      .nav-icon {
-        width: 50px;
-        height: 50px;
-        margin: 0 30% 0 20%;
-        transform: translate(0, -1px);
-      }
-    }
+    } 
+    */
+
 
     .middle-container {
       width: 100%;
@@ -135,10 +136,11 @@ export default {
         margin-top: 7em;
       }
     }
+   
 
-    .popular {
+    /*.popular {
       display: none;
-    }
+    }*/
   }
 }
 </style>

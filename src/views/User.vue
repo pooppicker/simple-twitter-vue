@@ -340,14 +340,6 @@ export default {
       }
     }
   }
-
-  //電腦版
-  @media screen and (min-width: 576px) {
-    .middle-container {
-      //outline: black 2px solid;
-      height: 100vh;
-    }
-  }
 }
 .user-profile-name {
   font-size: 19px;
@@ -356,5 +348,34 @@ export default {
 .span-setting {
   font-size: 13px;
   color: $color-gray;
+}
+
+//手機板
+@media screen and (max-width: 768px) {
+  .user-container {
+    .user-content {
+      grid-template-columns: 0fr 1fr 0fr;
+    }
+  }
+  .user-top{
+    margin-left: 0%;
+    .cover-area {
+    margin-top: 6em}
+  .title-area {
+    top: 3.7em;
+    width: 100%;
+    background-color: $color-orange;
+    color: white;
+    position: fixed;
+    z-index: 3;
+    width: 100%;
+    padding: 0.7rem;
+    .user-title {
+      display: block;
+      margin-left: 2rem;
+      line-height: 1;
+    }
+  }
+  }
 }
 </style>

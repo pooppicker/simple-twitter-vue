@@ -56,7 +56,7 @@
   position: relative;
   background-color: white;
   z-index: 5;
-  height: 100%;
+  height: 100vh;
   margin-right: 20px;
   padding-left: 2%;
   padding-top: 14px;
@@ -122,12 +122,19 @@ hr {
   border: none;
 }
 
-//電腦版
-@media screen and (min-width: 576px) {
-  .card {
-    // outline: black 2px solid;
-    height: 100vh;
-  }
+//手機版
+@media screen and (max-width: 1022px) {
+    .card {
+      .btn {
+        display: none;
+      }
+    }
+}
+@media screen and (max-width: 768px) {
+      .card {
+      display: none;
+    }
+
 }
 </style>
 
