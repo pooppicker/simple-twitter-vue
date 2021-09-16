@@ -3,8 +3,11 @@
     <!--上方使用者輸入區-->
     <h4>首頁</h4>
     <div class="user-post-part">
-      <form class="user-post-panel d-flex flex-column">
-        <div class="top-part d-flex" @submit.stop.prevent="handleSubmit">
+      <form
+        class="user-post-panel d-flex flex-column"
+        @submit.stop.prevent="handleSubmit"
+      >
+        <div class="top-part d-flex">
           <img
             class="current-user-imag"
             src="https://image.flaticon.com/icons/png/512/847/847969.png"
@@ -20,20 +23,28 @@
               maxLength="140"
               required
               placeholder="有什麼新鮮事?"
-              v-model="tweetText"
+              v-model="description"
             />
           </div>
         </div>
         <div class="bottom-part">
-          <span v-if="tweetText.length === 140" class="input-error"
+          <span v-if="description.length >= 140" class="input-error"
             >字數不可超過140字</span
           >
           <button
+          v-if="!isProcessing"
             class="tweet-button"
             type="submit"
-            :disabled="tweetText.trim().length === 0"
+            :disabled="description.trim().length === 0 || description.length > 140"
           >
             推文
+          </button>
+          <button
+            class="tweet-button"
+            disabled
+            v-else
+          >
+            推文發送中...
           </button>
         </div>
       </form>
@@ -95,8 +106,7 @@ import IconHeartEmpty from "./icons/IconHeartEmpty";
 import { fromNowFilter } from "./../utils/mixins";
 import ReplyPostModal from "./modal/ReplyPostModal.vue";
 import TweetAPI from "./../apis/tweets";
-import { Toast } from "./../utils/helpers"
-
+import { Toast } from "./../utils/helpers";
 
 export default {
   mixins: [fromNowFilter],
@@ -109,21 +119,21 @@ export default {
   data() {
     return {
       tweets: [],
-      tweetText: "",
+      description: "",
+      isProcessing: false,
       openModal: false,
     };
   },
 
   methods: {
+    //推文載入區
     async fetchTweets() {
       try {
-       const response = await TweetAPI.getTweets()
-        console.log(response.data)
+        const response = await TweetAPI.getTweets();
+        console.log(response.data);
         this.tweets = {
-          ...response.data
-        }
-        console.log('tweets:',this.tweets)
-
+          ...response.data,
+        };
       } catch (error) {
         console.log(error);
         Toast.fire({
@@ -131,16 +141,53 @@ export default {
           title: "貼文載入失敗，請稍後再試",
         });
       }
+    },
 
+    //發文區
+    async handleSubmit() {
+      try {
+        this.isProcessing = true;
+        //空白不能發文
+        if (!this.description) {
+          Toast.fire({
+            icon: "warning",
+            title: "推文內容不得為空白",
+          });
+          this.isProcessing = false
+          return;
+        }
+         if (this.description.length > 140) {
+          Toast.fire({
+            icon: "warning",
+            title: "推文字數不能超過140字",
+          });
+          this.isProcessing = false
+          return;
+        }
+   
+        const response = await TweetAPI.PostTweet({
+          description: this.description,
+        });
+        console.log("發文功能:", response);
+         Toast.fire({
+            icon: "success",
+            title: "推文發送成功",
+          });
+        this.isProcessing= false
+      } catch (error) {
+        console.log(error);
+        Toast.fire({
+          icon: "error",
+          title: "發送推文失敗，請重試一次",
+        });
+        this.isProcessing= false
+      }
     },
 
     addHeart(tweet) {
       tweet.isLike = !tweet.isLike;
     },
 
-    handleSubmit() {
-      this.tweets.unshift({});
-    },
     handleOpenModal() {
       this.openModal = true;
     },

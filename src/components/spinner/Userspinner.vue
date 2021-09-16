@@ -7,7 +7,7 @@
 
 <style lang="scss">
 .user-spinner-content {
-  padding: 50% 0;
+  padding: 35vh 0;
   width: 100%;
   height: 100%;
   position: absolute;
