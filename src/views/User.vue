@@ -34,7 +34,11 @@
           </button>
           <template v-else>
             <IconMsg class="other-user-btn" />
-            <IconNotify v-if="true" class="other-user-btn" @click.stop.prevent="ChangeNotified" />
+            <IconNotify
+              v-if="true"
+              class="other-user-btn"
+              @click.stop.prevent="ChangeNotified"
+            />
             <IconNotified v-else class="other-user-btn" />
             <IconFollowing class="other-user-btn" />
           </template>
@@ -106,7 +110,7 @@ import IconNotify from "./../components/icons/IconNotify.vue";
 import IconNotified from "./../components/icons/IconNotified.vue";
 import IconFollowing from "./../components/icons/IconFollowing.vue";
 import CreateEditModal from "../components/modal/CreateEditModal.vue";
-import UserAPI from './../apis/users'
+//import UserAPI from "./../apis/users";
 
 const dummyData = {
   profile: {
@@ -159,23 +163,23 @@ export default {
       openModal: false,
     };
   },
+
   created() {
-    const { id } = this.$route.params;
-    this.fetchUser(id);
+    // const { id } = this.$route.params;
+    //const { userID } =11;
+    this.fetchUser();
   },
+
   methods: {
-    async fetchUser(id) {
-      try {
-        const response = await UserAPI.getUser({id}) {
-          console.log(response)
-        }
-
-      } catch(error) {
-        console.log(error)
-      }
-
-
-
+    async fetchUser() {
+      /* try {
+        const response = await UserAPI.getUser({userID});
+        console.log(response);
+ 
+       
+        } catch (error) {
+        console.log(error);
+      }*/
       const {
         id,
         name,
@@ -187,6 +191,7 @@ export default {
         FollowersCount,
         FollowingCount,
       } = dummyData.profile;
+      
       this.profile = {
         ...this.profile,
         id,
@@ -200,7 +205,7 @@ export default {
         FollowingCount,
       };
     },
-    
+
     previousPage() {
       this.$router.back();
     },
@@ -211,9 +216,8 @@ export default {
       this.openModal = false;
     },
     ChangeNotified() {
-      this.profile.isNotified = !this.profile.isNotifiedn
-
-    }
+      this.profile.isNotified = !this.profile.isNotifiedn;
+    },
   },
 };
 </script>
