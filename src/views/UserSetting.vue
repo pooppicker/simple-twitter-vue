@@ -111,6 +111,14 @@ export default {
     const { id } = this.$route.params;
     this.fetchUser(id)
   },
+  watch: {
+    userInfo(newValue) {
+      this.userInfo = {
+        ...this.userInfo,
+        ...newValue
+      }
+    }
+  },
   beforeRouteUpdate(to, next) {
     const { id } = to.params
     this.fetchRestaurant(id)
@@ -139,9 +147,16 @@ export default {
     },
     async handleSubmit(formData) {
       try {
-        const { data } = await UserAPI.update()
+        const { data } = await UserAPI.update({ userId: this.userIfo.id, formData })
+        if(data.status !== 'success') {
+          throw new Error(data.message)
+        }
+        this.$router.push({ name: 'User' })
       } catch (error) {
-        
+        Toast.fire({
+          icon: 'error',
+          title: '無法更新資料，請重試'
+        })
       }
     }
   },
