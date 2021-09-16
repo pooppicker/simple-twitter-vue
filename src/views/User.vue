@@ -164,8 +164,11 @@ export default {
     this.fetchUser(id);
   },
   methods: {
-    async fetchUser() {
+    async fetchUser(id) {
       try {
+        const response = await UserAPI.getUser({id}) {
+          console.log(response)
+        }
 
       } catch(error) {
         console.log(error)
@@ -197,6 +200,7 @@ export default {
         FollowingCount,
       };
     },
+    
     previousPage() {
       this.$router.back();
     },
