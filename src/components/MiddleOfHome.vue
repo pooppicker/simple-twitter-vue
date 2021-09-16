@@ -1,99 +1,99 @@
 <template>
   <div class="container middle-container">
-    <HomerSpinner v-if="pageIsProcessing"/>
+    <HomerSpinner v-if="pageIsProcessing" />
     <!--上方使用者輸入區-->
     <template v-else>
-    <h4 class="middle-h4">首頁</h4>
-    <div class="user-post-part">
-      <form
-        class="user-post-panel d-flex flex-column"
-        @submit.stop.prevent="handleSubmit"
-      >
-        <div class="top-part d-flex">
-          <img
-            class="current-user-imag"
-            src="https://image.flaticon.com/icons/png/512/847/847969.png"
-          />
-
-          <div class="input-post">
-            <label class="post-label" for="post-input"></label>
-            <textarea
-              name="text"
-              row="4"
-              type="text"
-              class="post-input"
-              maxLength="140"
-              required
-              placeholder="有什麼新鮮事?"
-              v-model="description"
+      <h4 class="middle-h4">首頁</h4>
+      <div class="user-post-part">
+        <form
+          class="user-post-panel d-flex flex-column"
+          @submit.stop.prevent="handleSubmit"
+        >
+          <div class="top-part d-flex">
+            <img
+              class="current-user-imag"
+              src="https://image.flaticon.com/icons/png/512/847/847969.png"
             />
-          </div>
-        </div>
-        <div class="bottom-part">
-          <span v-if="description.length >= 140" class="input-error"
-            >字數不可超過140字</span
-          >
-          <button
-            v-if="!isProcessing"
-            class="tweet-button"
-            type="submit"
-            :disabled="
-              description.trim().length === 0 || description.length > 140
-            "
-          >
-            推文
-          </button>
-          <button class="tweet-button" disabled v-else>推文發送中...</button>
-        </div>
-      </form>
-    </div>
-    <!--下方推文區-->
-    <div class="tweets-part">
-      <!--v-for開始-->
-      <div v-for="tweet in tweets" :key="tweet.TweetId">
-        <div class="tweet-card d-flex">
-          <router-link :to="{ name: 'User', params: { id: tweet.User.id } }">
-            <img class="tweet-user-imag" :src="tweet.User.avatar" />
-          </router-link>
-          <div class="tweet-detail">
-            <div class="tweet-detail-title d-flex">
-              <router-link
-                :to="{ name: 'User', params: { id: tweet.User.id } }"
-              >
-                <h5>{{ tweet.User.name }}</h5>
-              </router-link>
-              <p class="post-time">
-                @{{ tweet.User.account }}·{{ tweet.createdAt | fromNow }}
-              </p>
-            </div>
-            <router-link
-              :to="{ name: 'Reply-list', params: { id: tweet.TweetId } }"
-            >
-              <p class="tweet-detail-text">
-                {{ tweet.description }}
-              </p>
-            </router-link>
-            <div class="tweet-detail-icon d-flex">
-              <div class="reply-part d-flex" @click="handleOpenModal">
-                <IconLiked />
-                <div class="icon-text">{{ tweet.RepliesCount }}</div>
-              </div>
 
-              <div class="liked-part d-flex">
-                <div @click.stop.prevent="addHeart(tweet)">
-                  <IconHeartFilled v-if="tweet.isLike" />
-                  <IconHeartEmpty v-else />
+            <div class="input-post">
+              <label class="post-label" for="post-input"></label>
+              <textarea
+                name="text"
+                row="4"
+                type="text"
+                class="post-input"
+                maxLength="140"
+                required
+                placeholder="有什麼新鮮事?"
+                v-model="description"
+              />
+            </div>
+          </div>
+          <div class="bottom-part">
+            <span v-if="description.length >= 140" class="input-error"
+              >字數不可超過140字</span
+            >
+            <button
+              v-if="!isProcessing"
+              class="tweet-button"
+              type="submit"
+              :disabled="
+                description.trim().length === 0 || description.length >= 140
+              "
+            >
+              推文
+            </button>
+            <button class="tweet-button" disabled v-else>推文發送中...</button>
+          </div>
+        </form>
+      </div>
+      <!--下方推文區-->
+      <div class="tweets-part">
+        <!--v-for開始-->
+        <div v-for="tweet in tweets" :key="tweet.TweetId">
+          <div class="tweet-card d-flex">
+            <router-link :to="{ name: 'User', params: { id: tweet.User.id } }">
+              <img class="tweet-user-imag" :src="tweet.User.avatar" />
+            </router-link>
+            <div class="tweet-detail">
+              <div class="tweet-detail-title d-flex">
+                <router-link
+                  :to="{ name: 'User', params: { id: tweet.User.id } }"
+                >
+                  <h5>{{ tweet.User.name }}</h5>
+                </router-link>
+                <p class="post-time">
+                  @{{ tweet.User.account }}·{{ tweet.createdAt | fromNow }}
+                </p>
+              </div>
+              <router-link
+                :to="{ name: 'Reply-list', params: { id: tweet.TweetId } }"
+              >
+                <p class="tweet-detail-text">
+                  {{ tweet.description }}
+                </p>
+              </router-link>
+              <div class="tweet-detail-icon d-flex">
+                <div class="reply-part d-flex" @click="handleOpenModal">
+                  <IconLiked />
+                  <div class="icon-text">{{ tweet.RepliesCount }}</div>
                 </div>
-                <div class="icon-text">{{ tweet.LikesCount }}</div>
+
+                <div class="liked-part d-flex">
+                  <div @click.stop.prevent="addHeart(tweet)">
+                    <IconHeartFilled v-if="tweet.isLike" />
+                    <IconHeartEmpty v-else />
+                  </div>
+                  <div class="icon-text">{{ tweet.LikesCount }}</div>
+                </div>
               </div>
             </div>
           </div>
+          <hr />
         </div>
-        <hr />
+        <!--v-for結束-->
       </div>
-      <!--v-for結束-->
-    </div>
-    <ReplyPostModal v-if="openModal" :onClose="handleCloseModal" />
+      <ReplyPostModal v-if="openModal" :onClose="handleCloseModal" />
     </template>
   </div>
 </template>
@@ -106,7 +106,8 @@ import { fromNowFilter } from "./../utils/mixins";
 import ReplyPostModal from "./modal/ReplyPostModal.vue";
 import TweetAPI from "./../apis/tweets";
 import { Toast } from "./../utils/helpers";
-import HomerSpinner from "./HomeSpinner.vue"
+import HomerSpinner from "./HomeSpinner.vue";
+import { mapState } from "vuex";
 
 export default {
   mixins: [fromNowFilter],
@@ -123,7 +124,7 @@ export default {
       description: "",
       isProcessing: false,
       openModal: false,
-      pageIsProcessing: true
+      pageIsProcessing: true,
     };
   },
 
@@ -135,7 +136,7 @@ export default {
         this.tweets = {
           ...response.data,
         };
-        this.pageIsProcessing= false
+        this.pageIsProcessing = false;
       } catch (error) {
         console.log(error);
         Toast.fire({
@@ -177,8 +178,7 @@ export default {
         });
         this.description = "";
         this.isProcessing = false;
-        this.fetchTweets()
-
+        this.fetchTweets();
       } catch (error) {
         console.log(error);
         Toast.fire({
@@ -204,6 +204,20 @@ export default {
   created() {
     this.fetchTweets();
   },
+  computed: {
+    ...mapState(["isNewPost"]),
+  },
+  watch: {
+  isNewPost: {
+    handler: function () {
+      if(this.isNewPost) {
+        this.fetchTweets()
+        this.$store.commit('updateNewPost')
+      }
+    },
+    deep: true, 
+  },
+},
 };
 </script>
 

@@ -37,7 +37,8 @@
         <button class="post-button" @click="handleOpenModal">
           <h4>推文</h4>
         </button>
-        <CreatePostModal v-if="openModal" :onClose="handleCloseModal" />
+        <CreatePostModal v-if="openModal" :onClose="handleCloseModal" 
+        @closeModal="handleCloseModal()" />
       </div>
     </div>
     <!--登出區塊-->
