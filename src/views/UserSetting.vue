@@ -16,6 +16,7 @@
             <div class="set-input mb-2">
               <label class="setting-label" for="account">帳號</label>
               <input
+                v-model="userInfo.account"
                 class="setting-input"
                 id="account"
                 type="text"
@@ -27,6 +28,7 @@
             <div class="set-input mb-2">
               <label class="setting-label" for="name">名稱</label>
               <input
+                v-model="userInfo.name"
                 class="setting-input"
                 id="name"
                 name="name"
@@ -39,6 +41,7 @@
             <div class="set-input mb-2">
               <label class="setting-label" for="email">Email</label>
               <input
+                v-model="userInfo.email"
                 class="setting-input"
                 id="email"
                 type="email"
@@ -50,6 +53,7 @@
             <div class="set-input mb-2">
               <label class="setting-label" for="password">密碼</label>
               <input
+                v-model="userInfo.password"
                 class="setting-input"
                 id="password"
                 name="password"
@@ -60,11 +64,12 @@
             </div>
 
             <div class="set-input mb-2">
-              <label class="setting-label" for="checkPassword">密碼確認</label>
+              <label class="setting-label" for="passwordCheck">密碼確認</label>
               <input
+                v-model="userInfo.passwordCheck"
                 class="setting-input"
-                id="checkPassword"
-                name="checkPassword"
+                id="passwordCheck"
+                name="passwordCheck"
                 type="password"
                 autocomplete="new-password"
                 required
@@ -83,7 +88,8 @@
 
 <script>
 import NavBars from "./../components/NavBars.vue";
-import usersAPI from "./../apis/users"
+import UserAPI from "./../apis/users"
+import { Toast } from "./../utils/helpers"
 
 export default {
   components: {
@@ -96,17 +102,24 @@ export default {
         account: "",
         name: "",
         email: "",
+        password: "",
+        passwordCheck: ""
       },
     };
   },
   created() {
     const { id } = this.$route.params;
-    this.fetchUser(id);
+    this.fetchUser(id)
+  },
+  beforeRouteUpdate(to, next) {
+    const { id } = to.params
+    this.fetchRestaurant(id)
+    next()
   },
   methods: {
-    async fetchUser(userId) {
+    async fetchUser() {
       try {
-        const { data } = await usersAPI.getUser({userId})
+        const { data } = await UserAPI.getCurrentUser()
         const { id, account, name, email } = data;
         this.userIfo = {
           ...this.userInfo,
@@ -115,11 +128,14 @@ export default {
           name,
           email
         }
-        console.log('user data:',data)
+        // console.log('user data:',data)
       } catch (error) {
           console.log("error", error);
+          Toast.fire({
+            icon: 'error',
+            title: '無法找到使用者資料'
+          })
       }
-      
     },
   },
 };

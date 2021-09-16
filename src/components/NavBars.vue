@@ -28,7 +28,7 @@
           </li>
 
           <li>
-            <router-link class="d-flex nav-link" to="/twitter/Setting">
+            <router-link class="d-flex nav-link" :to="{ name: 'User-edit', params: { id: currentUser.id }}">
               <IconSetting />
               <h4>設定</h4>
             </router-link>
