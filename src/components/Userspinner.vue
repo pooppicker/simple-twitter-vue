@@ -1,6 +1,6 @@
 <template>
   <div class="user-spinner-content d-flex">
-    <img class="ac-logo-spinner" src="./../../assets/ac-logo.png" />
+    <img class="ac-logo-spinner" src="../assets/ac-logo.png" />
     <h4>使用者資料努力載入中</h4>
   </div>
 </template>

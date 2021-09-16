@@ -1,7 +1,9 @@
 <template>
   <div class="container middle-container">
+    <HomerSpinner v-if="pageIsProcessing"/>
     <!--上方使用者輸入區-->
-    <h4>首頁</h4>
+    <template v-else>
+    <h4 class="middle-h4">首頁</h4>
     <div class="user-post-part">
       <form
         class="user-post-panel d-flex flex-column"
@@ -32,20 +34,16 @@
             >字數不可超過140字</span
           >
           <button
-          v-if="!isProcessing"
+            v-if="!isProcessing"
             class="tweet-button"
             type="submit"
-            :disabled="description.trim().length === 0 || description.length > 140"
+            :disabled="
+              description.trim().length === 0 || description.length > 140
+            "
           >
             推文
           </button>
-          <button
-            class="tweet-button"
-            disabled
-            v-else
-          >
-            推文發送中...
-          </button>
+          <button class="tweet-button" disabled v-else>推文發送中...</button>
         </div>
       </form>
     </div>
@@ -96,6 +94,7 @@
       <!--v-for結束-->
     </div>
     <ReplyPostModal v-if="openModal" :onClose="handleCloseModal" />
+    </template>
   </div>
 </template>
 
@@ -107,6 +106,7 @@ import { fromNowFilter } from "./../utils/mixins";
 import ReplyPostModal from "./modal/ReplyPostModal.vue";
 import TweetAPI from "./../apis/tweets";
 import { Toast } from "./../utils/helpers";
+import HomerSpinner from "./HomeSpinner.vue"
 
 export default {
   mixins: [fromNowFilter],
@@ -115,6 +115,7 @@ export default {
     IconHeartFilled,
     IconHeartEmpty,
     ReplyPostModal,
+    HomerSpinner,
   },
   data() {
     return {
@@ -122,6 +123,7 @@ export default {
       description: "",
       isProcessing: false,
       openModal: false,
+      pageIsProcessing: true
     };
   },
 
@@ -130,10 +132,10 @@ export default {
     async fetchTweets() {
       try {
         const response = await TweetAPI.getTweets();
-        console.log(response.data);
         this.tweets = {
           ...response.data,
         };
+        this.pageIsProcessing= false
       } catch (error) {
         console.log(error);
         Toast.fire({
@@ -153,34 +155,37 @@ export default {
             icon: "warning",
             title: "推文內容不得為空白",
           });
-          this.isProcessing = false
+          this.isProcessing = false;
           return;
         }
-         if (this.description.length > 140) {
+        if (this.description.length > 140) {
           Toast.fire({
             icon: "warning",
             title: "推文字數不能超過140字",
           });
-          this.isProcessing = false
+          this.isProcessing = false;
           return;
         }
-   
+
         const response = await TweetAPI.PostTweet({
           description: this.description,
         });
         console.log("發文功能:", response);
-         Toast.fire({
-            icon: "success",
-            title: "推文發送成功",
-          });
-        this.isProcessing= false
+        Toast.fire({
+          icon: "success",
+          title: "推文發送成功",
+        });
+        this.description = "";
+        this.isProcessing = false;
+        this.fetchTweets()
+
       } catch (error) {
         console.log(error);
         Toast.fire({
           icon: "error",
           title: "發送推文失敗，請重試一次",
         });
-        this.isProcessing= false
+        this.isProcessing = false;
       }
     },
 
@@ -217,7 +222,7 @@ export default {
   &::-webkit-scrollbar {
     display: none;
   }
-  h4 {
+  .middle-h4 {
     // outline: 1px solid black;
     z-index: 5;
     position: fixed;

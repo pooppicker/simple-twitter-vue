@@ -203,8 +203,11 @@ export default {
         }
 
         localStorage.setItem("token", data.token);
-        console.log(data.token);
-        this.$router.push("/twitter/Home");
+        Toast.fire({
+          icon: "success",
+          title: "註冊成功！請以帳號密碼登入！",
+        });
+        this.$router.push("/signin");
         //以下是打api回傳錯誤內容
       } catch (error) {
         this.password = "";
