@@ -6,93 +6,102 @@
         <NavBars />
       </div>
       <div class="user-top">
-        <div class="title-area">
-          <div class="go-back" @click.stop.prevent="previousPage">
-            <LeftArrow />
+        <UserSpinner v-if="isProcessing" />
+        <template v-else>
+          <div class="title-area">
+            <div class="go-back" @click.stop.prevent="previousPage">
+              <LeftArrow />
+            </div>
+            <div class="user-title">
+              <h4 class="user-profile-name">{{ profile.name }}</h4>
+              <span class="span-setting">{{ profile.TweetsCount }} 推文</span>
+            </div>
+            <hr />
           </div>
-          <div class="user-title">
+          <!-- Cover Photo -->
+          <div class="cover-area">
+            <img class="cover-photo" :src="profile.cover" alt="cover" />
+            <img class="user-avatar" :src="profile.avatar" alt="avatar" />
+          </div>
+          <!-- Buttons -->
+          <div class="edit-area">
+            <button
+              v-if="profile.isCurrent"
+              id="show-modal"
+              @click="handleOpenModal"
+              type="submit"
+              class="user-edit-btn"
+            >
+              編輯個人資料
+            </button>
+            <template v-else>
+              <IconMsg class="other-user-btn" />
+              <div
+                v-if="!profile.isNotified"
+                @click.stop.prevent="ChangeNotified"
+              >
+                <IconNotify class="other-user-btn" />
+              </div>
+              <div v-else @click.stop.prevent="ChangeNotified">
+                <IconNotified class="other-user-btn" />
+              </div>
+              <IconFollowing class="other-user-btn" />
+            </template>
+          </div>
+
+          <!-- Modal -->
+          <CreateEditModal v-if="openModal" :onClose="handleCloseModal" />
+
+          <!-- Description -->
+          <div class="desc-area">
             <h4 class="user-profile-name">{{ profile.name }}</h4>
-            <span class="span-setting">{{ profile.TweetsCount }} 推文</span>
-          </div>
-          <hr />
-        </div>
-        <!-- Cover Photo -->
-        <div class="cover-area">
-          <img class="cover-photo" :src="profile.cover" alt="cover" />
-          <img class="user-avatar" :src="profile.avatar" alt="avatar" />
-        </div>
-        <!-- Buttons -->
-        <div class="edit-area">
-          <button
-            v-if="profile.isCurrent"
-            id="show-modal"
-            @click="handleOpenModal"
-            type="submit"
-            class="user-edit-btn"
-          >
-            編輯個人資料
-          </button>
-          <template v-else>
-            <IconMsg class="other-user-btn" />
-          <div v-if="!profile.isNotified" @click.stop.prevent="ChangeNotified">
-            <IconNotify class="other-user-btn"
-            />
+            <span class="span-setting">{{ profile.account }}</span>
+            <p>
+              {{ profile.introduction }}
+            </p>
+            <!-- followers -->
+            <div class="follow-area">
+              <router-link
+                :to="{ name: 'User-following', params: { id: profile.id } }"
+                class="user-follows"
+                ><strong>{{ profile.FollowingCount }} 個</strong
+                >跟隨中</router-link
+              >
+              <router-link
+                :to="{ name: 'User-follower', params: { id: profile.id } }"
+                class="user-followers"
+                ><strong>{{ profile.FollowersCount }} 位</strong
+                >跟隨者</router-link
+              >
             </div>
-            <div v-else @click.stop.prevent="ChangeNotified">
-            <IconNotified  class="other-user-btn" />
-            </div>
-            <IconFollowing class="other-user-btn" />
-          </template>
-        </div>
-
-        <!-- Modal -->
-        <CreateEditModal v-if="openModal" :onClose="handleCloseModal" />
-
-        <!-- Description -->
-        <div class="desc-area">
-          <h4 class="user-profile-name">{{ profile.name }}</h4>
-          <span class="span-setting">{{ profile.account }}</span>
-          <p>
-            {{ profile.introduction }}
-          </p>
-          <!-- followers -->
-          <div class="follow-area">
-            <router-link
-              :to="{ name: 'User-following', params: { id: profile.id } }"
-              class="user-follows"
-              ><strong>{{ profile.FollowingCount }} 個</strong
-              >跟隨中</router-link
-            >
-            <router-link
-              :to="{ name: 'User-follower', params: { id: profile.id } }"
-              class="user-followers"
-              ><strong>{{ profile.FollowersCount }} 位</strong
-              >跟隨者</router-link
-            >
           </div>
-        </div>
-        <!-- Tabs -->
-        <div class="user-tabs">
-          <router-link
-            :to="{ name: 'profile' }"
-            active-class="tab-a"
-            class="tab"
-          >
-            推文
-          </router-link>
-          <router-link
-            :to="{ name: 'Tweets' }"
-            active-class="tab-a"
-            class="tab"
-          >
-            推文與回覆
-          </router-link>
-          <router-link :to="{ name: 'Liked' }" active-class="tab-a" class="tab">
-            喜歡的內容
-          </router-link>
-        </div>
-        <!-- user bottom area -->
-        <router-view />
+          <!-- Tabs -->
+          <div class="user-tabs">
+            <router-link
+              :to="{ name: 'profile' }"
+              active-class="tab-a"
+              class="tab"
+            >
+              推文
+            </router-link>
+            <router-link
+              :to="{ name: 'Tweets' }"
+              active-class="tab-a"
+              class="tab"
+            >
+              推文與回覆
+            </router-link>
+            <router-link
+              :to="{ name: 'Liked' }"
+              active-class="tab-a"
+              class="tab"
+            >
+              喜歡的內容
+            </router-link>
+          </div>
+          <!-- user bottom area -->
+          <router-view />
+        </template>
       </div>
       <div>
         <!--popular-->
@@ -111,8 +120,8 @@ import IconNotify from "./../components/icons/IconNotify.vue";
 import IconNotified from "./../components/icons/IconNotified.vue";
 import IconFollowing from "./../components/icons/IconFollowing.vue";
 import CreateEditModal from "../components/modal/CreateEditModal.vue";
+import UserSpinner from "../components/spinner/Userspinner.vue";
 import UserAPI from "./../apis/users";
-
 
 export default {
   components: {
@@ -124,6 +133,7 @@ export default {
     IconNotified,
     IconFollowing,
     CreateEditModal,
+    UserSpinner,
   },
   data() {
     return {
@@ -140,6 +150,7 @@ export default {
         isCurrent: "",
         isNotified: false, //這個應該要包在profile裡面，但目前還沒開放進階功能，所以資料結構沒有這個項目
       },
+      isProcessing: true,
       openModal: false,
     };
   },
@@ -164,7 +175,7 @@ export default {
           TweetsCount,
           FollowersCount,
           FollowingCount,
-          isCurrent
+          isCurrent,
         } = response.data;
 
         this.profile = {
@@ -178,8 +189,9 @@ export default {
           TweetsCount,
           FollowersCount,
           FollowingCount,
-          isCurrent
+          isCurrent,
         };
+        this.isProcessing= false
       } catch (error) {
         console.log(error);
       }
@@ -223,6 +235,7 @@ export default {
   border-left: 1px solid #e6ecf0;
   margin-left: 2%;
   overflow: scroll;
+  position: relative;
   &::-webkit-scrollbar {
     display: none;
   }
