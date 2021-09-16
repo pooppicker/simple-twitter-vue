@@ -99,8 +99,8 @@ export default {
         account: "",
         name: "",
         email: "",
-        password: "",
-        passwordCheck: "",
+        // password: "",
+        // passwordCheck: "",
       },
     };
   },
@@ -108,7 +108,7 @@ export default {
   created() {
     // const { id } = this.$route.params;
     this.fetchUser();
-    console.log(this.currentUser);
+    // console.log(this.currentUser);
   },
   //因為已經從vuex裡面把使用者的資料拿出來囉，所以這裡我們就不用特別再呼叫api拿資料了~
   /*
@@ -154,14 +154,16 @@ router.beforeEach((to, from, next) => {
         const form = e.target;
         const formData = new FormData(form);
         const { data } = await UserAPI.update({
-          userId: this.userIfo.id,
+          userId: this.currentUser.id,
           formData,
         });
+        console.log('formData', formData)
         if (data.status !== "success") {
           throw new Error(data.message);
         }
         this.$router.push({ name: "User" });
       } catch (error) {
+        console.log(error.message)
         Toast.fire({
           icon: "error",
           title: "無法更新資料，請重試",

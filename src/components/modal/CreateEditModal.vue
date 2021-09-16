@@ -2,7 +2,10 @@
   <div id="modal-overlay">
     <div id="modal-container">
       <div id="modal">
-        <form class="d-flex flex-column align-items-center">
+        <form
+          class="d-flex flex-column align-items-center"
+    
+        >
           <slot name="head">
             <div class="modal-title-area">
               <div class="modal-user-title">
@@ -11,7 +14,7 @@
                 </div>
                 <h4 class="modal-profile-name">編輯個人資料</h4>
               </div>
-              <button type="submit" class="modal-save-btn">儲存</button>
+              <button type="submit" class="modal-save-btn" @click.stop.prevent="handleSubmit">儲存</button>
             </div>
           </slot>
           <slot name="body">
@@ -19,14 +22,10 @@
               <IconUploadPhoto class="upload-cover" />
               <IconCloseWhite class="delete-cover" />
               <IconUploadPhoto class="upload-avatar" />
-              <img
-                class="modal-cover-photo"
-                src="https://source.unsplash.com/1600x900/?nature/?random=79.00129583279121"
-                alt="cover"
-              />
+              <img class="modal-cover-photo" :src="profile.cover" alt="cover" />
               <img
                 class="modal-user-avatar"
-                src="https://source.unsplash.com/1600x1200/?man/?random=38.46792589859454"
+                :src="profile.avatar"
                 alt="avatar"
               />
             </div>
@@ -36,6 +35,7 @@
               <div class="name-input-style mb-2">
                 <label class="edit-label" for="name">名稱</label>
                 <input
+                  v-model="profile.name"
                   class="edit-input"
                   id="name"
                   type="text"
@@ -47,7 +47,7 @@
               <div class="modal-input-style mb-2">
                 <label class="edit-label" for="name">自我介紹</label>
                 <textarea
-                  v-model="tweetText"
+                  v-model="profile.introduction"
                   class="edit-input"
                   id="name"
                   type="text"
@@ -69,6 +69,10 @@
 import IconCloseOrange from "./../icons/IconClose.vue";
 import IconCloseWhite from "./../icons/IconCloseWhite.vue";
 import IconUploadPhoto from "./../icons/IconUploadPhoto.vue";
+import UserAPI from "../../apis/users";
+import { Toast } from "../../utils/helpers";
+import { mapState } from "vuex";
+
 export default {
   components: {
     IconCloseOrange,
@@ -76,6 +80,10 @@ export default {
     IconUploadPhoto,
   },
   props: {
+    // initialProfile: {
+    //   type: Object,
+    //   required: true
+    // },
     onClose: {
       types: Function,
       required: true,
@@ -83,8 +91,60 @@ export default {
   },
   data() {
     return {
-      tweetText: "",
+      profile: {
+        cover: "",
+        avatar: "",
+        name: "",
+        introduction: "",
+      },
     };
+  },
+  created() {
+    this.fetchProfile();
+  },
+  methods: {
+    fetchProfile() {
+      const { cover, avatar, name, introduction } = this.currentUser;
+      this.profile = {
+        ...this.profile,
+        cover,
+        avatar,
+        name,
+        introduction,
+      };
+    },
+    async handleSubmit(e) {
+      try {
+        const form = e.target
+        const formData = new FormData(form)
+        const { data } = await UserAPI.update({
+          userId: this.currentUser.id,
+          formData,
+        });
+        console.log('formData', formData)
+        if (data.status !== "success") {
+          throw new Error(data.message);
+        }
+        this.$router.push({ name: "User" });
+      } catch (error) {
+        console.log(error.message);
+        Toast.fire({
+          icon: "error",
+          title: "無法更新資料，請重試",
+        });
+      }
+    },
+  },
+  computed: {
+    ...mapState(["currentUser"]),
+  },
+  watch: {
+    currentUser: {
+      handler: function () {
+        this.fetchProfile();
+      },
+      deep: true,
+    },
   },
 };
 </script>
