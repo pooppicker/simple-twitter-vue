@@ -102,11 +102,11 @@ const router = new VueRouter({
   routes,
 });
 
-router.beforeEach((to, next, from) => {
-  console.log('to', to)
-  console.log('from', from)
-  store.dispatch('fetchCurrentUser')
-  next()
-})
+// router.beforeEach((to, next, from) => {
+//   console.log('to', to)
+//   console.log('from', from)
+//   store.dispatch('fetchCurrentUser')
+//   next()
+// })
 
 export default router;

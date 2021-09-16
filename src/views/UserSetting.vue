@@ -8,7 +8,7 @@
       <div class="setting-container">
         <h4>帳戶設定</h4>
 
-        <form class="d-flex flex-column align-items-start">
+        <form class="d-flex flex-column align-items-start" @submit.stop.prevent="handleSubmit">
           <div class="setting-rwb">
             <div class="set-input mb-2">
               <label class="setting-label" for="account">帳號</label>
@@ -85,6 +85,9 @@ export default {
   components: {
     NavBars,
   },
+  methods: {
+    handleSubmit ()
+  }
 };
 </script>
 
