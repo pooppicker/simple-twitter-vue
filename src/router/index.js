@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import SignIn from "../views/SignIn.vue"
-// import store from "./../store/index"
+import store from "./../store/index"
 
 Vue.use(VueRouter);
 
@@ -102,11 +102,11 @@ const router = new VueRouter({
   routes,
 });
 
-// router.beforeEach((to, next, from) => {
-//   console.log('to', to)
-//   console.log('from', from)
-//   store.dispatch('fetchCurrentUser')
-//   next()
-// })
+router.beforeEach((to, from, next) => {
+  console.log('to', to)
+  console.log('from', from)
+  store.dispatch('fetchCurrentUser')
+  next()
+})
 
 export default router;

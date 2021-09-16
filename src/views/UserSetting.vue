@@ -8,7 +8,10 @@
       <div class="setting-container">
         <h4>帳戶設定</h4>
 
-        <form class="d-flex flex-column align-items-start" @submit.stop.prevent="handleSubmit">
+        <form
+          class="d-flex flex-column align-items-start"
+          @submit.stop.prevent="handleSubmit"
+        >
           <div class="setting-rwb">
             <div class="set-input mb-2">
               <label class="setting-label" for="account">帳號</label>
@@ -80,14 +83,45 @@
 
 <script>
 import NavBars from "./../components/NavBars.vue";
+import usersAPI from "./../apis/users"
 
 export default {
   components: {
     NavBars,
   },
-  // methods: {
-  //   handleSubmit ()
-  // }
+  data() {
+    return {
+      userInfo: {
+        id: -1,
+        account: "",
+        name: "",
+        email: "",
+      },
+    };
+  },
+  created() {
+    const { id } = this.$route.params;
+    this.fetchUser(id);
+  },
+  methods: {
+    async fetchUser(userId) {
+      try {
+        const { data } = await usersAPI.getUser({userId})
+        const { id, account, name, email } = data;
+        this.userIfo = {
+          ...this.userInfo,
+          id,
+          account,
+          name,
+          email
+        }
+        console.log('user data:',data)
+      } catch (error) {
+          console.log("error", error);
+      }
+      
+    },
+  },
 };
 </script>
 
