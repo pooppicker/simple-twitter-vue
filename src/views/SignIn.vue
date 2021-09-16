@@ -82,6 +82,7 @@ export default {
   methods: {
     async handleSubmit() {
       try {
+         this.isProcessing = true;
         if (!this.account || !this.password) {
           Toast.fire({
             icon: "warning",
@@ -89,7 +90,7 @@ export default {
           });
           return;
         }
-        this.isProcessing = true;
+       
         const response = await authorizationAPI.signIn({
           account: this.account,
           password: this.password,

@@ -9,4 +9,15 @@ export default {
       }
     })
   },
+
+  PostTweet({ desciption}) {
+    return apiHelper.post('/tweets', {
+      desciption
+    }, {
+      headers: {
+        Authorization: `Bearer ${getToken()}`
+      }
+    })
+
+  }
 }
