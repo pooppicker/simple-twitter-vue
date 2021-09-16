@@ -24,7 +24,7 @@
         <!-- Buttons -->
         <div class="edit-area">
           <button
-            v-if="isCurrent"
+            v-if="profile.isCurrent"
             id="show-modal"
             @click="handleOpenModal"
             type="submit"
