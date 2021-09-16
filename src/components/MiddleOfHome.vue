@@ -9,7 +9,7 @@
             class="current-user-imag"
             src="https://image.flaticon.com/icons/png/512/847/847969.png"
           />
-        
+
           <div class="input-post">
             <label class="post-label" for="post-input"></label>
             <textarea
@@ -17,7 +17,7 @@
               row="4"
               type="text"
               class="post-input"
-               maxLength="140"
+              maxLength="140"
               required
               placeholder="有什麼新鮮事?"
               v-model="tweetText"
@@ -25,10 +25,17 @@
           </div>
         </div>
         <div class="bottom-part">
-          <span v-if="tweetText.length===140" class="input-error">字數不可超過140字</span>
-          <button class="tweet-button" type="submit" :disabled="tweetText.trim().length===0">推文</button>
+          <span v-if="tweetText.length === 140" class="input-error"
+            >字數不可超過140字</span
+          >
+          <button
+            class="tweet-button"
+            type="submit"
+            :disabled="tweetText.trim().length === 0"
+          >
+            推文
+          </button>
         </div>
-      
       </form>
     </div>
     <!--下方推文區-->
@@ -47,7 +54,7 @@
                 <h5>{{ tweet.User.name }}</h5>
               </router-link>
               <p class="post-time">
-                {{ tweet.User.account }}·{{ tweet.createdAt | fromNow }}
+                @{{ tweet.User.account }}·{{ tweet.createdAt | fromNow }}
               </p>
             </div>
             <router-link
@@ -59,17 +66,14 @@
             </router-link>
             <div class="tweet-detail-icon d-flex">
               <div class="reply-part d-flex" @click="handleOpenModal">
-                
                 <IconLiked />
                 <div class="icon-text">{{ tweet.RepliesCount }}</div>
               </div>
-              
+
               <div class="liked-part d-flex">
                 <div @click.stop.prevent="addHeart(tweet)">
                   <IconHeartFilled v-if="tweet.isLike" />
-                  <IconHeartEmpty
-                    v-else
-                  />
+                  <IconHeartEmpty v-else />
                 </div>
                 <div class="icon-text">{{ tweet.LikesCount }}</div>
               </div>
@@ -90,99 +94,9 @@ import IconHeartFilled from "./icons/IconHeartFilled";
 import IconHeartEmpty from "./icons/IconHeartEmpty";
 import { fromNowFilter } from "./../utils/mixins";
 import ReplyPostModal from "./modal/ReplyPostModal.vue";
+import TweetAPI from "./../apis/tweets";
+import { Toast } from "./../utils/helpers"
 
-const dummyTweets = [
-  {
-    isLike: false,
-    TweetId: 1,
-    createdAt: "2021-07-07T19:31:27.000Z",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ut maximus est. Phasellus placerat magna vitae iaculis blandit. Praesent luctus, lectus in blandit volutpat, neque lectus dictum erat, nec gravida nisl lectus ut turpis. Vivamus eget odio est. Nullam a neque eros. Nam molestie blandit erat nec ultricies. Nam eget velit cursus, ultrices elit quis, pellentesque nibh. Pellentesque sed leo dolor. Pellentesque porta aliquam ex vitae laoreet. Vestibulum bibendum auctor facilisis. Nullam faucibus lobortis ipsum quis ornare. Cras commodo nibh purus, in efficitur nunc interdum nec. Donec dignissim aliquam egestas. Ut sed erat leo.",
-    LikesCount: 2,
-    RepliesCount: 2,
-    User: {
-      id: 2,
-      name: "user1",
-      avatar: "https://image.flaticon.com/icons/png/512/847/847969.png",
-      account: "@user1",
-    },
-  },
-  {
-    isLike: false,
-    TweetId: 1,
-    createdAt: "2021-07-07T19:31:27.000Z",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ut maximus est. Phasellus placerat magna vitae iaculis blandit. Praesent luctus, lectus in blandit volutpat, neque lectus dictum erat, nec gravida nisl lectus ut turpis. Vivamus eget odio est. Nullam a neque eros. Nam molestie blandit erat nec ultricies. Nam eget velit cursus, ultrices elit quis, pellentesque nibh. Pellentesque sed leo dolor. Pellentesque porta aliquam ex vitae laoreet. Vestibulum bibendum auctor facilisis. Nullam faucibus lobortis ipsum quis ornare. Cras commodo nibh purus, in efficitur nunc interdum nec. Donec dignissim aliquam egestas. Ut sed erat leo.",
-    LikesCount: 2,
-    RepliesCount: 2,
-    User: {
-      id: 2,
-      name: "user1",
-      avatar: "https://image.flaticon.com/icons/png/512/847/847969.png",
-      account: "@user1",
-    },
-  },
-  {
-    isLike: true,
-    TweetId: 3,
-    createdAt: "2021-07-07T19:31:27.000Z",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ut maximus est. Phasellus placerat magna vitae iaculis blandit. Praesent luctus, lectus in blandit volutpat, neque lectus dictum erat, nec gravida nisl lectus ut turpis. Vivamus eget odio est. Nullam a neque eros. Nam molestie blandit erat nec ultricies. Nam eget velit cursus, ultrices elit quis, pellentesque nibh. Pellentesque sed leo dolor. Pellentesque porta aliquam ex vitae laoreet. Vestibulum bibendum auctor facilisis. Nullam faucibus lobortis ipsum quis ornare. Cras commodo nibh purus, in efficitur nunc interdum nec. Donec dignissim aliquam egestas. Ut sed erat leo.",
-    LikesCount: 2,
-    RepliesCount: 2,
-    User: {
-      id: 2,
-      name: "user1",
-      avatar: "https://image.flaticon.com/icons/png/512/847/847969.png",
-      account: "@user1",
-    },
-  },
-  {
-    isLike: false,
-    TweetId: 1,
-    createdAt: "2021-07-07T19:31:27.000Z",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ut maximus est. Phasellus placerat magna vitae iaculis blandit. Praesent luctus, lectus in blandit volutpat, neque lectus dictum erat, nec gravida nisl lectus ut turpis. Vivamus eget odio est. Nullam a neque eros. Nam molestie blandit erat nec ultricies. Nam eget velit cursus, ultrices elit quis, pellentesque nibh. Pellentesque sed leo dolor. Pellentesque porta aliquam ex vitae laoreet. Vestibulum bibendum auctor facilisis. Nullam faucibus lobortis ipsum quis ornare. Cras commodo nibh purus, in efficitur nunc interdum nec. Donec dignissim aliquam egestas. Ut sed erat leo.",
-    LikesCount: 2,
-    RepliesCount: 2,
-    User: {
-      id: 2,
-      name: "user1",
-      avatar: "https://image.flaticon.com/icons/png/512/847/847969.png",
-      account: "@user1",
-    },
-  },
-  {
-    isLike: false,
-    TweetId: 1,
-    createdAt: "2021-07-07T19:31:27.000Z",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ut maximus est. Phasellus placerat magna vitae iaculis blandit. Praesent luctus, lectus in blandit volutpat, neque lectus dictum erat, nec gravida nisl lectus ut turpis. Vivamus eget odio est. Nullam a neque eros. Nam molestie blandit erat nec ultricies. Nam eget velit cursus, ultrices elit quis, pellentesque nibh. Pellentesque sed leo dolor. Pellentesque porta aliquam ex vitae laoreet. Vestibulum bibendum auctor facilisis. Nullam faucibus lobortis ipsum quis ornare. Cras commodo nibh purus, in efficitur nunc interdum nec. Donec dignissim aliquam egestas. Ut sed erat leo.",
-    LikesCount: 2,
-    RepliesCount: 2,
-    User: {
-      id: 2,
-      name: "user1",
-      avatar: "https://image.flaticon.com/icons/png/512/847/847969.png",
-      account: "@user1",
-    },
-  },
-  {
-    isLike: false,
-    TweetId: 1,
-    createdAt: "2021-07-07T19:31:27.000Z",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ut maximus est. Phasellus placerat magna vitae iaculis blandit. Praesent luctus, lectus in blandit volutpat, neque lectus dictum erat, nec gravida nisl lectus ut turpis. Vivamus eget odio est. Nullam a neque eros. Nam molestie blandit erat nec ultricies. Nam eget velit cursus, ultrices elit quis, pellentesque nibh. Pellentesque sed leo dolor. Pellentesque porta aliquam ex vitae laoreet. Vestibulum bibendum auctor facilisis. Nullam faucibus lobortis ipsum quis ornare. Cras commodo nibh purus, in efficitur nunc interdum nec. Donec dignissim aliquam egestas. Ut sed erat leo.",
-    LikesCount: 2,
-    RepliesCount: 2,
-    User: {
-      id: 2,
-      name: "user1",
-      avatar: "https://image.flaticon.com/icons/png/512/847/847969.png",
-      account: "@user1",
-    },
-  },
-];
 
 export default {
   mixins: [fromNowFilter],
@@ -190,7 +104,7 @@ export default {
     IconLiked,
     IconHeartFilled,
     IconHeartEmpty,
-    ReplyPostModal
+    ReplyPostModal,
   },
   data() {
     return {
@@ -201,8 +115,23 @@ export default {
   },
 
   methods: {
-    fetchTweets() {
-      this.tweets = dummyTweets;
+    async fetchTweets() {
+      try {
+       const response = await TweetAPI.getTweets()
+        console.log(response.data)
+        this.tweets = {
+          ...response.data
+        }
+        console.log('tweets:',this.tweets)
+
+      } catch (error) {
+        console.log(error);
+        Toast.fire({
+          icon: "error",
+          title: "貼文載入失敗，請稍後再試",
+        });
+      }
+
     },
 
     addHeart(tweet) {
