@@ -24,7 +24,7 @@
         <!-- Buttons -->
         <div class="edit-area">
           <button
-            v-if="!isCurrentUser"
+            v-if="isCurrent"
             id="show-modal"
             @click="handleOpenModal"
             type="submit"
@@ -110,30 +110,8 @@ import IconNotify from "./../components/icons/IconNotify.vue";
 import IconNotified from "./../components/icons/IconNotified.vue";
 import IconFollowing from "./../components/icons/IconFollowing.vue";
 import CreateEditModal from "../components/modal/CreateEditModal.vue";
-//import UserAPI from "./../apis/users";
+import UserAPI from "./../apis/users";
 
-const dummyData = {
-  profile: {
-    id: 3,
-    email: "user2@example.com",
-    password: "secretpassword",
-    name: "John Doe",
-    avatar:
-      "https://source.unsplash.com/1600x1200/?man/?random=38.46792589859454",
-    introduction:
-      "Amet minim mollit non deserunt ullamco est sit aliqua dolor do ametsint.",
-    role: "user",
-    account: "@heyjohn",
-    cover:
-      "https://source.unsplash.com/1600x900/?nature/?random=79.00129583279121",
-    createdAt: "2021-07-04T17:03:01.000Z",
-    updatedAt: "2021-07-04T17:03:01.000Z",
-    TweetsCount: 10,
-    FollowersCount: 0,
-    FollowingCount: 5,
-    isCurrentUser: true,
-  },
-};
 
 export default {
   components: {
@@ -158,6 +136,7 @@ export default {
         TweetsCount: "",
         FollowersCount: "",
         FollowingCount: "",
+        isCurrent: "",
         isNotified: false, //這個應該要包在profile裡面，但目前還沒開放進階功能，所以資料結構沒有這個項目
       },
       openModal: false,
@@ -165,47 +144,45 @@ export default {
   },
 
   created() {
-    // const { id } = this.$route.params;
-    //const { userID } =11;
-    this.fetchUser();
+    const { id } = this.$route.params;
+    this.fetchUser(id);
   },
 
   methods: {
-    async fetchUser() {
-      /* try {
-        const response = await UserAPI.getUser({userID});
+    async fetchUser(userID) {
+      try {
+        const response = await UserAPI.getUser({ userID });
         console.log(response);
- 
-       
-        } catch (error) {
-        console.log(error);
-      }*/
-      const {
-        id,
-        name,
-        avatar,
-        introduction,
-        account,
-        cover,
-        TweetsCount,
-        FollowersCount,
-        FollowingCount,
-      } = dummyData.profile;
-      
-      this.profile = {
-        ...this.profile,
-        id,
-        name,
-        avatar,
-        introduction,
-        account,
-        cover,
-        TweetsCount,
-        FollowersCount,
-        FollowingCount,
-      };
-    },
+        const {
+          id,
+          name,
+          avatar,
+          introduction,
+          account,
+          cover,
+          TweetsCount,
+          FollowersCount,
+          FollowingCount,
+          isCurrent
+        } = response.data;
 
+        this.profile = {
+          ...this.profile,
+          id,
+          name,
+          avatar,
+          introduction,
+          account,
+          cover,
+          TweetsCount,
+          FollowersCount,
+          FollowingCount,
+          isCurrent
+        };
+      } catch (error) {
+        console.log(error);
+      }
+    },
     previousPage() {
       this.$router.back();
     },
@@ -218,6 +195,12 @@ export default {
     ChangeNotified() {
       this.profile.isNotified = !this.profile.isNotifiedn;
     },
+  },
+
+  beforeRouteUpdate(to, from, next) {
+    const { id } = to.params;
+    this.fetchUser(id);
+    next();
   },
 };
 </script>
