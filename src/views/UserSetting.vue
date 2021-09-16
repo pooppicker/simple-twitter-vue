@@ -137,6 +137,13 @@ export default {
           })
       }
     },
+    async handleSubmit(formData) {
+      try {
+        const { data } = await UserAPI.update()
+      } catch (error) {
+        
+      }
+    }
   },
 };
 </script>
