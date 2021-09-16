@@ -24,18 +24,29 @@ export default new Vuex.Store({
       state.currentUser = {
         ...state.currentUser,
         ...currentUser,
-      }
-      state.isAuthenticated = true
-    }
+      };
+      state.isAuthenticated = true;
+    },
   },
   actions: {
     async fetchCurrentUser({ commit }) {
       try {
-        const { data } = await usersAPI.getCurrentUser()
+        const { data } = await usersAPI.getCurrentUser();
         if (data.status === "error") {
-          throw new Error(data.message)
+          throw new Error(data.message);
         }
-        const { id, name, account, email, avatar, cover, introduction, TweetsCount, FollowersCount, FollowingCount } = data
+        const {
+          id,
+          name,
+          account,
+          email,
+          avatar,
+          cover,
+          introduction,
+          TweetsCount,
+          FollowersCount,
+          FollowingCount,
+        } = data;
         commit("setCurrentUser", {
           id,
           name,
@@ -46,13 +57,13 @@ export default new Vuex.Store({
           introduction,
           TweetsCount,
           FollowersCount,
-          FollowingCount
-        })
-        console.log("data", data)
+          FollowingCount,
+        });
+        console.log("data", data);
       } catch (error) {
-        console.log(error.message)
+        console.log(error.message);
       }
-    }
+    },
   },
   modules: {},
 });
