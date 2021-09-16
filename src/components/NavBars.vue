@@ -160,7 +160,7 @@ export default {
     .navigation {
       margin-top: 48px;
       .post-button {
-        width: 90%;
+        width: 80%;
         height: 38px;
         background-color: $color-orange;
         color: white;

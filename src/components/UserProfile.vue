@@ -146,9 +146,13 @@ export default {
   },
 
   methods: {
+    //使用者的部分
     fetchTweets() {
       this.tweets = dummyTweets;
     },
+
+
+    //點擊愛心功能
     addHeart(tweet) {
       tweet.isLike = !tweet.isLike;
     },

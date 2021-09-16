@@ -7,64 +7,68 @@
       </div>
       <div class="setting-container">
         <h4>帳戶設定</h4>
+
         <form class="d-flex flex-column align-items-start">
-          <div class="set-input mb-2">
-            <label class="setting-label" for="account">帳號</label>
-            <input
-              class="setting-input"
-              id="account"
-              type="text"
-              autofocus
-              required
-            />
+          <div class="setting-rwb">
+            <div class="set-input mb-2">
+              <label class="setting-label" for="account">帳號</label>
+              <input
+                class="setting-input"
+                id="account"
+                type="text"
+                autofocus
+                required
+              />
+            </div>
+
+            <div class="set-input mb-2">
+              <label class="setting-label" for="name">名稱</label>
+              <input
+                class="setting-input"
+                id="name"
+                name="name"
+                type="text"
+                autofocus
+                required
+              />
+            </div>
+
+            <div class="set-input mb-2">
+              <label class="setting-label" for="email">Email</label>
+              <input
+                class="setting-input"
+                id="email"
+                type="email"
+                autofocus
+                required
+              />
+            </div>
+
+            <div class="set-input mb-2">
+              <label class="setting-label" for="password">密碼</label>
+              <input
+                class="setting-input"
+                id="password"
+                name="password"
+                type="password"
+                autocomplete="new-password"
+                required
+              />
+            </div>
+
+            <div class="set-input mb-2">
+              <label class="setting-label" for="checkPassword">密碼確認</label>
+              <input
+                class="setting-input"
+                id="checkPassword"
+                name="checkPassword"
+                type="password"
+                autocomplete="new-password"
+                required
+              />
+            </div>
           </div>
 
-          <div class="set-input mb-2">
-            <label class="setting-label" for="name">名稱</label>
-            <input
-              class="setting-input"
-              id="name"
-              name="name"
-              type="text"
-              autofocus
-              required
-            />
-          </div>
-
-          <div class="set-input mb-2">
-            <label class="setting-label" for="email">Email</label>
-            <input
-              class="setting-input"
-              id="email"
-              type="email"
-              autofocus
-              required
-            />
-          </div>
-
-          <div class="set-input mb-2">
-            <label class="setting-label" for="password">密碼</label>
-            <input
-              class="setting-input"
-              id="password"
-              name="password"
-              type="password"
-              autocomplete="new-password"
-              required
-            />
-          </div>
-
-          <div class="set-input mb-2">
-            <label class="setting-label" for="checkPassword">密碼確認</label>
-            <input
-              class="setting-input"
-              id="checkPassword"
-              name="checkPassword"
-              type="password"
-              autocomplete="new-password"
-              required
-            />
-          </div>
           <div class="set-btn">
             <button type="submit" class="setting-btn mb-3">儲存</button>
           </div>
@@ -147,11 +151,14 @@ export default {
     .setting {
       grid-template-columns: 0fr 1fr 0fr;
     }
+
     .setting-container {
       border-left: none;
       margin-left: 0;
-    }
-    .setting-container {
+      .setting-rwb {
+        width: 100%;
+        padding: 0 1em;
+      }
       h4 {
         // outline: 1px solid black;
         margin-top: 3em;
