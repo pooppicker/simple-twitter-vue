@@ -34,12 +34,13 @@
           </button>
           <template v-else>
             <IconMsg class="other-user-btn" />
-            <IconNotify
-              v-if="true"
-              class="other-user-btn"
-              @click.stop.prevent="ChangeNotified"
+          <div v-if="!profile.isNotified" @click.stop.prevent="ChangeNotified">
+            <IconNotify class="other-user-btn"
             />
-            <IconNotified v-else class="other-user-btn" />
+            </div>
+            <div v-else @click.stop.prevent="ChangeNotified">
+            <IconNotified  class="other-user-btn" />
+            </div>
             <IconFollowing class="other-user-btn" />
           </template>
         </div>
@@ -193,7 +194,7 @@ export default {
       this.openModal = false;
     },
     ChangeNotified() {
-      this.profile.isNotified = !this.profile.isNotifiedn;
+      this.profile.isNotified = !this.profile.isNotified;
     },
   },
 
