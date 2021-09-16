@@ -1,5 +1,5 @@
 <template>
-  <nav class="d-flex  nav">
+  <nav class="d-flex nav">
     <div class="nav-top">
       <!--logo區塊-->
       <div class="logo-part">
@@ -20,7 +20,7 @@
           <li>
             <router-link
               class="d-flex nav-link"
-              :to="{ name: 'User', params: { id: curretUser.id } }"
+              :to="{ name: 'User', params: { id: currentUser.id } }"
             >
               <IconUser />
               <h4>個人資料</h4>
@@ -61,8 +61,9 @@ import IconHome from "./icons/IconHome";
 import IconSetting from "./icons/IconSetting";
 import IconUser from "./icons/IconUser";
 import CreatePostModal from "./modal/CreatPostModal.vue";
+import { mapState } from "vuex";
 
-const dummtCurretUser = {
+/*const dummtCurretUser = {
   id: 15,
   email: "user1@example.com",
   name: "user1",
@@ -77,7 +78,7 @@ const dummtCurretUser = {
   Followers: [],
   Followings: [],
   Likes: [],
-};
+};*/
 
 export default {
   components: {
@@ -90,7 +91,6 @@ export default {
 
   data() {
     return {
-      curretUser: dummtCurretUser,
       openModal: false,
     };
   },
@@ -101,6 +101,9 @@ export default {
     handleCloseModal() {
       this.openModal = false;
     },
+  },
+  computed: {
+    ...mapState(["currentUser"]),
   },
 };
 </script>
@@ -171,10 +174,8 @@ export default {
       }
     }
   }
-
- 
 }
- //手機版
+//手機版
 @media screen and (max-width: 768px) {
   .nav {
     border-bottom: 1px solid #e6ecf0;
@@ -190,7 +191,6 @@ export default {
     justify-content: stretch;
     .nav-top,
     .logout {
-
       display: flex;
       flex-direction: row;
       .navigation {
@@ -218,22 +218,21 @@ export default {
         transform: translate(0, -1px);
       }
     }
-    .nav-top{
-      flex:1;
+    .nav-top {
+      flex: 1;
       .navigation {
         width: 100%;
         justify-content: space-between;
-        .post-button{
-                      background-color: rgba(0, 0, 0, 0);
-            border: solid 1px $color-orange;
-            color: $color-orange;
-  
-       width: 20%;
-       h4{
-         font-size: 13px;
-       }
+        .post-button {
+          background-color: rgba(0, 0, 0, 0);
+          border: solid 1px $color-orange;
+          color: $color-orange;
+
+          width: 20%;
+          h4 {
+            font-size: 13px;
+          }
         }
-          
       }
     }
   }

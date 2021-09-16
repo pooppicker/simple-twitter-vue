@@ -10,7 +10,7 @@ const routes = [
   {
     path: "/",
     name: "",
-    redirect:"/signin"
+    redirect: "/signin"
   },
   {
     path: "/twitter/Home",
@@ -79,7 +79,7 @@ const routes = [
     name: "Reply-list",
     component: () => import('../views/ReplyList.vue')
   },
- 
+
 
   {
     path: "/admin/signin",
