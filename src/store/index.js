@@ -16,6 +16,7 @@ export default new Vuex.Store({
       TweetsCount: "",
       FollowersCount: "",
       FollowingCount: "",
+      isCurrent: true,
     },
     isAuthenticated: false,
   },
@@ -25,7 +26,7 @@ export default new Vuex.Store({
         ...state.currentUser,
         ...currentUser,
       };
-      state.isAuthenticated = true;
+      state.isAuthenticated = true
     },
   },
   actions: {
