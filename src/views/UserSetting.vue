@@ -21,7 +21,6 @@
                 id="account"
                 type="text"
                 autofocus
-                required
               />
             </div>
 
@@ -34,7 +33,6 @@
                 name="name"
                 type="text"
                 autofocus
-                required
               />
             </div>
 
@@ -46,7 +44,6 @@
                 id="email"
                 type="email"
                 autofocus
-                required
               />
             </div>
 
