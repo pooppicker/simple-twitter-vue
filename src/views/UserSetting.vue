@@ -131,9 +131,6 @@ router.beforeEach((to, from, next) => {
     //這裡我們把原本的api拿資料fetch過程，改成拿vuex的資料fetch
 
     fetchUser() {
-      console.log("fetch有作用");
-      console.log(this.currentUser);
-
       const { id, account, name, email } = this.currentUser;
 
       this.userInfo = {
@@ -150,7 +147,6 @@ router.beforeEach((to, from, next) => {
           icon: "error",
           title: "無法找到使用者資料",
         });*/
-      console.log("fetch結束");
     },
 
     async handleSubmit(e) {

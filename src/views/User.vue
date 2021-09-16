@@ -120,7 +120,7 @@ import IconNotify from "./../components/icons/IconNotify.vue";
 import IconNotified from "./../components/icons/IconNotified.vue";
 import IconFollowing from "./../components/icons/IconFollowing.vue";
 import CreateEditModal from "../components/modal/CreateEditModal.vue";
-import UserSpinner from "../components/spinner/Userspinner.vue";
+import UserSpinner from "../components/spinner/Userspinner.vue"
 import UserAPI from "./../apis/users";
 import { Toast } from "./../utils/helpers"
 
