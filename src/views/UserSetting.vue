@@ -83,13 +83,15 @@
 
 <script>
 import NavBars from "./../components/NavBars.vue";
-import UserAPI from "./../apis/users"
-import { Toast } from "./../utils/helpers"
+import UserAPI from "./../apis/users";
+import { Toast } from "./../utils/helpers";
+import { mapState } from "vuex"; //新增這裡
 
 export default {
   components: {
     NavBars,
   },
+
   data() {
     return {
       userInfo: {
@@ -98,64 +100,91 @@ export default {
         name: "",
         email: "",
         password: "",
-        passwordCheck: ""
+        passwordCheck: "",
       },
     };
   },
+
   created() {
-    const { id } = this.$route.params;
-    this.fetchUser(id)
+    // const { id } = this.$route.params;
+    this.fetchUser();
+    console.log(this.currentUser);
   },
+  //因為已經從vuex裡面把使用者的資料拿出來囉，所以這裡我們就不用特別再呼叫api拿資料了~
+  /*
   watch: {
     userInfo(newValue) {
       this.userInfo = {
         ...this.userInfo,
-        ...newValue
-      }
-    }
-  },
-  beforeRouteUpdate(to, next) {
-    const { id } = to.params
-    this.fetchRestaurant(id)
-    next()
-  },
-  methods: {
-    async fetchUser() {
-      try {
-        const { data } = await UserAPI.getCurrentUser()
-        const { id, account, name, email } = data;
-        this.userIfo = {
-          ...this.userInfo,
-          id,
-          account,
-          name,
-          email
-        }
-        // console.log('user data:',data)
-      } catch (error) {
-          console.log("error", error);
-          Toast.fire({
-            icon: 'error',
-            title: '無法找到使用者資料'
-          })
-      }
+        ...newValue,
+      };
     },
+  },
+router.beforeEach((to, from, next) => {
+  console.log('to', to)
+  console.log('from', from)
+  next()
+})
+,*/
+
+  methods: {
+    //這裡我們把原本的api拿資料fetch過程，改成拿vuex的資料fetch
+
+    fetchUser() {
+      console.log("fetch有作用");
+      console.log(this.currentUser);
+
+      const { id, account, name, email } = this.currentUser;
+
+      this.userInfo = {
+        ...this.userInfo,
+        id,
+        account,
+        name,
+        email,
+      };
+      //console.log(this.userInfo)
+      // console.log('user data:',data)
+
+      /*Toast.fire({
+          icon: "error",
+          title: "無法找到使用者資料",
+        });*/
+      console.log("fetch結束");
+    },
+
     async handleSubmit(e) {
       try {
-        const form = e.target
-        const formData = new FormData(form)
-        const { data } = await UserAPI.update({ userId: this.userIfo.id, formData })
-        if(data.status !== 'success') {
-          throw new Error(data.message)
+        const form = e.target;
+        const formData = new FormData(form);
+        const { data } = await UserAPI.update({
+          userId: this.userIfo.id,
+          formData,
+        });
+        if (data.status !== "success") {
+          throw new Error(data.message);
         }
-        this.$router.push({ name: 'User' })
+        this.$router.push({ name: "User" });
       } catch (error) {
         Toast.fire({
-          icon: 'error',
-          title: '無法更新資料，請重試'
-        })
+          icon: "error",
+          title: "無法更新資料，請重試",
+        });
       }
-    }
+    },
+  },
+  //新增這裡，把vuex的資料拿出來~等於現在已經有一個data() {return{currentUser:{...}}的資料囉 }
+  computed: {
+    ...mapState(["currentUser"]),
+  },
+  //新增這裡！這裏特別注意！因為重新整理之後，路由那裡會再去叫一次currentUser的api，這時候會有時間差，可能畫面渲染好，currentUser才回來，所以要再監聽一次看資料有沒有變化
+  watch: {
+    currentUser: {
+      handler: function () {
+        this.fetchUser();
+      },
+      deep: true,
+    },
   },
 };
 </script>

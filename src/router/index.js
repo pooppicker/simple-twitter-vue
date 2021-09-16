@@ -27,11 +27,11 @@ const routes = [
     name: "sign-up",
     component: () => import('../views/SignUp.vue')
   },
-  // {
-  //   path: "/twitter/Setting",
-  //   name: "Setting",
-  //   component: () => import('../views/UserSetting.vue')
-  // },
+  {
+    path: "/twitter/Setting",
+    name: "Setting",
+     component: () => import('../views/UserSetting.vue')
+   },
   {
     path: "/twitter/replylist/:id",
     name: "ReplyList",
@@ -60,11 +60,11 @@ const routes = [
       }
     ]
   },
-  {
+  /*{
     path: "/twitter/user/:id/edit",
     name: "User-edit",
     component: () => import('../views/UserSetting.vue')
-  },
+  },*/
   {
     path: "/twitter/user/:id/following",
     name: "User-following",

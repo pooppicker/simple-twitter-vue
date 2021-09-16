@@ -1,7 +1,7 @@
 <template>
   <div class="user-spinner-content d-flex">
     <img class="ac-logo-spinner" src="./../../assets/ac-logo.png" />
-    <h3>使用者資料努力載入中...</h3>
+    <h4>使用者資料努力載入中</h4>
   </div>
 </template>
 
@@ -13,18 +13,21 @@
   position: absolute;
   background-color: white;
   flex-direction: column;
-  z-index: 10;
+  z-index: 4;
   .ac-logo-spinner {
     margin: 0 auto;
     width: 5em;
     height: 5em;
     animation: logo 3s ease infinite normal;
   }
-  h3 {
+  h4 {
+    border: 2px #FF6600 solid;
+    border-radius:50px ;
+    padding: 0.3em  0.8em;
     margin: 50px auto 0 auto;
     animation: textpart  0.6s infinite alternate;
-    animation-duration: 0.1s;
-    color: #FF6600;;
+    animation-duration: 0.2s;
+    color:#FF6600;
   }
 }
 @keyframes textpart {

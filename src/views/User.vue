@@ -122,6 +122,7 @@ import IconFollowing from "./../components/icons/IconFollowing.vue";
 import CreateEditModal from "../components/modal/CreateEditModal.vue";
 import UserSpinner from "../components/spinner/Userspinner.vue";
 import UserAPI from "./../apis/users";
+import { Toast } from "./../utils/helpers"
 
 export default {
   components: {
@@ -194,6 +195,10 @@ export default {
         this.isProcessing= false
       } catch (error) {
         console.log(error);
+             Toast.fire({
+            icon: 'error',
+            title: '無法找到該使用者'
+          })
       }
     },
     previousPage() {
