@@ -102,7 +102,6 @@ export default {
         }
 
         localStorage.setItem("token", data.token);
-        console.log(data.token)
         this.$router.push('/twitter/Home')
       } catch (error) {
         console.log(error)

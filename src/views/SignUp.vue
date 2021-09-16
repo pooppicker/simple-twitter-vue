@@ -193,7 +193,7 @@ export default {
           name: this.name,
           email: this.email,
           password: this.password,
-          passwordCheck: this.passwordChecked,
+          checkPassword: this.passwordChecked,
         });
         const { data } = response;
         console.log(data);
