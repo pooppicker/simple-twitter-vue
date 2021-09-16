@@ -85,9 +85,9 @@ export default {
   components: {
     NavBars,
   },
-  methods: {
-    handleSubmit ()
-  }
+  // methods: {
+  //   handleSubmit ()
+  // }
 };
 </script>
 
