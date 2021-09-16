@@ -59,7 +59,6 @@
                 name="password"
                 type="password"
                 autocomplete="new-password"
-                required
               />
             </div>
 
@@ -72,7 +71,6 @@
                 name="passwordCheck"
                 type="password"
                 autocomplete="new-password"
-                required
               />
             </div>
           </div>
@@ -145,8 +143,10 @@ export default {
           })
       }
     },
-    async handleSubmit(formData) {
+    async handleSubmit(e) {
       try {
+        const form = e.target
+        const formData = new FormData(form)
         const { data } = await UserAPI.update({ userId: this.userIfo.id, formData })
         if(data.status !== 'success') {
           throw new Error(data.message)
