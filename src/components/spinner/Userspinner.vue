@@ -18,24 +18,23 @@
     margin: 0 auto;
     width: 5em;
     height: 5em;
-    animation: logo 3s ease-in-out infinite normal;
+    animation: logo 3s ease infinite normal;
   }
   h3 {
     margin: 50px auto 0 auto;
     animation: textpart  0.6s infinite alternate;
-    animation-duration: 0.5s;
+    animation-duration: 0.1s;
     color: #FF6600;;
   }
 }
-
 @keyframes textpart {
   from {
     opacity: 1;
     transform: translateY(0);
   }
   to {
-    opacity: 0.5;
-    transform: translateY(-1rem);
+    opacity: 1;
+    transform: translateY(-1.5rem);
   }
 }
 @keyframes logo {
