@@ -34,10 +34,7 @@
           </button>
           <template v-else>
             <IconMsg class="other-user-btn" />
-            <IconNotify
-              v-if="true"
-              class="other-user-btn"
-            />
+            <IconNotify v-if="true" class="other-user-btn" @click.stop.prevent="ChangeNotified" />
             <IconNotified v-else class="other-user-btn" />
             <IconFollowing class="other-user-btn" />
           </template>
@@ -109,6 +106,7 @@ import IconNotify from "./../components/icons/IconNotify.vue";
 import IconNotified from "./../components/icons/IconNotified.vue";
 import IconFollowing from "./../components/icons/IconFollowing.vue";
 import CreateEditModal from "../components/modal/CreateEditModal.vue";
+import UserAPI from './../apis/users'
 
 const dummyData = {
   profile: {
@@ -156,6 +154,7 @@ export default {
         TweetsCount: "",
         FollowersCount: "",
         FollowingCount: "",
+        isNotified: false, //這個應該要包在profile裡面，但目前還沒開放進階功能，所以資料結構沒有這個項目
       },
       openModal: false,
     };
@@ -165,7 +164,15 @@ export default {
     this.fetchUser(id);
   },
   methods: {
-    fetchUser() {
+    async fetchUser() {
+      try {
+
+      } catch(error) {
+        console.log(error)
+      }
+
+
+
       const {
         id,
         name,
@@ -199,6 +206,10 @@ export default {
     handleCloseModal() {
       this.openModal = false;
     },
+    ChangeNotified() {
+      this.profile.isNotified = !this.profile.isNotifiedn
+
+    }
   },
 };
 </script>
