@@ -215,13 +215,16 @@ export default {
           formData,
         });
 
-        console.log("save-data", response)
+        console.log("save-data", response);
         Toast.fire({
           icon: "success",
           title: "成功更新資料",
         });
         this.isProcessing = false;
-        this.$router.push({ name: 'Home'})
+        const { id } = this.$route.params;
+        this.fetchUser(id); //重新更新使用者資料
+        this.handleCloseModal() //關modal
+        //this.$router.push({ name: 'Home'})
       } catch (error) {
         this.isProcessing = false;
         Toast.fire({
