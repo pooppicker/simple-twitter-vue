@@ -10,10 +10,7 @@
           @submit.stop.prevent="handleSubmit"
         >
           <div class="top-part d-flex">
-            <img
-              class="current-user-imag"
-              src="https://image.flaticon.com/icons/png/512/847/847969.png"
-            />
+            <img class="current-user-imag" :src="currentUser.avatar" />
 
             <div class="input-post">
               <label class="post-label" for="post-input"></label>
@@ -108,6 +105,7 @@ import TweetAPI from "./../apis/tweets";
 import { Toast } from "./../utils/helpers";
 import HomerSpinner from "./HomeSpinner.vue";
 import { mapState } from "vuex";
+import { setInterval, clearInterval } from "timers";
 
 export default {
   mixins: [fromNowFilter],
@@ -125,6 +123,7 @@ export default {
       isProcessing: false,
       openModal: false,
       pageIsProcessing: true,
+      timer: 0,
     };
   },
 
@@ -199,25 +198,36 @@ export default {
     handleCloseModal() {
       this.openModal = false;
     },
+    //首頁推文即時更新(5秒)
+    UpDateTweet() {
+      this.timer = setInterval(() => {
+        this.fetchTweets();
+      }, 5000);
+    },
   },
 
   created() {
     this.fetchTweets();
+    this.UpDateTweet();
   },
   computed: {
-    ...mapState(["isNewPost"]),
+    ...mapState(["isNewPost", "currentUser"]),
   },
   watch: {
-  isNewPost: {
-    handler: function () {
-      if(this.isNewPost) {
-        this.fetchTweets()
-        this.$store.commit('updateNewPost')
-      }
+    isNewPost: {
+      handler: function () {
+        if (this.isNewPost) {
+          this.fetchTweets();
+          this.$store.commit("updateNewPost");
+        }
+      },
+      deep: true,
     },
-    deep: true, 
   },
-},
+  //換頁後即時更新銷毀
+  beforeDestroy() {
+    clearInterval(this.timer);
+  },
 };
 </script>
 
