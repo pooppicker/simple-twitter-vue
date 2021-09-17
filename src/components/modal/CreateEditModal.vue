@@ -79,7 +79,10 @@
                   autofocus
                 />
               </div>
-              <div class="modal-txt-limit">8/50</div>
+              
+              <div class="modal-txt-limit">
+                <span v-if="profile.name.length >= 50" class="name-error">字數不可超過50字</span>
+                {{profile.name.length}}/50</div>
               <div class="modal-input-style mb-2">
                 <label class="edit-label" for="introduction">自我介紹</label>
                 <textarea
@@ -93,7 +96,10 @@
                   autofocus
                 />
               </div>
-              <div class="modal-txt-limit">0/160</div>
+              
+              <div class="modal-txt-limit">
+                <span v-if="profile.introduction.length >= 160" class="typing-error">字數不可超過160字</span>
+                {{profile.introduction.length}}/160</div>
             </div>
           </slot>
         </form>
@@ -208,6 +214,16 @@ export default {
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.4);
   z-index: 9999;
+  .typing-error {
+    color: #fc5a5a;
+    font-size: 15px;
+    margin-right: 68%;
+  }
+  .name-error {
+    color: #fc5a5a;
+    font-size: 15px;
+    margin-right: 72%;
+  }
 }
 #modal-container {
   position: relative;
