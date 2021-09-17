@@ -4,7 +4,7 @@
       <div id="modal">
         <form
           class="d-flex flex-column align-items-center"
-    
+          @submit.stop.prevent="handleSubmit"
         >
           <slot name="head">
             <div class="modal-title-area">
@@ -14,20 +14,23 @@
                 </div>
                 <h4 class="modal-profile-name">編輯個人資料</h4>
               </div>
-              <button type="submit" class="modal-save-btn" @click.stop.prevent="handleSubmit">儲存</button>
+              <button type="submit" class="modal-save-btn">儲存</button>
             </div>
           </slot>
           <slot name="body">
             <div class="modal-cover-area">
-              <IconUploadPhoto class="upload-cover" />
-              <IconCloseWhite class="delete-cover" />
-              <IconUploadPhoto class="upload-avatar" />
+              <!-- Images area -->
+              <label for="cover"><IconUploadPhoto class="upload-cover" /></label>
               <img class="modal-cover-photo" :src="profile.cover" alt="cover" />
+              <input id="cover" style="display:none" type="file" name="cover" accept="image/*" @change="handleCoverChange" />
+              <IconCloseWhite class="delete-cover" />
+              <label for="avatar"><IconUploadPhoto class="upload-avatar" /></label>
               <img
                 class="modal-user-avatar"
                 :src="profile.avatar"
                 alt="avatar"
               />
+              <input id="avatar" style="display:none" type="file" name="avatar" accept="image/*" @change="handleAvatarChange" />
             </div>
           </slot>
           <slot name="footer">
@@ -69,8 +72,6 @@
 import IconCloseOrange from "./../icons/IconClose.vue";
 import IconCloseWhite from "./../icons/IconCloseWhite.vue";
 import IconUploadPhoto from "./../icons/IconUploadPhoto.vue";
-import UserAPI from "../../apis/users";
-import { Toast } from "../../utils/helpers";
 import { mapState } from "vuex";
 
 export default {
@@ -80,10 +81,6 @@ export default {
     IconUploadPhoto,
   },
   props: {
-    // initialProfile: {
-    //   type: Object,
-    //   required: true
-    // },
     onClose: {
       types: Function,
       required: true,
@@ -92,6 +89,7 @@ export default {
   data() {
     return {
       profile: {
+        id: -1,
         cover: "",
         avatar: "",
         name: "",
@@ -104,34 +102,44 @@ export default {
   },
   methods: {
     fetchProfile() {
-      const { cover, avatar, name, introduction } = this.currentUser;
+      const { id, cover, avatar, name, introduction } = this.currentUser;
       this.profile = {
         ...this.profile,
+        id,
         cover,
         avatar,
         name,
         introduction,
       };
     },
-    async handleSubmit(e) {
-      try {
-        const form = e.target
-        const formData = new FormData(form)
-        const { data } = await UserAPI.update({
-          userId: this.currentUser.id,
-          formData,
-        });
-        console.log('formData', formData)
-        if (data.status !== "success") {
-          throw new Error(data.message);
-        }
-        this.$router.push({ name: "User" });
-      } catch (error) {
-        console.log(error.message);
-        Toast.fire({
-          icon: "error",
-          title: "無法更新資料，請重試",
-        });
+    handleSubmit(e) {
+      const form = e.target;
+      const formData = new FormData(form);
+      for (let [name, value] of formData.entries()) {
+        console.log(name + ": " + value);
+      }
+      this.$emit("after-submit", formData);
+    },
+    handleCoverChange(e) {
+      const { files } = e.target
+      if (files.length === 0) {
+        //user do not select pic
+        this.profile.cover = ''
+        return 
+      } else {
+        const imageURL = window.URL.createObjectURL(files[0])
+        this.profile.cover = imageURL
+      }
+    },
+    handleAvatarChange(e) {
+      const { files } = e.target
+      if (files.length === 0) {
+        //user do not select pic
+        this.profile.avatar = ''
+        return 
+      } else {
+        const imageURL = window.URL.createObjectURL(files[0])
+        this.profile.avatar = imageURL
       }
     },
   },
@@ -230,6 +238,9 @@ export default {
     &:hover {
       transform: scale(1.2, 1.2);
     }
+  }
+  .delete-cover-photo {
+    background: #999999;
   }
   .upload-avatar {
     position: absolute;

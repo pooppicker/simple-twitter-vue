@@ -101,7 +101,7 @@ export default {
         if (data.status !== "success") {
           throw new Error(data.message);
         }
-
+  
         localStorage.setItem("token", data.token);
         this.$router.push('/twitter/Home')
       } catch (error) {

@@ -50,7 +50,11 @@
           </div>
 
           <!-- Modal -->
-          <CreateEditModal v-if="openModal" :onClose="handleCloseModal" />
+          <CreateEditModal
+            v-if="openModal"
+            :onClose="handleCloseModal"
+            @after-submit="handleAfterSubmit"
+          />
 
           <!-- Description -->
           <div class="desc-area">
@@ -120,9 +124,9 @@ import IconNotify from "./../components/icons/IconNotify.vue";
 import IconNotified from "./../components/icons/IconNotified.vue";
 import IconFollowing from "./../components/icons/IconFollowing.vue";
 import CreateEditModal from "../components/modal/CreateEditModal.vue";
-import UserSpinner from "../components/Userspinner.vue"
+import UserSpinner from "../components/Userspinner.vue";
 import UserAPI from "./../apis/users";
-import { Toast } from "./../utils/helpers"
+import { Toast } from "./../utils/helpers";
 
 export default {
   components: {
@@ -192,14 +196,40 @@ export default {
           FollowingCount,
           isCurrent,
         };
-        this.isProcessing= false
+        this.isProcessing = false;
       } catch (error) {
         console.log(error);
-             Toast.fire({
-            icon: 'error',
-            title: '無法找到該使用者'
-          })
+        Toast.fire({
+          icon: "error",
+          title: "無法找到該使用者",
+        });
       }
+    },
+    async handleAfterSubmit(formData) {
+      // 透過 API 將表單資料送到伺服器
+      try {
+        this.isProcessing = true;
+        const response = await UserAPI.update({
+          userId: this.profile.id,
+          formData,
+        });
+
+        // if (data.status !== "success") {
+        //   throw new Error(data.message);
+        // }
+        this.$router.push({ name: 'User'})
+        console.log(response)
+      } catch (error) {
+        this.isProcessing = false;
+        Toast.fire({
+          icon: "error",
+          title: "cannot update restaurant, pleaser try again later",
+        });
+      }
+      // for (let [name, value] of formData.entries()) {
+      //   console.log(name + ": " + value);
+      // }
+      // 還沒拿到api前的寫法
     },
     previousPage() {
       this.$router.back();
