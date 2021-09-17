@@ -7,7 +7,8 @@
       </div>
       <div>
         <!--middle of home-->
-        <MiddleOfHome />
+        <MiddleOfHome 
+        />
       </div>
       <div class="popular">
         <!--popular-->

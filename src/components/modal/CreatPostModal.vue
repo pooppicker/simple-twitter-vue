@@ -2,7 +2,7 @@
   <div class="modal-overlay">
     <div class="modal-container">
       <div class="modal">
-        <form>
+        <form @submit.stop.prevent="handleSubmit">
           <slot name="head">
             <div class="create-title-area">
               <div class="go-close" @click="onClose">
@@ -30,13 +30,35 @@
                   autofocus
                   required
                   placeholder="有什麼新鮮事?"
+                  v-model="description"
                 />
               </div>
             </div>
           </slot>
           <slot name="footer">
             <div class="create-tweet-btn">
-              <button class="click-to-create" type="submit">推文</button>
+              <span v-if="description.length >= 140" class="input-error">
+                字數不可超過140字
+              </span>
+              <span v-if="isDescriptionEmpty" class="input-error">
+                內文不可空白
+              </span>
+                        <span v-if="isSubmitError" class="input-error">
+                發送失敗，請重新發送一次
+              </span>
+              <button
+                v-if="!isProcessing"
+                class="click-to-create"
+                type="submit"
+                :disabled="
+                  description.trim().length === 0 || description.length >= 140
+                "
+              >
+                推文
+              </button>
+              <button v-else class="click-to-create" type="submit" disabled>
+                發送中
+              </button>
             </div>
           </slot>
         </form>
@@ -47,6 +69,8 @@
 
 <script>
 import IconCloseOrange from "./../icons/IconClose.vue";
+import TweetAPI from "./../../apis/tweets";
+import { Toast } from "./../../utils/helpers";
 
 export default {
   components: {
@@ -58,6 +82,70 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      description: "",
+      isProcessing: false,
+      isDescriptionEmpty:false, 
+      isSubmitError: false
+
+    };
+  },
+  methods: {
+    async handleSubmit() {
+      try {
+        this.isProcessing = true;
+        //空白不能發文
+        if (!this.description) {
+          this.isDescriptionEmpty= true
+          this.isProcessing = false;
+          return;
+        }
+        //發文長度限制
+        if (this.description.length > 140) {
+          this.isProcessing = false;
+          return;
+        }
+
+        await TweetAPI.PostTweet({
+          description: this.description,
+        })
+
+        this.$emit('closeModal')
+        console.log(this.$route)
+        //更新vuex資料
+        if( this.$route.name === "Home"){
+          console.log('有到這裡')
+        this.$store.commit('updateNewPost')}
+
+
+
+        Toast.fire({
+          icon: "success",
+          title: "推文發送成功",
+        });
+        this.description = "";
+        this.isProcessing = false;
+        
+      } catch (error) {
+        console.log(error);
+        this.isSubmitError = true
+        this.isProcessing = false;
+      }
+    },
+  },
+
+  watch: {
+  description: {
+    handler: function () {
+      if(this.description.trim().length > 0) {
+       this.isDescriptionEmpty = false
+       this.isSubmitError = false
+      }
+    },
+    deep: true, 
+  },
+},
 };
 </script>
 
@@ -70,6 +158,12 @@ export default {
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.4);
   z-index: 9999;
+  .input-error {
+    color: #fc5a5a;
+    font-size: 15px;
+    margin-right: 10px;
+    padding-top: 8px;
+  }
 }
 .modal-container {
   position: relative;
@@ -113,8 +207,8 @@ export default {
     height: 150px;
     font-size: 18px;
     resize: none;
-    margin-top: .7rem;
-    margin-left: .7rem;
+    margin-top: 0.7rem;
+    margin-left: 0.7rem;
     // outline: 1px solid black;
   }
 }
@@ -125,11 +219,14 @@ export default {
   .click-to-create {
     width: 66px;
     height: 38px;
-    background: #FF6600;
+    background: #ff6600;
     border-radius: 100px;
-    color: #FFFFFF;
+    color: #ffffff;
     font-size: 18px;
     margin-right: 0.7rem;
+    &:disabled {
+      opacity: 0.6;
+    }
   }
 }
 @keyframes scale-in {

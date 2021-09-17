@@ -20,6 +20,7 @@ export default new Vuex.Store({
       isCurrent: true,
     },
     isAuthenticated: false,
+    isNewPost: false,
   },
   mutations: {
     setCurrentUser(state, currentUser) {
@@ -29,6 +30,9 @@ export default new Vuex.Store({
       };
       state.isAuthenticated = true
     },
+    updateNewPost(state) {
+      state.isNewPost = !state.isNewPost
+    }
   },
   actions: {
     async fetchCurrentUser({ commit }) {
