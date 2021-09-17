@@ -208,8 +208,8 @@ export default {
     // 這個部分要找問題！
     async handleAfterSubmit(formData) {
       // 透過 API 將表單資料送到伺服器
+      this.isProcessing = true;
       try {
-        this.isProcessing = true;
         const response = await UserAPI.update({
           userId: this.profile.id,
           formData,
@@ -220,7 +220,8 @@ export default {
           icon: "success",
           title: "成功更新資料",
         });
-        
+        this.isProcessing = false;
+        this.$router.push({ name: 'Home'})
       } catch (error) {
         this.isProcessing = false;
         Toast.fire({
