@@ -24,13 +24,13 @@
                 ><IconUploadPhoto class="upload-cover"
               /></label>
               <img
-                v-show="!deleteClick"
+                v-if="!deleteClick"
                 class="modal-cover-photo"
                 :src="profile.cover"
                 alt="cover"
               />
               <img
-                v-show="deleteClick"
+                v-else
                 class="remove-cover-photo"
                 src="https://htmlcolorcodes.com/assets/images/colors/gray-color-solid-background-1920x1080.png"
                 alt=""
@@ -79,10 +79,13 @@
                   autofocus
                 />
               </div>
-              
+
               <div class="modal-txt-limit">
-                <span v-if="profile.name.length >= 50" class="name-error">字數不可超過50字</span>
-                {{profile.name.length}}/50</div>
+                <span v-if="profile.name.length >= 50" class="name-error"
+                  >字數不可超過50字</span
+                >
+                {{ profile.name.length }}/50
+              </div>
               <div class="modal-input-style mb-2">
                 <label class="edit-label" for="introduction">自我介紹</label>
                 <textarea
@@ -96,10 +99,15 @@
                   autofocus
                 />
               </div>
-              
+
               <div class="modal-txt-limit">
-                <span v-if="profile.introduction.length >= 160" class="typing-error">字數不可超過160字</span>
-                {{profile.introduction.length}}/160</div>
+                <span
+                  v-if="profile.introduction.length >= 160"
+                  class="typing-error"
+                  >字數不可超過160字</span
+                >
+                {{ profile.introduction.length }}/160
+              </div>
             </div>
           </slot>
         </form>
@@ -141,6 +149,10 @@ export default {
   created() {
     this.fetchProfile();
   },
+  beforeRouteUpdate(to, next) {
+    console.log(to)
+    console.log(next)
+  },
   methods: {
     fetchProfile() {
       const { id, cover, avatar, name, introduction } = this.currentUser;
@@ -156,7 +168,6 @@ export default {
     handleSubmit(e) {
       const form = e.target;
       const formData = new FormData(form);
-      this.$emit("closeModal");
       this.$emit("after-submit", formData);
     },
     handleCoverChange(e) {
