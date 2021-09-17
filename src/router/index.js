@@ -57,14 +57,9 @@ const routes = [
         path: "Liked",
         name: "Liked",
         component: () => import('../components/UserLiked.vue')
-      }
+      },
     ]
   },
-  /*{
-    path: "/twitter/user/:id/edit",
-    name: "User-edit",
-    component: () => import('../views/UserSetting.vue')
-  },*/
   {
     path: "/twitter/user/:id/following",
     name: "User-following",

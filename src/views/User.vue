@@ -50,9 +50,11 @@
           </div>
 
           <!-- Modal -->
+
           <CreateEditModal
             v-if="openModal"
             :onClose="handleCloseModal"
+            @closeModal="handleCloseModal()"
             @after-submit="handleAfterSubmit"
           />
 
@@ -208,14 +210,13 @@ export default {
     // 這個部分要找問題！
     async handleAfterSubmit(formData) {
       // 透過 API 將表單資料送到伺服器
-      this.isProcessing = true;
       try {
+        this.isProcessing = true;
         const response = await UserAPI.update({
           userId: this.profile.id,
           formData,
         });
-
-        console.log("save-data", response);
+        console.log("response", response);
         Toast.fire({
           icon: "success",
           title: "成功更新資料",
@@ -229,7 +230,7 @@ export default {
         this.isProcessing = false;
         Toast.fire({
           icon: "error",
-          title: "cannot update restaurant, pleaser try again later",
+          title: "無法更新資料，請重試",
         });
       }
     },
