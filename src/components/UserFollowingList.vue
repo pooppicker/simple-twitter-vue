@@ -6,7 +6,7 @@
       </div>
       <div class="user-title">
         <h4 class="user-profile-name">{{ user.name }}</h4>
-        <span class="span-setting">25 推文</span>
+        <span class="span-setting">{{user.TweetsCount}} 推文</span>
       </div>
       <hr />
     </div>
@@ -248,17 +248,38 @@ export default {
   },
 
   methods: {
-    fetchUser() {
-      this.followUsers = this.innitialFollowUser;
-      this.user = this.innitialUser;
+    fetchData() {
+      this.followUsers = {
+        ...this.innitialFollowUser,
+      };
+        this.user = {
+        ...this.innitialUser,
+      };
     },
+
+
     previousPage() {
       this.$router.back();
     },
   },
 
   created() {
-    this.fetchUser();
+    this.fetchData()
+  },
+  watch: {
+    innitialFollowUser: {
+      handler: function () {
+        this.fetchData();
+      },
+      deep: true,
+    },
+        innitialUser: {
+      handler: function () {
+        this.fetchData();
+      },
+      deep: true,
+    },
+
   },
 };
 </script>
