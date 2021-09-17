@@ -205,6 +205,7 @@ export default {
         });
       }
     },
+    // 這個部分要找問題！
     async handleAfterSubmit(formData) {
       // 透過 API 將表單資料送到伺服器
       try {
@@ -214,11 +215,12 @@ export default {
           formData,
         });
 
-        // if (data.status !== "success") {
-        //   throw new Error(data.message);
-        // }
-        this.$router.push({ name: 'User'})
-        console.log(response)
+        console.log("save-data", response)
+        Toast.fire({
+          icon: "success",
+          title: "成功更新資料",
+        });
+        
       } catch (error) {
         this.isProcessing = false;
         Toast.fire({
@@ -226,10 +228,6 @@ export default {
           title: "cannot update restaurant, pleaser try again later",
         });
       }
-      // for (let [name, value] of formData.entries()) {
-      //   console.log(name + ": " + value);
-      // }
-      // 還沒拿到api前的寫法
     },
     previousPage() {
       this.$router.back();

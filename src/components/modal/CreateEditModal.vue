@@ -20,17 +20,37 @@
           <slot name="body">
             <div class="modal-cover-area">
               <!-- Images area -->
-              <label for="cover"><IconUploadPhoto class="upload-cover" /></label>
+              <label for="cover"
+                ><IconUploadPhoto class="upload-cover"
+              /></label>
               <img class="modal-cover-photo" :src="profile.cover" alt="cover" />
-              <input id="cover" style="display:none" type="file" name="cover" accept="image/*" @change="handleCoverChange" />
+              <input
+                id="cover"
+                style="display: none"
+                type="file"
+                name="cover"
+                accept="image/*"
+                @change="handleCoverChange"
+              />
+              
               <IconCloseWhite class="delete-cover" />
-              <label for="avatar"><IconUploadPhoto class="upload-avatar" /></label>
+
+              <label for="avatar"
+                ><IconUploadPhoto class="upload-avatar"
+              /></label>
               <img
                 class="modal-user-avatar"
                 :src="profile.avatar"
                 alt="avatar"
               />
-              <input id="avatar" style="display:none" type="file" name="avatar" accept="image/*" @change="handleAvatarChange" />
+              <input
+                id="avatar"
+                style="display: none"
+                type="file"
+                name="avatar"
+                accept="image/*"
+                @change="handleAvatarChange"
+              />
             </div>
           </slot>
           <slot name="footer">
@@ -95,6 +115,7 @@ export default {
         name: "",
         introduction: "",
       },
+      deleteClick: false,
     };
   },
   created() {
@@ -121,26 +142,30 @@ export default {
       this.$emit("after-submit", formData);
     },
     handleCoverChange(e) {
-      const { files } = e.target
+      const { files } = e.target;
       if (files.length === 0) {
         //user do not select pic
-        this.profile.cover = ''
-        return 
+        this.profile.cover = "";
+        return;
       } else {
-        const imageURL = window.URL.createObjectURL(files[0])
-        this.profile.cover = imageURL
+        const imageURL = window.URL.createObjectURL(files[0]);
+        this.profile.cover = imageURL;
       }
     },
     handleAvatarChange(e) {
-      const { files } = e.target
+      const { files } = e.target;
       if (files.length === 0) {
         //user do not select pic
-        this.profile.avatar = ''
-        return 
+        this.profile.avatar = "";
+        return;
       } else {
-        const imageURL = window.URL.createObjectURL(files[0])
-        this.profile.avatar = imageURL
+        const imageURL = window.URL.createObjectURL(files[0]);
+        this.profile.avatar = imageURL;
       }
+    },
+    handleCoverDelete(e) {
+      const { files } = e.target;
+      console.log(files);
     },
   },
   computed: {
