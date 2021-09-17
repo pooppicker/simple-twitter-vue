@@ -32,7 +32,7 @@ export default new Vuex.Store({
     },
     updateNewPost(state) {
       state.isNewPost = !state.isNewPost
-    }
+    },
   },
   actions: {
     async fetchCurrentUser({ commit }) {

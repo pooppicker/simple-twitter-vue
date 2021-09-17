@@ -23,8 +23,18 @@
               <label for="cover"
                 ><IconUploadPhoto class="upload-cover"
               /></label>
-              <img v-show="!deleteClick" class="modal-cover-photo" :src="profile.cover" alt="cover" />
-              <img v-show="deleteClick" class="remove-cover-photo" src="https://htmlcolorcodes.com/assets/images/colors/gray-color-solid-background-1920x1080.png" alt="">
+              <img
+                v-show="!deleteClick"
+                class="modal-cover-photo"
+                :src="profile.cover"
+                alt="cover"
+              />
+              <img
+                v-show="deleteClick"
+                class="remove-cover-photo"
+                src="https://htmlcolorcodes.com/assets/images/colors/gray-color-solid-background-1920x1080.png"
+                alt=""
+              />
               <input
                 id="cover"
                 style="display: none"
@@ -36,7 +46,7 @@
               <div @click="handleCoverDelete">
                 <IconCloseWhite class="delete-cover" />
               </div>
-              
+
               <label for="avatar"
                 ><IconUploadPhoto class="upload-avatar"
               /></label>
@@ -140,9 +150,7 @@ export default {
     handleSubmit(e) {
       const form = e.target;
       const formData = new FormData(form);
-      for (let [name, value] of formData.entries()) {
-        console.log(name + ": " + value);
-      }
+      this.$emit("closeModal");
       this.$emit("after-submit", formData);
     },
     handleCoverChange(e) {
@@ -150,10 +158,10 @@ export default {
       if (files.length === 0) {
         //user do not select pic
         this.profile.cover = "";
-        this.deleteClick = false
+        this.deleteClick = false;
         return;
       } else {
-        this.deleteClick = false
+        this.deleteClick = false;
         const imageURL = window.URL.createObjectURL(files[0]);
         this.profile.cover = imageURL;
       }
@@ -170,7 +178,7 @@ export default {
       }
     },
     handleCoverDelete() {
-      this.deleteClick = true
+      this.deleteClick = true;
     },
   },
   computed: {
@@ -293,7 +301,6 @@ export default {
     border-radius: 50%;
   }
   .remove-cover-photo {
-
     filter: opacity(95%);
   }
 }
