@@ -222,7 +222,10 @@ export default {
           title: "成功更新資料",
         });
         this.isProcessing = false;
-        this.$router.push({ name: "User" });
+        const { id } = this.$route.params;
+        this.fetchUser(id); //重新更新使用者資料
+        this.handleCloseModal() //關modal
+        //this.$router.push({ name: 'Home'})
       } catch (error) {
         this.isProcessing = false;
         Toast.fire({
