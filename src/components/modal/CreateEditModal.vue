@@ -63,6 +63,7 @@
                   v-model="profile.name"
                   class="edit-input"
                   id="name"
+                  name="name"
                   type="text"
                   maxlength="50"
                   autofocus
@@ -70,11 +71,12 @@
               </div>
               <div class="modal-txt-limit">8/50</div>
               <div class="modal-input-style mb-2">
-                <label class="edit-label" for="name">自我介紹</label>
+                <label class="edit-label" for="introduction">自我介紹</label>
                 <textarea
                   v-model="profile.introduction"
                   class="edit-input"
-                  id="name"
+                  id="introduction"
+                  name="introduction"
                   type="text"
                   rows="4"
                   maxlength="160"
