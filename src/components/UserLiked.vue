@@ -78,7 +78,7 @@ export default {
         console.log(error.message)
         Toast.fire({
           icon: 'error',
-          title: '找不到使用者留言'
+          title: '找不到喜歡的內容'
         })
       }
     },
