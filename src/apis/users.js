@@ -46,13 +46,20 @@ export default {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
   },
-  editUserAccount({ userID, formData }) {
-    return apiHelper.put(`users/${userID}/settings`, formData, {
+  editUserAccount({ userID,formData }) {
+    return apiHelper.put(`users/${userID}/settings`, {
+      formData,
+      }, {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
   },
   update({ userId, formData }) {
     return apiHelper.put(`/users/${userId}`, formData, {
+      headers: { Authorization: `Bearer ${getToken()}` }
+    })
+  },
+  deleteFollowships({ followingId }) {
+    return apiHelper.delete(`/followships/${followingId}`, {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
   },
