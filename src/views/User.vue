@@ -166,7 +166,7 @@ export default {
     const { id } = this.$route.params;
     this.fetchUser(id);
   },
-
+  
   methods: {
     async fetchUser(userID) {
       try {

@@ -69,11 +69,6 @@ export default {
     const { id } = this.$route.params;
     this.fetchTweets(id);
   },
-  beforeRouteUpdate(to, next) {
-    const { id } = to.params
-    this.fetchTweets(id)
-    next()
-  },
   methods: {
     //使用者的部分
     async fetchTweets(userID) {

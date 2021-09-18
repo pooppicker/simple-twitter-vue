@@ -31,8 +31,6 @@
 import { fromNowFilter } from "./../utils/mixins";
 import userAPI from "../apis/users"
 import { Toast } from "../utils/helpers"
-// import { mapState } from "vuex";
-
 
 export default {
   mixins: [fromNowFilter],
