@@ -224,6 +224,7 @@ export default {
         this.isProcessing = false;
         const { id } = this.$route.params;
         this.fetchUser(id); //重新更新使用者資料
+        this.$store.dispatch('fetchCurrentUser')//vuex同步更新
         this.handleCloseModal() //關modal
         //this.$router.push({ name: 'Home'})
       } catch (error) {
@@ -239,6 +240,7 @@ export default {
     },
     handleOpenModal() {
       this.openModal = true;
+       
     },
     handleCloseModal() {
       this.openModal = false;
