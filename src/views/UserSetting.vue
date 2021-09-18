@@ -143,10 +143,11 @@ router.beforeEach((to, from, next) => {
         email,
       };
     },
-    async handleSubmit(e) {
+    async handleSubmit() {
       try {
-        const form = e.target
-        const formData = new FormData(form)
+        
+        const formData = this.userInfo
+        console.log(formData)
         const { data } = await UserAPI.editUserAccount({
           userID: this.userInfo.id,
           formData,
@@ -154,6 +155,7 @@ router.beforeEach((to, from, next) => {
         if (data.status === 'error') {
           throw new Error(data.message)
         }
+        
         this.$router.push({ name: 'User', params: { id: this.userInfo.id }})
       } catch (error) {
         console.log(error.message);
