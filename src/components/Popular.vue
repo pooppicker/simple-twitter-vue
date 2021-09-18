@@ -75,15 +75,29 @@ export default {
         });
       }
     },
-    cancelFollow(user) {
-      user.isFollowed = false;
+
+    async cancelFollow(user) {
+      try {
+        user.isFollowed = false;
+        await UserAPI.deleteFollowships({
+          followingId: user.id,
+        });
+      } catch (error) {
+        user.isFollowed = true;
+        console.log(error);
+        Toast.fire({
+          icon: "warning",
+          title: "取消追蹤失敗，請稍後再試",
+        });
+      }
     },
+
     async addFollow(user) {
       try {
         user.isFollowed = true;
         await UserAPI.postFollowships({
           id: user.id,
-        });       
+        });
       } catch (error) {
         user.isFollowed = false;
         console.log(error);
