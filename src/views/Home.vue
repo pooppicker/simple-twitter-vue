@@ -55,7 +55,7 @@ export default {
 @media screen and (max-width: 1022px) {
   .home-content {
     .middle-container {
-      h4 {
+      .middle-h4 {
         width: 30em;
       }
     }
@@ -124,10 +124,11 @@ export default {
 
     .middle-container {
       width: 100%;
+      width: 100vw;
       border-left: white 0px solid;
       margin-left: 0px;
       margin-right: 0px;
-      h4 {
+      .middle-h4 {
         top: 3em;
         width: 100%;
         background-color: $color-orange;
