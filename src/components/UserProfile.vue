@@ -68,7 +68,6 @@ export default {
   created() {
     const { id } = this.$route.params;
     this.fetchTweets(id);
-    console.log(id)
   },
   beforeRouteUpdate(to, next) {
     const { id } = to.params
