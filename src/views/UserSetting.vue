@@ -17,7 +17,6 @@
               <label class="setting-label" for="account">帳號</label>
               <input
                 v-model="userInfo.account"
-                name="account"
                 class="setting-input"
                 id="account"
                 type="text"
@@ -41,7 +40,6 @@
               <label class="setting-label" for="email">Email</label>
               <input
                 v-model="userInfo.email"
-                name="email"
                 class="setting-input"
                 id="email"
                 type="email"
@@ -101,8 +99,8 @@ export default {
         account: "",
         name: "",
         email: "",
-        password: "",
-        passwordCheck: "",
+         password: "",
+        checkPassword: "",
       },
     };
   },
@@ -133,7 +131,7 @@ router.beforeEach((to, from, next) => {
     //這裡我們把原本的api拿資料fetch過程，改成拿vuex的資料fetch
 
     fetchUser() {
-      const { id, account, name, email, password, passwordCheck } = this.currentUser;
+      const { id, account, name, email } = this.currentUser;
 
       this.userInfo = {
         ...this.userInfo,
@@ -141,24 +139,37 @@ router.beforeEach((to, from, next) => {
         account,
         name,
         email,
-        password,
-        passwordCheck
       };
+      //console.log(this.userInfo)
+      // console.log('user data:',data)
+
+      /*Toast.fire({
+          icon: "error",
+          title: "無法找到使用者資料",
+        });*/
     },
+
     async handleSubmit(e) {
       try {
-        const form = e.target
-        const formData = new FormData(form)
-        const { data } = await UserAPI.editUserAccount({
-          userID: this.userInfo.id,
-          formData,
+        const form = e.target;
+        const data2 = `name=${ this.userInfo.name}&account:${this.userInfo.account}`
+        console.log('e:',e)
+        const formData = new FormData(form);
+        const { data } = await UserAPI.update({
+          userId: this.userInfo.id,
+          formData: data2,
         });
-        if (data.status === 'error') {
-          throw new Error(data.message)
+        console.log('formData', formData)
+        if (data.status !== "success") {
+          throw new Error(data.message);
         }
-        this.$router.push({ name: 'User', params: { id: this.userInfo.id }})
+        this.$router.push({ name: 'User', params: { id: this.currentUser.id } });
+        Toast.fire({
+          icon: "success",
+          title: "更新成功",
+        });
       } catch (error) {
-        console.log(error.message);
+        console.log(error.message)
         Toast.fire({
           icon: "error",
           title: "無法更新資料，請重試",
