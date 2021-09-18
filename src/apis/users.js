@@ -34,6 +34,11 @@ export default {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
   },
+  getUserLiked({ userID }) {
+    return apiHelper.get(`/users/${userID}/liked`, {
+      headers: { Authorization: `Bearer ${getToken()}` }
+    })
+  },
   editUserAccount({ userID, formData }) {
     return apiHelper.put(`users/${userID}/settings`, formData, {
       headers: { Authorization: `Bearer ${getToken()}` }

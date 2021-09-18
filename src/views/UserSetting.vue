@@ -62,12 +62,12 @@
             </div>
 
             <div class="set-input mb-2">
-              <label class="setting-label" for="passwordCheck">密碼確認</label>
+              <label class="setting-label" for="checkPassword">密碼確認</label>
               <input
-                v-model="userInfo.passwordCheck"
+                v-model="userInfo.checkPassword"
                 class="setting-input"
-                id="passwordCheck"
-                name="passwordCheck"
+                id="checkPassword"
+                name="checkPassword"
                 type="password"
                 autocomplete="new-password"
               />
@@ -102,7 +102,7 @@ export default {
         name: "",
         email: "",
         password: "",
-        passwordCheck: "",
+        checkPassword: "",
       },
     };
   },
@@ -133,7 +133,7 @@ router.beforeEach((to, from, next) => {
     //這裡我們把原本的api拿資料fetch過程，改成拿vuex的資料fetch
 
     fetchUser() {
-      const { id, account, name, email, password, passwordCheck } = this.currentUser;
+      const { id, account, name, email } = this.currentUser;
 
       this.userInfo = {
         ...this.userInfo,
@@ -141,8 +141,6 @@ router.beforeEach((to, from, next) => {
         account,
         name,
         email,
-        password,
-        passwordCheck
       };
     },
     async handleSubmit(e) {
