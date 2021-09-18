@@ -14,10 +14,7 @@
           <slot name="body">
             <div class="create-tweet-area">
               <div class="img-create-area">
-                <img
-                  class="create-user-avatar"
-                  src="https://source.unsplash.com/1600x1200/?man/?random=38.46792589859454"
-                />
+                <img class="create-user-avatar" :src="currentUser.avatar" />
               </div>
               <div class="input-create">
                 <label class="create-label" for="txtarea-input"></label>
@@ -43,7 +40,7 @@
               <span v-if="isDescriptionEmpty" class="input-error">
                 內文不可空白
               </span>
-                        <span v-if="isSubmitError" class="input-error">
+              <span v-if="isSubmitError" class="input-error">
                 發送失敗，請重新發送一次
               </span>
               <button
@@ -71,6 +68,7 @@
 import IconCloseOrange from "./../icons/IconClose.vue";
 import TweetAPI from "./../../apis/tweets";
 import { Toast } from "./../../utils/helpers";
+import { mapState } from "vuex";
 
 export default {
   components: {
@@ -86,9 +84,8 @@ export default {
     return {
       description: "",
       isProcessing: false,
-      isDescriptionEmpty:false, 
-      isSubmitError: false
-
+      isDescriptionEmpty: false,
+      isSubmitError: false,
     };
   },
   methods: {
@@ -97,7 +94,7 @@ export default {
         this.isProcessing = true;
         //空白不能發文
         if (!this.description) {
-          this.isDescriptionEmpty= true
+          this.isDescriptionEmpty = true;
           this.isProcessing = false;
           return;
         }
@@ -109,16 +106,15 @@ export default {
 
         await TweetAPI.PostTweet({
           description: this.description,
-        })
+        });
 
-        this.$emit('closeModal')
-        console.log(this.$route)
+        this.$emit("closeModal");
+        console.log(this.$route);
         //更新vuex資料
-        if( this.$route.name === "Home"){
-          console.log('有到這裡')
-        this.$store.commit('updateNewPost')}
-
-
+        if (this.$route.name === "Home") {
+          console.log("有到這裡");
+          this.$store.commit("updateNewPost");
+        }
 
         Toast.fire({
           icon: "success",
@@ -126,26 +122,28 @@ export default {
         });
         this.description = "";
         this.isProcessing = false;
-        
       } catch (error) {
         console.log(error);
-        this.isSubmitError = true
+        this.isSubmitError = true;
         this.isProcessing = false;
       }
     },
   },
 
   watch: {
-  description: {
-    handler: function () {
-      if(this.description.trim().length > 0) {
-       this.isDescriptionEmpty = false
-       this.isSubmitError = false
-      }
+    description: {
+      handler: function () {
+        if (this.description.trim().length > 0) {
+          this.isDescriptionEmpty = false;
+          this.isSubmitError = false;
+        }
+      },
+      deep: true,
     },
-    deep: true, 
   },
-},
+  computed: {
+    ...mapState(["currentUser"]),
+  },
 };
 </script>
 
