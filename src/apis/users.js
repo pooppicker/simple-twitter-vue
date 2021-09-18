@@ -14,8 +14,13 @@ export default {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
   },
-  getUserTweets({ userId }) {
-    return apiHelper.get(`/users/${userId}/tweets`, {
+  getUserfollowings({ userID }) {
+    return apiHelper.get(`/users/${userID}/followings`, {
+      headers: { Authorization: `Bearer ${getToken()}` }
+    })
+  },
+  getUserfollowers({ userID }) {
+    return apiHelper.get(`/users/${userID}/followers`, {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
   },
