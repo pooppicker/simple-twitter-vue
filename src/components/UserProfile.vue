@@ -46,7 +46,9 @@ import IconHeartFilled from "./icons/IconHeartFilled.vue"
 import IconHeartEmpty from "./icons/IconHeartEmpty.vue";
 import { fromNowFilter } from "./../utils/mixins";
 import ReplyPostModal from "./modal/ReplyPostModal.vue";
-
+import userAPI from "../apis/users"
+import { apiHelper, Toast } from "../utils/helpers"
+import { mapState } from "vuex";
 const dummyTweets = [
   {
     id: 15,
@@ -144,10 +146,21 @@ export default {
       openModal: false,
     };
   },
-
+  created() {
+    this.fetchTweets();
+  },
   methods: {
     //使用者的部分
-    fetchTweets() {
+    async fetchTweets() {
+      try {
+        const response = await userAPI.getUserTweets()
+      } catch (error) {
+        console.log(error.message)
+        Toast.fire({
+          icon: 'error',
+          title: '找不到使用者推文'
+        })
+      }
       this.tweets = dummyTweets;
     },
 
@@ -163,10 +176,9 @@ export default {
       this.openModal = false;
     },
   },
-
-  created() {
-    this.fetchTweets();
-  },
+  computed: {
+    ...mapState(["currentUser"])
+  }
 };
 </script>
 

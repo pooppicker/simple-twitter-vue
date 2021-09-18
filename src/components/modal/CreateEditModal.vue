@@ -149,10 +149,6 @@ export default {
   created() {
     this.fetchProfile();
   },
-  beforeRouteUpdate(to, next) {
-    console.log(to)
-    console.log(next)
-  },
   methods: {
     fetchProfile() {
       const { id, cover, avatar, name, introduction } = this.currentUser;
