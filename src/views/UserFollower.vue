@@ -25,6 +25,7 @@ import NavBars from "./../components/NavBars";
 import UserFollowingList from "./../components/UserFollowingList";
 import Popular from "./../components/Popular";
 import UserAPI from "./../apis/users";
+import { Toast } from "./../utils/helpers";
 // @ is an alias to /src
 
 export default {
@@ -52,7 +53,7 @@ export default {
         console.log(error);
       }
     },
-    
+
     async fetchUser(userID) {
       try {
         const response = await UserAPI.getUser({ userID });
@@ -60,7 +61,10 @@ export default {
           ...response.data,
         };
       } catch (error) {
-        console.log(error);
+        Toast.fire({
+          icon: "warning",
+          title: "資料載入錯誤，請稍後再試",
+        });
       }
     },
   },
