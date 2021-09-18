@@ -99,8 +99,8 @@ export default {
         account: "",
         name: "",
         email: "",
-        // password: "",
-        // passwordCheck: "",
+        password: "",
+        passwordCheck: "",
       },
     };
   },
@@ -153,17 +153,20 @@ router.beforeEach((to, from, next) => {
       try {
         const form = e.target;
         const formData = new FormData(form);
-        const { data } = await UserAPI.update({
-          userId: this.currentUser.id,
+        const response = await UserAPI.editUserAccount({
+          userID: this.userInfo.id,
           formData,
         });
-        console.log('formData', formData)
-        if (data.status !== "success") {
-          throw new Error(data.message);
-        }
-        this.$router.push({ name: "User" });
+        console.log("response", response);
+        Toast.fire({
+          icon: "success",
+          title: "成功更新資料",
+        });
+        const { id } = this.$route.params;
+        this.fetchUser(id); //重新更新使用者資料
+        this.$store.dispatch("fetchCurrentUser");
       } catch (error) {
-        console.log(error.message)
+        console.log(error.message);
         Toast.fire({
           icon: "error",
           title: "無法更新資料，請重試",
