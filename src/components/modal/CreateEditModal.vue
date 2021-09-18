@@ -101,9 +101,7 @@
               </div>
 
               <div class="modal-txt-limit">
-                <span
-                  v-if="profile.introduction.length >= 160"
-                  class="typing-error"
+                <span v-if="profile.introduction.length >= 160" class="typing-error"
                   >字數不可超過160字</span
                 >
                 {{ profile.introduction.length }}/160
@@ -148,10 +146,6 @@ export default {
   },
   created() {
     this.fetchProfile();
-  },
-  beforeRouteUpdate(to, next) {
-    console.log(to)
-    console.log(next)
   },
   methods: {
     fetchProfile() {

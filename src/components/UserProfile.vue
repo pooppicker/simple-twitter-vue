@@ -46,89 +46,10 @@ import IconHeartFilled from "./icons/IconHeartFilled.vue"
 import IconHeartEmpty from "./icons/IconHeartEmpty.vue";
 import { fromNowFilter } from "./../utils/mixins";
 import ReplyPostModal from "./modal/ReplyPostModal.vue";
+import userAPI from "../apis/users"
+import { Toast } from "../utils/helpers"
+import { mapState } from "vuex";
 
-const dummyTweets = [
-  {
-    id: 15,
-    isLike: false,
-    TweetId: 1,
-    createdAt: "2021-07-07T19:31:27.000Z",
-    description: "Hi, this is John Doe",
-    LikesCount: 2,
-    RepliesCount: 2,
-    User: {
-      id: 2,
-      name: "John Doe",
-      avatar:
-        "https://source.unsplash.com/1600x1200/?man/?random=38.46792589859454",
-      account: "@heyjohn",
-    },
-  },
-  {
-    id: 15,
-    isLike: false,
-    TweetId: 1,
-    createdAt: "2021-07-07T19:31:27.000Z",
-    description: "Hello Earth",
-    LikesCount: 2,
-    RepliesCount: 2,
-    User: {
-      id: 2,
-      name: "user1",
-      avatar:
-        "https://source.unsplash.com/1600x1200/?man/?random=38.46792589859454",
-      account: "@user1",
-    },
-  },
-  {
-    id: 15,
-    isLike: false,
-    TweetId: 1,
-    createdAt: "2021-07-07T19:31:27.000Z",
-    description: "est",
-    LikesCount: 2,
-    RepliesCount: 2,
-    User: {
-      id: 2,
-      name: "user1",
-      avatar:
-        "https://source.unsplash.com/1600x1200/?man/?random=38.46792589859454",
-      account: "@user1",
-    },
-  },
-  {
-    id: 15,
-    isLike: false,
-    TweetId: 1,
-    createdAt: "2021-07-07T19:31:27.000Z",
-    description: "Hi, this is John Doe",
-    LikesCount: 2,
-    RepliesCount: 2,
-    User: {
-      id: 2,
-      name: "John Doe",
-      avatar:
-        "https://source.unsplash.com/1600x1200/?man/?random=38.46792589859454",
-      account: "@heyjohn",
-    },
-  },
-  {
-    id: 15,
-    isLike: false,
-    TweetId: 1,
-    createdAt: "2021-07-07T19:31:27.000Z",
-    description: "Hi, this is John Doe",
-    LikesCount: 2,
-    RepliesCount: 2,
-    User: {
-      id: 2,
-      name: "John Doe",
-      avatar:
-        "https://source.unsplash.com/1600x1200/?man/?random=38.46792589859454",
-      account: "@heyjohn",
-    },
-  },
-];
 
 export default {
   mixins: [fromNowFilter],
@@ -144,14 +65,27 @@ export default {
       openModal: false,
     };
   },
-
+  created() {
+    const { id } = this.$route.params;
+    this.fetchTweets(id);
+  },
   methods: {
     //使用者的部分
-    fetchTweets() {
-      this.tweets = dummyTweets;
+    async fetchTweets(userID) {
+      try {
+        const response = await userAPI.getUserTweets({userID})
+        this.tweets = {
+          ...response.data
+        };
+        console.log('response',response)
+      } catch (error) {
+        console.log(error.message)
+        Toast.fire({
+          icon: 'error',
+          title: '找不到使用者推文'
+        })
+      }
     },
-
-
     //點擊愛心功能
     addHeart(tweet) {
       tweet.isLike = !tweet.isLike;
@@ -163,10 +97,9 @@ export default {
       this.openModal = false;
     },
   },
-
-  created() {
-    this.fetchTweets();
-  },
+  computed: {
+    ...mapState(["currentUser"])
+  }
 };
 </script>
 
