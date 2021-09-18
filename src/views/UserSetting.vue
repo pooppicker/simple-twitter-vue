@@ -17,6 +17,7 @@
               <label class="setting-label" for="account">帳號</label>
               <input
                 v-model="userInfo.account"
+                name="account"
                 class="setting-input"
                 id="account"
                 type="text"
@@ -40,6 +41,7 @@
               <label class="setting-label" for="email">Email</label>
               <input
                 v-model="userInfo.email"
+                name="email"
                 class="setting-input"
                 id="email"
                 type="email"
@@ -131,7 +133,7 @@ router.beforeEach((to, from, next) => {
     //這裡我們把原本的api拿資料fetch過程，改成拿vuex的資料fetch
 
     fetchUser() {
-      const { id, account, name, email } = this.currentUser;
+      const { id, account, name, email, password, passwordCheck } = this.currentUser;
 
       this.userInfo = {
         ...this.userInfo,
@@ -139,32 +141,22 @@ router.beforeEach((to, from, next) => {
         account,
         name,
         email,
+        password,
+        passwordCheck
       };
-      //console.log(this.userInfo)
-      // console.log('user data:',data)
-
-      /*Toast.fire({
-          icon: "error",
-          title: "無法找到使用者資料",
-        });*/
     },
-
     async handleSubmit(e) {
       try {
-        const form = e.target;
-        const formData = new FormData(form);
-        const response = await UserAPI.editUserAccount({
+        const form = e.target
+        const formData = new FormData(form)
+        const { data } = await UserAPI.editUserAccount({
           userID: this.userInfo.id,
           formData,
         });
-        console.log("response", response);
-        Toast.fire({
-          icon: "success",
-          title: "成功更新資料",
-        });
-        const { id } = this.$route.params;
-        this.fetchUser(id); //重新更新使用者資料
-        this.$store.dispatch("fetchCurrentUser");
+        if (data.status === 'error') {
+          throw new Error(data.message)
+        }
+        this.$router.push({ name: 'User', params: { id: this.userInfo.id }})
       } catch (error) {
         console.log(error.message);
         Toast.fire({
