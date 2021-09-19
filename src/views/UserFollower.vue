@@ -14,7 +14,8 @@
       </div>
       <div>
         <!--popular-->
-        <Popular />
+        <Popular 
+        @updatefollower=" fetchfollowers"/>
       </div>
     </div>
   </div>
