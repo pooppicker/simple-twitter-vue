@@ -7,79 +7,77 @@
       </div>
       <div class="setting-container">
         <UserSpinner v-if="isProcessing" />
-          <h4>帳戶設定</h4>
-          <form
-            class="d-flex flex-column align-items-start"
-            @submit.stop.prevent="handleSubmit"
-          >
-            <div class="setting-rwb">
-              <div class="set-input mb-2">
-                <label class="setting-label" for="account">帳號</label>
-                <input
-                  v-model="userInfo.account"
-                  name="account"
-                  class="setting-input"
-                  id="account"
-                  type="text"
-                  autofocus
-                />
-              </div>
-
-              <div class="set-input mb-2">
-                <label class="setting-label" for="name">名稱</label>
-                <input
-                  v-model="userInfo.name"
-                  class="setting-input"
-                  id="name"
-                  name="name"
-                  type="text"
-                  autofocus
-                />
-              </div>
-
-              <div class="set-input mb-2">
-                <label class="setting-label" for="email">Email</label>
-                <input
-                  v-model="userInfo.email"
-                  name="email"
-                  class="setting-input"
-                  id="email"
-                  type="email"
-                  autofocus
-                />
-              </div>
-
-              <div class="set-input mb-2">
-                <label class="setting-label" for="password">密碼</label>
-                <input
-                  v-model="userInfo.password"
-                  class="setting-input"
-                  id="password"
-                  name="password"
-                  type="password"
-                  autocomplete="new-password"
-                />
-              </div>
-
-              <div class="set-input mb-2">
-                <label class="setting-label" for="checkPassword"
-                  >密碼確認</label
-                >
-                <input
-                  v-model="userInfo.checkPassword"
-                  class="setting-input"
-                  id="checkPassword"
-                  name="checkPassword"
-                  type="password"
-                  autocomplete="new-password"
-                />
-              </div>
+        <h4>帳戶設定</h4>
+        <form
+          class="d-flex flex-column align-items-start"
+          @submit.stop.prevent="handleSubmit"
+        >
+          <div class="setting-rwb">
+            <div class="set-input mb-2">
+              <label class="setting-label" for="account">帳號</label>
+              <input
+                v-model="userInfo.account"
+                name="account"
+                class="setting-input"
+                id="account"
+                type="text"
+                autofocus
+              />
             </div>
 
-            <div class="set-btn">
-              <button type="submit" class="setting-btn mb-3">儲存</button>
+            <div class="set-input mb-2">
+              <label class="setting-label" for="name">名稱</label>
+              <input
+                v-model="userInfo.name"
+                class="setting-input"
+                id="name"
+                name="name"
+                type="text"
+                autofocus
+              />
             </div>
-          </form>
+
+            <div class="set-input mb-2">
+              <label class="setting-label" for="email">Email</label>
+              <input
+                v-model="userInfo.email"
+                name="email"
+                class="setting-input"
+                id="email"
+                type="email"
+                autofocus
+              />
+            </div>
+
+            <div class="set-input mb-2">
+              <label class="setting-label" for="password">密碼</label>
+              <input
+                v-model="userInfo.password"
+                class="setting-input"
+                id="password"
+                name="password"
+                type="password"
+                autocomplete="new-password"
+              />
+            </div>
+
+            <div class="set-input mb-2">
+              <label class="setting-label" for="checkPassword">密碼確認</label>
+              <input
+                v-model="userInfo.checkPassword"
+                class="setting-input"
+                id="checkPassword"
+                name="checkPassword"
+                type="password"
+                autocomplete="new-password"
+              />
+            </div>
+          </div>
+
+          <div class="set-btn">
+            <button type="submit" class="setting-btn mb-3">儲存</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -105,7 +103,7 @@ export default {
         account: "",
         name: "",
         email: "",
-         password: "",
+        password: "",
         checkPassword: "",
       },
       isProcessing: true,
@@ -133,7 +131,7 @@ export default {
       this.isProcessing = false;
     },
 
-    async handleSubmit(e) {
+    async handleSubmit() {
       try {
         const formData = this.userInfo;
         const { data } = await UserAPI.editUserAccount({
