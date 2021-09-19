@@ -305,9 +305,7 @@ export default {
       }
     },
     ChangePopularInfo() {
-      if (this.$route.name === "profile") {
         this.$store.commit("updateNewUser");
-      }
     },
   },
 };
