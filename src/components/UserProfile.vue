@@ -28,9 +28,11 @@
               <div class="icon-text">{{ tweet.RepliesCount }}</div>
             </div>
             <div class="liked-part d-flex">
-              <div @click.stop.prevent="addHeart(tweet)">
-                <IconHeartFilled v-if="tweet.isLike" />
-                <IconHeartEmpty v-else />
+              <div v-if="tweet.isLike" @click.stop.prevent="cancelHeart(tweet)">
+                <IconHeartFilled />
+              </div>
+              <div v-else @click.stop.prevent="addHeart(tweet)">
+                <IconHeartEmpty />
               </div>
               <div class="icon-text">{{ tweet.LikesCount }}</div>
             </div>
@@ -52,6 +54,7 @@ import { fromNowFilter } from "./../utils/mixins";
 import ReplyPostModal from "./modal/ReplyPostModal.vue";
 import userAPI from "../apis/users";
 import { Toast } from "../utils/helpers";
+import TweetAPI from "./../apis/tweets";
 
 export default {
   mixins: [fromNowFilter],
@@ -88,9 +91,40 @@ export default {
       }
     },
     //點擊愛心功能
-    addHeart(tweet) {
-      tweet.isLike = !tweet.isLike;
+    async addHeart(tweet) {
+      try {
+        const { TweetId } = tweet;
+        tweet.LikesCount = tweet.LikesCount + 1;
+        tweet.isLike = !tweet.isLike;
+        await TweetAPI.postTweetLiked({ tweetId: TweetId });
+      } catch (error) {
+        console.log(error);
+        Toast.fire({
+          icon: "error",
+          title: "無法加入喜歡的貼文，請稍後再試",
+        });
+        tweet.LikesCount = tweet.LikesCount - 1;
+        tweet.isLike = !tweet.isLike;
+      }
     },
+
+    async cancelHeart(tweet) {
+      try {
+        const { TweetId } = tweet;
+        tweet.LikesCount = tweet.LikesCount - 1;
+        tweet.isLike = !tweet.isLike;
+        await TweetAPI.postTweetUnliked({ tweetId: TweetId });
+      } catch (error) {
+        console.log(error);
+        Toast.fire({
+          icon: "error",
+          title: "無法取消喜歡的貼文，請稍後再試",
+        });
+        tweet.LikesCount = tweet.LikesCount + 1;
+        tweet.isLike = !tweet.isLike;
+      }
+    },
+
     handleOpenModal() {
       this.openModal = true;
     },
@@ -98,7 +132,7 @@ export default {
       this.openModal = false;
     },
   },
-   beforeRouteUpdate(to, from, next) {
+  beforeRouteUpdate(to, from, next) {
     const { id } = to.params;
     this.fetchTweets(id);
     next();
@@ -162,3 +196,4 @@ export default {
   }
 }
 </style>
+

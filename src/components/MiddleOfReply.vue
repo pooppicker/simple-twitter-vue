@@ -44,7 +44,12 @@
         <div @click="handleOpenModal">
           <IconReply class="ic" />
         </div>
-        <IconHeartEmpty class="ic ic-right" />
+        <div v-if="tweet.isLike" @click.stop.prevent="cancelHeart(tweet.id)">
+          <IconHeartFilled class="ic ic-right" />
+        </div>
+        <div v-else @click.stop.prevent="addHeart(tweet.id)">
+          <IconHeartEmpty class="ic ic-right"  />
+        </div>
       </div>
       <!-- Modal -->
 
@@ -94,6 +99,7 @@ import { fromNowFilter } from "./../utils/mixins";
 import { Toast } from "./../utils/helpers";
 import ReplyPostModal from "./modal/ReplyPostModal.vue";
 import TweetAPI from "./../apis/tweets";
+import IconHeartFilled from "./../components/icons/IconHeartFilled.vue";
 //import { Toast } from "./../utils/helpers";
 
 export default {
@@ -103,6 +109,7 @@ export default {
     IconReply,
     IconHeartEmpty,
     ReplyPostModal,
+    IconHeartFilled,
   },
   data() {
     return {
@@ -135,6 +142,38 @@ export default {
     },
     previousPage() {
       this.$router.back();
+    },
+        //點擊愛心功能
+    async addHeart(TweetId) {
+      try {
+        this.tweet.LikesCount = this.tweet.LikesCount + 1;
+        this.tweet.isLike = !this.tweet.isLike;
+        await TweetAPI.postTweetLiked({ tweetId: TweetId });
+      } catch (error) {
+        console.log(error);
+        Toast.fire({
+          icon: "error",
+          title: "無法加入喜歡的貼文，請稍後再試",
+        });
+        this.tweet.LikesCount = this.tweet.LikesCount - 1;
+        this.tweet.isLike = !this.tweet.isLike;
+      }
+    },
+
+    async cancelHeart(TweetId) {
+      try {
+        this.tweet.LikesCount = this.tweet.LikesCount - 1;
+        this.tweet.isLike = !this.tweet.isLike;
+        await TweetAPI.postTweetUnliked({ tweetId: TweetId });
+      } catch (error) {
+        console.log(error);
+        Toast.fire({
+          icon: "error",
+          title: "無法取消喜歡的貼文，請稍後再試",
+        });
+        this.tweet.LikesCount = this.tweet.LikesCount + 1;
+        this.tweet.isLike = !this.tweet.isLike;
+      }
     },
   },
 

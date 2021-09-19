@@ -77,9 +77,14 @@
                 </div>
 
                 <div class="liked-part d-flex">
-                  <div @click.stop.prevent="addHeart(tweet)">
-                    <IconHeartFilled v-if="tweet.isLike" />
-                    <IconHeartEmpty v-else />
+                  <div
+                    @click.stop.prevent="cancelHeart(tweet)"
+                    v-if="tweet.isLike"
+                  >
+                    <IconHeartFilled />
+                  </div>
+                  <div @click.stop.prevent="addHeart(tweet)" v-else>
+                    <IconHeartEmpty />
                   </div>
                   <div class="icon-text">{{ tweet.LikesCount }}</div>
                 </div>
@@ -90,7 +95,11 @@
         </div>
         <!--v-for結束-->
       </div>
-      <ReplyPostModal v-if="openModal" :onClose="handleCloseModal" :initialTweet="tweets" />
+      <ReplyPostModal
+        v-if="openModal"
+        :onClose="handleCloseModal"
+        :initialTweet="tweets"
+      />
     </template>
   </div>
 </template>
@@ -189,8 +198,38 @@ export default {
       }
     },
 
-    addHeart(tweet) {
-      tweet.isLike = !tweet.isLike;
+    async addHeart(tweet) {
+      try {
+        const { TweetId } = tweet;
+        tweet.LikesCount = tweet.LikesCount + 1;
+        tweet.isLike = !tweet.isLike;
+        await TweetAPI.postTweetLiked({ tweetId: TweetId });
+      } catch (error) {
+        console.log(error);
+        Toast.fire({
+          icon: "error",
+          title: "無法加入喜歡的貼文，請稍後再試",
+        });
+        tweet.LikesCount = tweet.LikesCount - 1;
+        tweet.isLike = !tweet.isLike;
+      }
+    },
+
+    async cancelHeart(tweet) {
+      try {
+        const { TweetId } = tweet;
+        tweet.LikesCount = tweet.LikesCount - 1;
+        tweet.isLike = !tweet.isLike;
+        await TweetAPI.postTweetUnliked({ tweetId: TweetId });
+      } catch (error) {
+        console.log(error);
+        Toast.fire({
+          icon: "error",
+          title: "無法取消喜歡的貼文，請稍後再試",
+        });
+        tweet.LikesCount = tweet.LikesCount + 1;
+        tweet.isLike = !tweet.isLike;
+      }
     },
 
     handleOpenModal() {
@@ -203,7 +242,7 @@ export default {
     UpDateTweet() {
       this.timer = setInterval(() => {
         this.fetchTweets();
-      }, 5000);
+      }, 50000);
     },
   },
 
