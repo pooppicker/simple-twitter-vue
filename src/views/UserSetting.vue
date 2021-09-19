@@ -6,78 +6,80 @@
         <NavBars />
       </div>
       <div class="setting-container">
-        <h4>帳戶設定</h4>
+        <UserSpinner v-if="isProcessing" />
+          <h4>帳戶設定</h4>
+          <form
+            class="d-flex flex-column align-items-start"
+            @submit.stop.prevent="handleSubmit"
+          >
+            <div class="setting-rwb">
+              <div class="set-input mb-2">
+                <label class="setting-label" for="account">帳號</label>
+                <input
+                  v-model="userInfo.account"
+                  name="account"
+                  class="setting-input"
+                  id="account"
+                  type="text"
+                  autofocus
+                />
+              </div>
 
-        <form
-          class="d-flex flex-column align-items-start"
-          @submit.stop.prevent="handleSubmit"
-        >
-          <div class="setting-rwb">
-            <div class="set-input mb-2">
-              <label class="setting-label" for="account">帳號</label>
-              <input
-                v-model="userInfo.account"
-                name="account"
-                class="setting-input"
-                id="account"
-                type="text"
-                autofocus
-              />
+              <div class="set-input mb-2">
+                <label class="setting-label" for="name">名稱</label>
+                <input
+                  v-model="userInfo.name"
+                  class="setting-input"
+                  id="name"
+                  name="name"
+                  type="text"
+                  autofocus
+                />
+              </div>
+
+              <div class="set-input mb-2">
+                <label class="setting-label" for="email">Email</label>
+                <input
+                  v-model="userInfo.email"
+                  name="email"
+                  class="setting-input"
+                  id="email"
+                  type="email"
+                  autofocus
+                />
+              </div>
+
+              <div class="set-input mb-2">
+                <label class="setting-label" for="password">密碼</label>
+                <input
+                  v-model="userInfo.password"
+                  class="setting-input"
+                  id="password"
+                  name="password"
+                  type="password"
+                  autocomplete="new-password"
+                />
+              </div>
+
+              <div class="set-input mb-2">
+                <label class="setting-label" for="checkPassword"
+                  >密碼確認</label
+                >
+                <input
+                  v-model="userInfo.checkPassword"
+                  class="setting-input"
+                  id="checkPassword"
+                  name="checkPassword"
+                  type="password"
+                  autocomplete="new-password"
+                />
+              </div>
             </div>
 
-            <div class="set-input mb-2">
-              <label class="setting-label" for="name">名稱</label>
-              <input
-                v-model="userInfo.name"
-                class="setting-input"
-                id="name"
-                name="name"
-                type="text"
-                autofocus
-              />
+            <div class="set-btn">
+              <button type="submit" class="setting-btn mb-3">儲存</button>
             </div>
-
-            <div class="set-input mb-2">
-              <label class="setting-label" for="email">Email</label>
-              <input
-                v-model="userInfo.email"
-                name="email"
-                class="setting-input"
-                id="email"
-                type="email"
-                autofocus
-              />
-            </div>
-
-            <div class="set-input mb-2">
-              <label class="setting-label" for="password">密碼</label>
-              <input
-                v-model="userInfo.password"
-                class="setting-input"
-                id="password"
-                name="password"
-                type="password"
-                autocomplete="new-password"
-              />
-            </div>
-
-            <div class="set-input mb-2">
-              <label class="setting-label" for="checkPassword">密碼確認</label>
-              <input
-                v-model="userInfo.checkPassword"
-                class="setting-input"
-                id="checkPassword"
-                name="checkPassword"
-                type="password"
-                autocomplete="new-password"
-              />
-            </div>
-          </div>
-
-          <div class="set-btn">
-            <button type="submit" class="setting-btn mb-3">儲存</button>
-          </div>
-        </form>
+          </form>
       </div>
     </div>
   </div>
@@ -88,10 +90,12 @@ import NavBars from "./../components/NavBars.vue";
 import UserAPI from "./../apis/users";
 import { Toast } from "./../utils/helpers";
 import { mapState } from "vuex"; //新增這裡
+import UserSpinner from "../components/Userspinner.vue";
 
 export default {
   components: {
     NavBars,
+    UserSpinner,
   },
 
   data() {
@@ -104,6 +108,7 @@ export default {
         password: "",
         checkPassword: "",
       },
+      isProcessing: true,
     };
   },
 
@@ -112,23 +117,6 @@ export default {
     this.fetchUser();
     // console.log(this.currentUser);
   },
-  //因為已經從vuex裡面把使用者的資料拿出來囉，所以這裡我們就不用特別再呼叫api拿資料了~
-  /*
-  watch: {
-    userInfo(newValue) {
-      this.userInfo = {
-        ...this.userInfo,
-        ...newValue,
-      };
-    },
-  },
-router.beforeEach((to, from, next) => {
-  console.log('to', to)
-  console.log('from', from)
-  next()
-})
-,*/
-
   methods: {
     //這裡我們把原本的api拿資料fetch過程，改成拿vuex的資料fetch
 
@@ -142,23 +130,26 @@ router.beforeEach((to, from, next) => {
         name,
         email,
       };
+      this.isProcessing = false;
     },
     async handleSubmit() {
       try {
-        
-        const formData = this.userInfo
-        console.log(formData)
+        const formData = this.userInfo;
         const { data } = await UserAPI.editUserAccount({
           userID: this.userInfo.id,
           formData,
         });
-        if (data.status === 'error') {
-          throw new Error(data.message)
+        if (data.status === "error") {
+          throw new Error(data.message);
         }
-        
-        this.$router.push({ name: 'User', params: { id: this.userInfo.id }})
+        Toast.fire({
+          icon: "success",
+          title: "成功更新資料",
+        });
+        this.$router.push({ name: "User", params: { id: this.userInfo.id } });
+        this.isProcessing = false;
       } catch (error) {
-        console.log(error.message);
+        this.isProcessing = false;
         Toast.fire({
           icon: "error",
           title: "無法更新資料，請重試",
