@@ -46,73 +46,9 @@ import IconHeartEmpty from "./icons/IconHeartEmpty.vue";
 import IconHeartFilled from "./icons/IconHeartFilled.vue";
 import { fromNowFilter } from "./../utils/mixins";
 import ReplyPostModal from "./modal/ReplyPostModal.vue";
+import userAPI from "../apis/users"
+import { Toast } from "../utils/helpers"
 
-const dummyTweets = [
-  {
-    TweetId: 1,
-    createdAt: "2021-07-07T19:31:27.000Z",
-    description:
-      "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.",
-    LikesCount: 2,
-    RepliesCount: 5,
-    isLike: true,
-    User: {
-      id: 2,
-      name: "Devon Lane",
-      avatar:
-        "https://source.unsplash.com/1600x1200/?man/?random=10.46792589859454",
-      account: "@user1",
-    },
-  },
-  {
-    TweetId: 1,
-    createdAt: "2021-07-07T19:31:27.000Z",
-    description:
-      "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.",
-    LikesCount: 60,
-    RepliesCount: 2,
-    isLike: true,
-    User: {
-      id: 2,
-      name: "Devon Lane",
-      avatar:
-        "https://source.unsplash.com/1600x1200/?man/?random=10.46792589859454",
-      account: "@user1",
-    },
-  },
-  {
-    TweetId: 1,
-    createdAt: "2021-07-07T19:31:27.000Z",
-    description:
-      "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.",
-    LikesCount: 2,
-    RepliesCount: 20,
-    isLike: true,
-    User: {
-      id: 2,
-      name: "Devon Lane",
-      avatar:
-        "https://source.unsplash.com/1600x1200/?man/?random=10.46792589859454",
-      account: "@user1",
-    },
-  },
-  {
-    TweetId: 1,
-    createdAt: "2021-07-07T19:31:27.000Z",
-    description:
-      "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.",
-    LikesCount: 2,
-    RepliesCount: 20,
-    isLike: true,
-    User: {
-      id: 2,
-      name: "Devon Lane",
-      avatar:
-        "https://source.unsplash.com/1600x1200/?man/?random=10.46792589859454",
-      account: "@user1",
-    },
-  },
-];
 export default {
   mixins: [fromNowFilter],
   components: {
@@ -127,10 +63,24 @@ export default {
       openModal: false,
     };
   },
-
+  created() {
+    const { id } = this.$route.params;
+    this.fetchTweets(id);
+  },
   methods: {
-    fetchTweets() {
-      this.tweets = dummyTweets;
+    async fetchTweets(userID) {
+      try {
+        const response = await userAPI.getUserLiked({userID})
+        this.tweets = {
+          ...response.data
+        };
+      } catch (error) {
+        console.log(error.message)
+        Toast.fire({
+          icon: 'error',
+          title: '找不到喜歡的內容'
+        })
+      }
     },
     addHeart(tweet) {
       tweet.isLike = !tweet.isLike;
@@ -141,10 +91,6 @@ export default {
     handleCloseModal() {
       this.openModal = false;
     },
-  },
-
-  created() {
-    this.fetchTweets();
   },
 };
 </script>
