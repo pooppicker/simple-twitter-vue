@@ -1,6 +1,7 @@
 import { apiHelper } from './../utils/helpers'
 const getToken = () => localStorage.getItem('token')
 
+
 export default {
   getCurrentUser() {
     return apiHelper.get('/users/currentuser', {
@@ -30,8 +31,8 @@ export default {
     })
 
   },
-  postFollowships({id}) {
-    return apiHelper.post(`/followships`, {id}, {
+  postFollowships({ id }) {
+    return apiHelper.post(`/followships`, { id }, {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
   },
@@ -46,10 +47,13 @@ export default {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
   },
-  editUserAccount({ userID,formData }) {
-    return apiHelper.put(`users/${userID}/settings`, {
-      formData,
-      }, {
+  editUserAccount({ userID, formData }) {
+    return apiHelper.put(`users/${userID}/settings`,formData, {
+      headers: { Authorization: `Bearer ${getToken()}` }
+    })
+  },
+  getUserLiked({ userID }) {
+    return apiHelper.get(`/users/${userID}/liked`, {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
   },
@@ -63,4 +67,5 @@ export default {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
   },
+
 }

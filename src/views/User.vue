@@ -111,7 +111,8 @@
       </div>
       <div>
         <!--popular-->
-        <Popular />
+        <Popular 
+        @updatefollower="fetchUser"/>
       </div>
     </div>
   </div>

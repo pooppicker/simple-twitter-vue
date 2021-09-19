@@ -21,7 +21,7 @@
                 </router-link>
               </div>
             </div>
-            <div>
+            <div v-if="user.id !== currentUser.id">
               <button
                 v-if="user.isFollowed"
                 class="btn btn-deletefollow"
@@ -50,6 +50,7 @@
 <script>
 import UserAPI from "./../apis/users";
 import { Toast } from "./../utils/helpers";
+import { mapState } from "vuex";
 
 export default {
   data() {
@@ -79,9 +80,13 @@ export default {
     async cancelFollow(user) {
       try {
         user.isFollowed = false;
+          
         await UserAPI.deleteFollowships({
           followingId: user.id,
         });
+         
+        const {id} = this.$route.params
+        this.$emit('updatefollower', id)
       } catch (error) {
         user.isFollowed = true;
         console.log(error);
@@ -98,6 +103,8 @@ export default {
         await UserAPI.postFollowships({
           id: user.id,
         });
+       const {id} = this.$route.params  
+        this.$emit('updatefollower', id)
       } catch (error) {
         user.isFollowed = false;
         console.log(error);
@@ -111,6 +118,9 @@ export default {
 
   created() {
     this.fetchUser();
+  },
+  computed: {
+    ...mapState(["currentUser"]),
   },
 };
 </script>
