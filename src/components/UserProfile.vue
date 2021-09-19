@@ -1,14 +1,14 @@
 <template>
   <!--下方推文區-->
   <div class="user-profile-area">
-    <div v-for="tweet in tweets" :key="tweet.id">
+    <div v-for="tweet in tweets" :key="tweet.TweetId">
       <div class="tweet-card d-flex">
-        <router-link :to="{ name: 'User', params: { id: tweet.id } }">
+        <router-link :to="{ name: 'User', params: { id: tweet.User.id } }">
           <img class="user-self-img" :src="tweet.User.avatar" />
         </router-link>
         <div class="tweet-detail">
           <div class="tweet-detail-title d-flex">
-            <router-link :to="{ name: 'User', params: { id: tweet.id } }">
+            <router-link :to="{ name: 'User', params: { id: tweet.User.id } }">
               <h5>{{ tweet.User.name }}</h5>
             </router-link>
             <p class="post-time">
@@ -48,7 +48,6 @@ import { fromNowFilter } from "./../utils/mixins";
 import ReplyPostModal from "./modal/ReplyPostModal.vue";
 import userAPI from "../apis/users"
 import { Toast } from "../utils/helpers"
-import { mapState } from "vuex";
 
 
 export default {
@@ -77,7 +76,6 @@ export default {
         this.tweets = {
           ...response.data
         };
-        console.log('response',response)
       } catch (error) {
         console.log(error.message)
         Toast.fire({
@@ -97,9 +95,6 @@ export default {
       this.openModal = false;
     },
   },
-  computed: {
-    ...mapState(["currentUser"])
-  }
 };
 </script>
 
