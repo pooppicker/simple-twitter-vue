@@ -6,8 +6,8 @@
         <NavBars />
       </div>
       <div class="setting-container">
+        <UserSpinner v-if="isProcessing" />
         <h4>帳戶設定</h4>
-
         <form
           class="d-flex flex-column align-items-start"
           @submit.stop.prevent="handleSubmit"
@@ -17,6 +17,7 @@
               <label class="setting-label" for="account">帳號</label>
               <input
                 v-model="userInfo.account"
+                name="account"
                 class="setting-input"
                 id="account"
                 type="text"
@@ -40,6 +41,7 @@
               <label class="setting-label" for="email">Email</label>
               <input
                 v-model="userInfo.email"
+                name="email"
                 class="setting-input"
                 id="email"
                 type="email"
@@ -86,10 +88,12 @@ import NavBars from "./../components/NavBars.vue";
 import UserAPI from "./../apis/users";
 import { Toast } from "./../utils/helpers";
 import { mapState } from "vuex"; //新增這裡
+import UserSpinner from "../components/Userspinner.vue";
 
 export default {
   components: {
     NavBars,
+    UserSpinner,
   },
 
   data() {
@@ -102,6 +106,7 @@ export default {
         password: "",
         checkPassword: "",
       },
+      isProcessing: true,
     };
   },
 
@@ -110,23 +115,6 @@ export default {
     this.fetchUser();
     // console.log(this.currentUser);
   },
-  //因為已經從vuex裡面把使用者的資料拿出來囉，所以這裡我們就不用特別再呼叫api拿資料了~
-  /*
-  watch: {
-    userInfo(newValue) {
-      this.userInfo = {
-        ...this.userInfo,
-        ...newValue,
-      };
-    },
-  },
-router.beforeEach((to, from, next) => {
-  console.log('to', to)
-  console.log('from', from)
-  next()
-})
-,*/
-
   methods: {
     //這裡我們把原本的api拿資料fetch過程，改成拿vuex的資料fetch
 
@@ -140,31 +128,27 @@ router.beforeEach((to, from, next) => {
         name,
         email,
       };
-      //console.log(this.userInfo)
-      // console.log('user data:',data)
-
-      /*Toast.fire({
-          icon: "error",
-          title: "無法找到使用者資料",
-        });*/
+      this.isProcessing = false;
     },
+
     async handleSubmit() {
       try {
-        
-        const formData = this.userInfo
-        console.log(formData)
+        const formData = this.userInfo;
         const { data } = await UserAPI.editUserAccount({
           userID: this.userInfo.id,
           formData,
         });
-        console.log('formData', formData)
-        if (data.status !== "success") {
+        if (data.status === "error") {
           throw new Error(data.message);
         }
-        
-        this.$router.push({ name: 'User', params: { id: this.userInfo.id }})
+        Toast.fire({
+          icon: "success",
+          title: "成功更新資料",
+        });
+        this.$router.push({ name: "User", params: { id: this.userInfo.id } });
+        this.isProcessing = false;
       } catch (error) {
-        console.log(error.message)
+        this.isProcessing = false;
         Toast.fire({
           icon: "error",
           title: "無法更新資料，請重試",
