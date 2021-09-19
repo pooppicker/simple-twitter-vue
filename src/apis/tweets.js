@@ -10,6 +10,14 @@ export default {
     })
   },
 
+  getSpecificTweets({ tweetId }) {
+    return apiHelper.get(`/tweets/ ${tweetId}`, {
+      headers: {
+        Authorization: `Bearer ${getToken()}`
+      }
+    })
+  },
+
   PostTweet({ description}) {
     return apiHelper.post('/tweets', {
       description
