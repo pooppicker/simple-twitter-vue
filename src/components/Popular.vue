@@ -38,13 +38,82 @@
               </button>
             </div>
           </div>
-          <hr v-if="user.id !== users[users.length - 1].id" />
+          <hr v-if="user.id !== users[9].id" />
         </div>
         <!--v-for迴圈結束處-->
       </div>
     </div>
   </div>
 </template>
+
+
+<script>
+import UserAPI from "./../apis/users";
+import { Toast } from "./../utils/helpers";
+
+export default {
+  data() {
+    return {
+      users: [],
+    };
+  },
+
+  methods: {
+    async fetchUser() {
+      try {
+        const response = await UserAPI.getTopUsers();
+        console.log(response.data);
+        this.users = {
+          ...response.data,
+        };
+        console.log("userid:", this.users[0].id);
+      } catch (error) {
+        console.log(error);
+        Toast.fire({
+          icon: "warning",
+          title: "資料載入錯誤，請稍後再試",
+        });
+      }
+    },
+
+    async cancelFollow(user) {
+      try {
+        user.isFollowed = false;
+        await UserAPI.deleteFollowships({
+          followingId: user.id,
+        });
+      } catch (error) {
+        user.isFollowed = true;
+        console.log(error);
+        Toast.fire({
+          icon: "warning",
+          title: "取消追蹤失敗，請稍後再試",
+        });
+      }
+    },
+
+    async addFollow(user) {
+      try {
+        user.isFollowed = true;
+        await UserAPI.postFollowships({
+          id: user.id,
+        });
+      } catch (error) {
+        user.isFollowed = false;
+        console.log(error);
+        Toast.fire({
+          icon: "warning",
+          title: "追蹤失敗，請稍後再試",
+        });
+      }
+    },
+  },
+
+  created() {
+    this.fetchUser();
+  },
+};
+</script>
 
 <style lang="scss" >
 @import "../assets/scss/colorAndSize.scss";
@@ -124,135 +193,15 @@ hr {
 
 //手機版
 @media screen and (max-width: 1022px) {
-    .card {
-      .btn {
-        display: none;
-      }
-    }
-}
-@media screen and (max-width: 768px) {
-      .card {
+  .card {
+    .btn {
       display: none;
     }
-
+  }
+}
+@media screen and (max-width: 768px) {
+  .card {
+    display: none;
+  }
 }
 </style>
-
-<script>
-const dummyUsers = [
-  {
-    id: 3,
-    name: "user2",
-    account: "@user2",
-    avatar: "https://image.flaticon.com/icons/png/512/847/847969.png",
-    introduction: null,
-    isFollowed: true,
-    FollowerCount: 1,
-  },
-  {
-    id: 4,
-    name: "user3",
-    account: "@user3",
-    avatar: "https://image.flaticon.com/icons/png/512/847/847969.png",
-    introduction: null,
-    isFollowed: false,
-    FollowerCount: 1,
-  },
-  {
-    id: 4,
-    name: "user3",
-    account: "@user3",
-    avatar: "https://image.flaticon.com/icons/png/512/847/847969.png",
-    introduction: null,
-    isFollowed: false,
-    FollowerCount: 1,
-  },
-  {
-    id: 4,
-    name: "user3",
-    account: "@user3",
-    avatar: "https://image.flaticon.com/icons/png/512/847/847969.png",
-    introduction: null,
-    isFollowed: false,
-    FollowerCount: 1,
-  },
-  {
-    id: 4,
-    name: "user3",
-    account: "@user3",
-    avatar: "https://image.flaticon.com/icons/png/512/847/847969.png",
-    introduction: null,
-    isFollowed: false,
-    FollowerCount: 1,
-  },
-  {
-    id: 4,
-    name: "user3",
-    account: "@user3",
-    avatar: "https://image.flaticon.com/icons/png/512/847/847969.png",
-    introduction: null,
-    isFollowed: false,
-    FollowerCount: 1,
-  },
-  {
-    id: 4,
-    name: "user3",
-    account: "@user3",
-    avatar: "https://image.flaticon.com/icons/png/512/847/847969.png",
-    introduction: null,
-    isFollowed: false,
-    FollowerCount: 1,
-  },
-  {
-    id: 4,
-    name: "user3",
-    account: "@user3",
-    avatar: "https://image.flaticon.com/icons/png/512/847/847969.png",
-    introduction: null,
-    isFollowed: false,
-    FollowerCount: 1,
-  },
-  {
-    id: 4,
-    name: "user3",
-    account: "@user3",
-    avatar: "https://image.flaticon.com/icons/png/512/847/847969.png",
-    introduction: null,
-    isFollowed: false,
-    FollowerCount: 1,
-  },
-  {
-    id: 8,
-    name: "user3",
-    account: "@user3",
-    avatar: "https://image.flaticon.com/icons/png/512/847/847969.png",
-    introduction: null,
-    isFollowed: false,
-    FollowerCount: 1,
-  },
-];
-
-export default {
-  data() {
-    return {
-      users: [],
-    };
-  },
-
-  methods: {
-    fetchUser() {
-      this.users = dummyUsers;
-    },
-    cancelFollow(user) {
-      user.isFollowed = false;
-    },
-    addFollow(user) {
-      user.isFollowed = true;
-    },
-  },
-
-  created() {
-    this.fetchUser();
-  },
-};
-</script>

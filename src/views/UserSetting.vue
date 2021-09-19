@@ -105,7 +105,7 @@ export default {
         account: "",
         name: "",
         email: "",
-        password: "",
+         password: "",
         checkPassword: "",
       },
       isProcessing: true,
@@ -132,7 +132,8 @@ export default {
       };
       this.isProcessing = false;
     },
-    async handleSubmit() {
+
+    async handleSubmit(e) {
       try {
         const formData = this.userInfo;
         const { data } = await UserAPI.editUserAccount({

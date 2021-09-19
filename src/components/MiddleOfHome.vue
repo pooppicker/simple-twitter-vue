@@ -316,9 +316,13 @@ export default {
       .tweet-detail {
         h5 {
           color: $color-black;
+          word-break: break-all;
           &:hover {
             color: $color-orange;
           }
+        }
+        .tweet-detail-title {
+          flex-wrap: wrap;
         }
 
         .post-time {
