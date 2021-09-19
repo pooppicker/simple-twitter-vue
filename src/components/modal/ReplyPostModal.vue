@@ -16,22 +16,21 @@
               <div class="img-create-area">
                 <img
                   class="create-user-avatar"
-                  src="https://source.unsplash.com/1600x1200/?man/?random=40.46792589859454"
+                  :src="tweet.avatar"
                 />
                 <div class="vl"></div>
               </div>
               <div class="single-reply-info">
                 <div class="single-name-account">
-                  <h5 >Apple</h5>
-                  <span>@apple・3 小時</span>
+                  <h5>{{tweet.name}}</h5>
+                  <span>{{tweet.account}}・{{ tweet.createdAt | fromNow }}</span>
                 </div>
                 <div class="paragraph">
                   <p>
-                    Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis
-                    ullamco cillum dolor. Voluptate exercitation incididunt
-                    aliquip deserunt reprehenderit elit laborum.
+                    {{tweet.description}}
                   </p>
-                  <span class="reply-to">回覆給 </span><span class="reply-to orange">@apple</span>
+                  <span class="reply-to">回覆給 </span
+                  ><span class="reply-to orange">{{tweet.account}}</span>
                 </div>
               </div>
             </div>
@@ -39,12 +38,13 @@
               <div class="img-create-area">
                 <img
                   class="create-user-avatar"
-                  src="https://source.unsplash.com/1600x1200/?man/?random=38.46792589859454"
+                  :src="currentUser.avatar"
                 />
               </div>
               <div class="input-create">
                 <label class="create-label" for="txtarea-input"></label>
                 <textarea
+                  v-model="description"
                   name="text"
                   row="5"
                   type="text"
@@ -70,8 +70,13 @@
 
 <script>
 import IconCloseOrange from "./../icons/IconClose.vue";
+import { fromNowFilter } from "../../utils/mixins";
+import { Toast } from "../../utils/helpers";
+import { mapState } from "vuex";
+import userAPI from "../../apis/users"
 
 export default {
+  mixins: [fromNowFilter],
   components: {
     IconCloseOrange,
   },
@@ -80,6 +85,36 @@ export default {
       type: Function,
       required: true,
     },
+  },
+  data() {
+    return {
+      tweet: [],
+    };
+  },
+  created() {
+    const { id } = this.$route.params;
+    this.fetchTweets(id);
+  },
+  methods: {
+    async fetchTweets(userID) {
+      try {
+        const response = await userAPI.getUserTweets({ userID });
+        console.log(response.data);
+        this.tweet = {
+          ...response.data,
+        };
+        console.log("tweetid:", this.tweet[0].TweetId);
+      } catch (error) {
+        console.log(error.message);
+        Toast.fire({
+          icon: "error",
+          title: "找不到回覆的內容",
+        });
+      }
+    },
+  },
+  computed: {
+    ...mapState(["currentUser"]),
   },
 };
 </script>
@@ -126,7 +161,7 @@ export default {
   // outline: 1px solid black;
   padding: 0.5rem 1rem;
   .create-user-avatar {
-    margin-top: .2rem;
+    margin-top: 0.2rem;
     margin-bottom: 0.5rem;
     width: 50px;
     height: 50px;
@@ -145,23 +180,23 @@ export default {
   flex-direction: column;
   max-width: 500px;
   .single-name-account {
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
     // outline: 1px solid black;
     display: flex;
     h5 {
       font-weight: 700;
     }
     span {
-      padding-left: .2rem;
+      padding-left: 0.2rem;
       font-size: 15px;
       color: #657786;
     }
   }
   .paragraph {
     p {
-      margin-bottom: .5rem;
+      margin-bottom: 0.5rem;
       font-size: 16px;
-      color: #1C1C1C;
+      color: #1c1c1c;
     }
     .reply-to {
       color: #657786;
