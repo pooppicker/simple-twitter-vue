@@ -45,7 +45,20 @@
               <div v-else @click.stop.prevent="ChangeNotified">
                 <IconNotified class="other-user-btn" />
               </div>
-              <IconFollowing class="other-user-btn" />
+              <button
+                v-if="profile.isFollowed"
+                class="btn btn-deletefollow"
+                @click.prevent.stop="cancelFollow(user)"
+              >
+                <h5>正在跟隨</h5>
+              </button>
+              <button
+                v-else
+                class="btn btn-addfollow"
+                @click.prevent.stop="addFollow(user)"
+              >
+                <h5>跟隨</h5>
+              </button>
             </template>
           </div>
 
@@ -61,7 +74,7 @@
           <!-- Description -->
           <div class="desc-area">
             <h4 class="user-profile-name">{{ profile.name }}</h4>
-            <span class="span-setting">{{ profile.account }}</span>
+            <span class="span-setting">@{{ profile.account }}</span>
             <p>
               {{ profile.introduction }}
             </p>
@@ -111,8 +124,7 @@
       </div>
       <div>
         <!--popular-->
-        <Popular 
-        @updatefollower="fetchUser"/>
+        <Popular @updatefollower="fetchUser" />
       </div>
     </div>
   </div>
@@ -125,7 +137,7 @@ import LeftArrow from "./../components/icons/IconBack.vue";
 import IconMsg from "./../components/icons/IconMsg.vue";
 import IconNotify from "./../components/icons/IconNotify.vue";
 import IconNotified from "./../components/icons/IconNotified.vue";
-import IconFollowing from "./../components/icons/IconFollowing.vue";
+//import IconFollowing from "./../components/icons/IconFollowing.vue";
 import CreateEditModal from "../components/modal/CreateEditModal.vue";
 import UserSpinner from "../components/Userspinner.vue";
 import UserAPI from "./../apis/users";
@@ -139,7 +151,7 @@ export default {
     IconMsg,
     IconNotify,
     IconNotified,
-    IconFollowing,
+    //IconFollowing,
     CreateEditModal,
     UserSpinner,
   },
@@ -229,8 +241,8 @@ export default {
         this.isProcessing = false;
         const { id } = this.$route.params;
         this.fetchUser(id); //重新更新使用者資料
-        this.$store.dispatch('fetchCurrentUser')//vuex同步更新
-        this.handleCloseModal() //關modal
+        this.$store.dispatch("fetchCurrentUser"); //vuex同步更新
+        this.handleCloseModal(); //關modal
         //this.$router.push({ name: 'Home'})
       } catch (error) {
         this.isProcessing = false;
@@ -245,7 +257,6 @@ export default {
     },
     handleOpenModal() {
       this.openModal = true;
-       
     },
     handleCloseModal() {
       this.openModal = false;
@@ -289,6 +300,9 @@ export default {
       display: block;
       margin-left: 2rem;
       line-height: 1;
+      .user-profile-name {
+        word-break: break-all;
+      }
     }
   }
   .cover-area {
@@ -313,6 +327,7 @@ export default {
     display: flex;
     justify-content: end;
     margin: 1rem 1rem;
+
     .user-edit-btn {
       border: solid 1px $color-orange;
       color: $color-orange;
@@ -327,12 +342,25 @@ export default {
       margin-left: 0.6rem;
       cursor: pointer;
     }
+    .btn-addfollow,
+    .btn-deletefollow {
+      margin-left: 0.6rem;
+      @extend %main-button;
+    }
+    .btn-addfollow {
+      background-color: rgba(0, 0, 0, 0);
+      border: solid 1px $color-orange;
+      color: $color-orange;
+    }
   }
   .desc-area {
     margin: 1rem;
     p {
       margin: 0.5rem 0;
       color: $color-black;
+    }
+    .user-profile-name {
+      word-break: break-all;
     }
     .follow-area {
       display: flex;
@@ -381,6 +409,7 @@ export default {
       }
       .tweet-detail {
         h5 {
+          word-break: break-all;
           color: $color-black;
         }
 
