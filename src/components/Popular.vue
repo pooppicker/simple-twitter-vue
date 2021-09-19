@@ -86,6 +86,7 @@ export default {
         await UserAPI.deleteFollowships({
           followingId: user.id,
         });
+        this.fetchUser()
 
         const { id } = this.$route.params;
         this.$emit("updatefollower", id);
@@ -105,6 +106,7 @@ export default {
         await UserAPI.postFollowships({
           id: user.id,
         });
+        this.fetchUser()
         const { id } = this.$route.params;
         this.$emit("updatefollower", id);
       } catch (error) {
@@ -125,6 +127,7 @@ export default {
     ...mapState(["currentUser", "isNewUser"]),
   },
   watch: {
+    //監聽使用者資料有沒有改變
     isNewUser: {
       handler: function () {
         if (this.isNewUser) {
