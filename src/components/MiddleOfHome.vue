@@ -67,7 +67,7 @@
                 :to="{ name: 'Reply-list', params: { id: tweet.TweetId } }"
               >
                 <p class="tweet-detail-text">
-                  {{ tweet.description | descriptionLength }}
+                  {{ tweet.description }}
                 </p>
               </router-link>
               <div class="tweet-detail-icon d-flex">

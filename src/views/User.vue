@@ -234,6 +234,9 @@ export default {
           formData,
         });
         console.log("response", response);
+        if (this.$route.name === "profile") {
+          this.$store.commit("updateNewUser");
+        }
         Toast.fire({
           icon: "success",
           title: "成功更新資料",

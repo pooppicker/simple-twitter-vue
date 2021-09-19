@@ -82,13 +82,13 @@ export default {
     async cancelFollow(user) {
       try {
         user.isFollowed = false;
-          
+
         await UserAPI.deleteFollowships({
           followingId: user.id,
         });
-         
-        const {id} = this.$route.params
-        this.$emit('updatefollower', id)
+
+        const { id } = this.$route.params;
+        this.$emit("updatefollower", id);
       } catch (error) {
         user.isFollowed = true;
         console.log(error);
@@ -105,8 +105,8 @@ export default {
         await UserAPI.postFollowships({
           id: user.id,
         });
-       const {id} = this.$route.params  
-        this.$emit('updatefollower', id)
+        const { id } = this.$route.params;
+        this.$emit("updatefollower", id);
       } catch (error) {
         user.isFollowed = false;
         console.log(error);
@@ -122,7 +122,18 @@ export default {
     this.fetchUser();
   },
   computed: {
-    ...mapState(["currentUser"]),
+    ...mapState(["currentUser", "isNewUser"]),
+  },
+  watch: {
+    isNewUser: {
+      handler: function () {
+        if (this.isNewUser) {
+          this.fetchUser();
+          this.$store.commit("updateNewUser");
+        }
+      },
+      deep: true,
+    },
   },
 };
 </script>
