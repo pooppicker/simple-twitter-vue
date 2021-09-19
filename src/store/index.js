@@ -65,7 +65,7 @@ export default new Vuex.Store({
           FollowersCount,
           FollowingCount,
         });
-        console.log("data", data);
+        //console.log("data", data);
       } catch (error) {
         console.log(error.message);
       }
