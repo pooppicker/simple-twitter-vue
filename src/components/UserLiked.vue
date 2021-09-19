@@ -1,9 +1,9 @@
 <template>
   <!--下方推文區-->
   <div class="user-profile-area">
-    <div v-for="tweet in tweets" :key="tweet.id">
+    <div v-for="tweet in tweets" :key="tweet.TweetId">
       <div class="tweet-card d-flex">
-        <router-link :to="{ name: 'User', params: { id: tweet.User.id } }">
+        <router-link :to="{ name: 'User', params: { id: tweet.Likes.UserId } }">
           <img class="user-self-img" :src="tweet.User.avatar" />
         </router-link>
         <div class="tweet-detail">

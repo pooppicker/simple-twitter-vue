@@ -90,7 +90,7 @@
         </div>
         <!--v-for結束-->
       </div>
-      <ReplyPostModal v-if="openModal" :onClose="handleCloseModal" />
+      <ReplyPostModal v-if="openModal" :onClose="handleCloseModal" :initialTweet="tweets" />
     </template>
   </div>
 </template>
