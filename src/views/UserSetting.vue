@@ -60,12 +60,12 @@
             </div>
 
             <div class="set-input mb-2">
-              <label class="setting-label" for="passwordCheck">密碼確認</label>
+              <label class="setting-label" for="checkPassword">密碼確認</label>
               <input
-                v-model="userInfo.passwordCheck"
+                v-model="userInfo.checkPassword"
                 class="setting-input"
-                id="passwordCheck"
-                name="passwordCheck"
+                id="checkPassword"
+                name="checkPassword"
                 type="password"
                 autocomplete="new-password"
               />
@@ -99,7 +99,7 @@ export default {
         account: "",
         name: "",
         email: "",
-         password: "",
+        password: "",
         checkPassword: "",
       },
     };
@@ -148,26 +148,21 @@ router.beforeEach((to, from, next) => {
           title: "無法找到使用者資料",
         });*/
     },
-
-    async handleSubmit(e) {
+    async handleSubmit() {
       try {
-        const form = e.target;
-        const data2 = `name=${ this.userInfo.name}&account:${this.userInfo.account}`
-        console.log('e:',e)
-        const formData = new FormData(form);
-        const { data } = await UserAPI.update({
-          userId: this.userInfo.id,
-          formData: data2,
+        
+        const formData = this.userInfo
+        console.log(formData)
+        const { data } = await UserAPI.editUserAccount({
+          userID: this.userInfo.id,
+          formData,
         });
         console.log('formData', formData)
         if (data.status !== "success") {
           throw new Error(data.message);
         }
-        this.$router.push({ name: 'User', params: { id: this.currentUser.id } });
-        Toast.fire({
-          icon: "success",
-          title: "更新成功",
-        });
+        
+        this.$router.push({ name: 'User', params: { id: this.userInfo.id }})
       } catch (error) {
         console.log(error.message)
         Toast.fire({
