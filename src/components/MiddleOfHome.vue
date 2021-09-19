@@ -35,7 +35,7 @@
               class="tweet-button"
               type="submit"
               :disabled="
-                description.trim().length === 0 || description.length >= 140
+                description.trim().length === 0 || description.length > 140
               "
             >
               推文
@@ -67,7 +67,7 @@
                 :to="{ name: 'Reply-list', params: { id: tweet.TweetId } }"
               >
                 <p class="tweet-detail-text">
-                  {{ tweet.description }}
+                  {{ tweet.description | descriptionLength }}
                 </p>
               </router-link>
               <div class="tweet-detail-icon d-flex">
@@ -100,6 +100,7 @@ import IconLiked from "./icons/IconLike";
 import IconHeartFilled from "./icons/IconHeartFilled";
 import IconHeartEmpty from "./icons/IconHeartEmpty";
 import { fromNowFilter } from "./../utils/mixins";
+import { descriptionLengthFilter } from "./../utils/mixins";
 import ReplyPostModal from "./modal/ReplyPostModal.vue";
 import TweetAPI from "./../apis/tweets";
 import { Toast } from "./../utils/helpers";
@@ -108,7 +109,7 @@ import { mapState } from "vuex";
 import { setInterval, clearInterval } from "timers";
 
 export default {
-  mixins: [fromNowFilter],
+  mixins: [fromNowFilter, descriptionLengthFilter],
   components: {
     IconLiked,
     IconHeartFilled,
@@ -330,15 +331,11 @@ export default {
           margin-left: 5px;
           color: $color-gray;
         }
-        .tweet-detail-text {
-          color: $color-black;
-        }
         &-text {
+          color: $color-black;
+          word-break: break-all;
           display: -webkit-box;
-          -webkit-line-clamp: 3;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-          text-overflow: ellipsis;
+
           margin: 6px 15px 0 0;
         }
         &-icon {

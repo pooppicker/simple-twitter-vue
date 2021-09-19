@@ -16,3 +16,29 @@ export const emptyImageFilter = {
     }
   }
 }
+
+export const descriptionLengthFilter = {
+  filters: {
+    descriptionLength(description) {
+      if (description.length > 50) {
+        return description.substr(0, 50) + '...'
+      } else {
+        return description
+      }
+    }
+  }
+
+}
+
+export const nameLengthFilter = {
+  filters: {
+    nameLength(name) {
+      if (name.length > 10) {
+        return name.substr(0, 10) + '...'
+      } else {
+        return name
+      }
+    }
+  }
+
+}

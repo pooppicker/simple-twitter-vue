@@ -16,8 +16,8 @@
               </router-link>
               <div class="user">
                 <router-link :to="{ name: 'User', params: { id: user.id } }">
-                  <h5 class="user-name">{{ user.name }}</h5>
-                  <h5 class="user-account">{{ user.account }}</h5>
+                  <h5 class="user-name">{{ user.name | nameLength }}</h5>
+                  <h5 class="user-account">{{ user.account | nameLength }}</h5>
                 </router-link>
               </div>
             </div>
@@ -51,8 +51,10 @@
 import UserAPI from "./../apis/users";
 import { Toast } from "./../utils/helpers";
 import { mapState } from "vuex";
+import { nameLengthFilter } from "./../utils/mixins";
 
 export default {
+  mixins: [nameLengthFilter],
   data() {
     return {
       users: [],
@@ -171,9 +173,11 @@ export default {
           justify-content: space-between;
           .user-name {
             color: $color-black;
+            word-break: break-all;
           }
           .user-account {
             color: $color-gray;
+            word-break: break-all;
           }
           .btn-addfollow,
           .btn-deletefollow {
