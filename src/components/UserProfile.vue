@@ -15,9 +15,13 @@
               {{ tweet.User.account }}·{{ tweet.createdAt | fromNow }}
             </p>
           </div>
-          <p class="tweet-detail-text">
-            {{ tweet.description }}
-          </p>
+          <router-link
+            :to="{ name: 'Reply-list', params: { id: tweet.TweetId } }"
+          >
+            <p class="tweet-detail-text">
+              {{ tweet.description }}
+            </p>
+          </router-link>
           <div class="tweet-detail-icon d-flex">
             <div class="reply-part d-flex" @click="handleOpenModal">
               <IconReply />
@@ -42,13 +46,12 @@
 
 <script>
 import IconReply from "./icons/IconReply.vue";
-import IconHeartFilled from "./icons/IconHeartFilled.vue"
+import IconHeartFilled from "./icons/IconHeartFilled.vue";
 import IconHeartEmpty from "./icons/IconHeartEmpty.vue";
 import { fromNowFilter } from "./../utils/mixins";
 import ReplyPostModal from "./modal/ReplyPostModal.vue";
-import userAPI from "../apis/users"
-import { Toast } from "../utils/helpers"
-
+import userAPI from "../apis/users";
+import { Toast } from "../utils/helpers";
 
 export default {
   mixins: [fromNowFilter],
@@ -56,7 +59,7 @@ export default {
     IconReply,
     IconHeartEmpty,
     ReplyPostModal,
-    IconHeartFilled
+    IconHeartFilled,
   },
   data() {
     return {
@@ -72,16 +75,16 @@ export default {
     //使用者的部分
     async fetchTweets(userID) {
       try {
-        const response = await userAPI.getUserTweets({userID})
+        const response = await userAPI.getUserTweets({ userID });
         this.tweets = {
-          ...response.data
+          ...response.data,
         };
       } catch (error) {
-        console.log(error.message)
+        console.log(error.message);
         Toast.fire({
-          icon: 'error',
-          title: '找不到使用者推文'
-        })
+          icon: "error",
+          title: "找不到使用者推文",
+        });
       }
     },
     //點擊愛心功能
@@ -94,6 +97,11 @@ export default {
     handleCloseModal() {
       this.openModal = false;
     },
+  },
+   beforeRouteUpdate(to, from, next) {
+    const { id } = to.params;
+    this.fetchTweets(id);
+    next();
   },
 };
 </script>
@@ -114,6 +122,7 @@ export default {
     .tweet-detail {
       h5 {
         color: $color-black;
+        word-break: break-all;
       }
 
       .post-time {
@@ -127,6 +136,7 @@ export default {
         -webkit-box-orient: vertical;
         overflow: hidden;
         text-overflow: ellipsis;
+        color: $color-black;
         margin: 6px 15px 0 0;
       }
       &-icon {

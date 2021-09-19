@@ -109,10 +109,10 @@ export default {
         });
 
         this.$emit("closeModal");
-        console.log(this.$route);
+        //console.log(this.$route);
         //更新vuex資料
         if (this.$route.name === "Home") {
-          console.log("有到這裡");
+          //console.log("有到這裡");
           this.$store.commit("updateNewPost");
         }
 
