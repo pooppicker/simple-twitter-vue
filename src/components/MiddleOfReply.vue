@@ -2,7 +2,9 @@
   <div class="reply-list-area">
     <!-- Title -->
     <div class="title-area">
-      <router-link to="/"><LeftArrow /></router-link>
+      <div class="go-back" @click.stop.prevent="previousPage">
+        <LeftArrow />
+      </div>
       <div class="user-title">
         <h4 class="user-profile-name">推文</h4>
       </div>
@@ -12,40 +14,40 @@
     <div class="txt-area">
       <div class="image-and-name">
         <router-link :to="{ name: 'User', params: { id: tweet.User.id } }">
-        <img
-          class="user-sm-avatar"
-          :src="tweet.User.avatar"
-          alt="avatar"
-        />
+          <img class="user-sm-avatar" :src="tweet.User.avatar" alt="avatar" />
         </router-link>
         <div class="name-account">
           <router-link :to="{ name: 'User', params: { id: tweet.User.id } }">
-          <h4>{{tweet.User.name}}</h4>
+            <h4>{{ tweet.User.name }}</h4>
           </router-link>
-          <span>@{{tweet.User.account}}</span>
+          <span>@{{ tweet.User.account }}</span>
         </div>
       </div>
       <!-- paragraph and time -->
       <div class="para">
         <p>
-          {{tweet.description}}
+          {{ tweet.description }}
         </p>
-        <span>{{tweet.createdAt | fromNow}}</span>
+        <span>{{ tweet.createdAt | fromNow }}</span>
       </div>
       <!-- comments and likes -->
       <div class="comments-area">
-        <div class="coms-amount"><strong>{{tweet.RepliesCount}} </strong>回覆</div>
-        <div class="likes-amount"><strong>{{tweet.LikesCount}} </strong>喜歡次數</div>
+        <div class="coms-amount">
+          <strong>{{ tweet.RepliesCount }} </strong>回覆
+        </div>
+        <div class="likes-amount">
+          <strong>{{ tweet.LikesCount }} </strong>喜歡次數
+        </div>
       </div>
       <!-- icons -->
       <div class="icons-area">
         <div @click="handleOpenModal">
-          <IconReply class="ic"/>
+          <IconReply class="ic" />
         </div>
         <IconHeartEmpty class="ic ic-right" />
       </div>
       <!-- Modal -->
-      
+
       <!-- Down Part -->
       <div class="user-replylist-area">
         <div v-for="reply in tweet.Replies" :key="reply.id">
@@ -55,7 +57,9 @@
             </router-link>
             <div class="tweet-detail">
               <div class="tweet-detail-title d-flex">
-                <router-link :to="{ name: 'User', params: { id: reply.User.id } }">
+                <router-link
+                  :to="{ name: 'User', params: { id: reply.User.id } }"
+                >
                   <h5>{{ reply.User.name }}</h5>
                 </router-link>
                 <p class="post-time">
@@ -64,9 +68,9 @@
               </div>
               <div class="user-reply-to">
                 回覆
-                <span class="user-reply-account">@{{
-                  tweet.User.account
-                }}</span>
+                <span class="user-reply-account"
+                  >@{{ tweet.User.account }}</span
+                >
               </div>
               <p class="tweet-detail-text">
                 {{ reply.comment }}
@@ -92,7 +96,6 @@ import ReplyPostModal from "./modal/ReplyPostModal.vue";
 import TweetAPI from "./../apis/tweets";
 //import { Toast } from "./../utils/helpers";
 
-
 export default {
   mixins: [fromNowFilter],
   components: {
@@ -110,16 +113,15 @@ export default {
 
   methods: {
     async fetchTweets(tweetId) {
-      try{
-        const response = await TweetAPI.getSpecificTweets({tweetId}) 
+      try {
+        const response = await TweetAPI.getSpecificTweets({ tweetId });
         this.tweet = {
-          ...response.data
-        }
-        console.log(response.data)
-
-      }catch(error) {
-        console.log(error)
-          Toast.fire({
+          ...response.data,
+        };
+        console.log(response.data);
+      } catch (error) {
+        console.log(error);
+        Toast.fire({
           icon: "error",
           title: "貼文載入失敗，請稍後再試",
         });
@@ -131,10 +133,13 @@ export default {
     handleCloseModal() {
       this.openModal = false;
     },
+    previousPage() {
+      this.$router.back();
+    },
   },
 
   created() {
-    const {id} = this.$route.params 
+    const { id } = this.$route.params;
     this.fetchTweets(id);
   },
 };
