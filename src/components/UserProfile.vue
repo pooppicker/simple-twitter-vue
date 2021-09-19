@@ -131,11 +131,7 @@ export default {
         color: $color-gray;
       }
       &-text {
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        word-break: break-all;
         color: $color-black;
         margin: 6px 15px 0 0;
       }
