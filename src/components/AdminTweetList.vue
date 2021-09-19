@@ -6,7 +6,7 @@
     <!--下方推文區-->
     <div class="admintweets-part">
       <!--v-for開始-->
-      <div v-for="tweet in tweets" :key="tweet.TweetId">
+      <div v-for="tweet in tweets" :key="tweet.id">
         <div class="tweet-card d-flex">
           <router-link :to="{ name: 'User', params: { id: tweet.User.id } }">
             <img class="tweet-user-imag" :src="tweet.User.avatar" />
@@ -42,22 +42,40 @@
 <script>
 import IconDelete from "./../components/icons/IconDelete.vue";
 import { fromNowFilter } from "./../utils/mixins";
+import adminAPI from "./../apis/admin"
 
 export default {
   components: {
     IconDelete,
   },
   mixins: [fromNowFilter],
-  props: {
-    innitialTweets: {
-      type: Array,
-    },
-  },
+  // props: {
+  //   innitialTweets: {
+  //     type: Array,
+  //     required: true
+  //   },
+  // },
   data() {
     return {
-      tweets: this.innitialTweets,
+      // tweets: this.innitialTweets,
+      tweets: [],
     };
   },
+  created() {
+    this.fetchTweets()
+  },
+  methods: {
+    async fetchTweets() {
+      try {
+        const response = await adminAPI.adminGetTweets()
+        this.tweets = {
+          ...response.data
+        }
+      } catch (error) {
+        console.log(error.message)
+      }
+    }
+  }
 };
 </script>
 

@@ -17,6 +17,7 @@
 <script>
 import AdminNavBars from "./../components/AdminNavBars";
 import AdminTweetList from "./../components/AdminTweetList";
+
 //import Popular from "./../components/Popular";
 // @ is an alias to /src
 
@@ -218,7 +219,7 @@ export default {
   methods: {
     fetchTweets() {
       this.tweets = dummyTweets;
-    },
+    }
   },
 
   created() {
