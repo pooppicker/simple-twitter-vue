@@ -17,7 +17,7 @@
               <div class="user">
                 <router-link :to="{ name: 'User', params: { id: user.id } }">
                   <h5 class="user-name">{{ user.name | nameLength }}</h5>
-                  <h5 class="user-account">{{ user.account | nameLength }}</h5>
+                  <h5 class="user-account">@{{ user.account | nameLength }}</h5>
                 </router-link>
               </div>
             </div>
