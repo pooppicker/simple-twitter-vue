@@ -24,16 +24,9 @@
                 ><IconUploadPhoto class="upload-cover"
               /></label>
               <img
-                v-if="!deleteClick"
                 class="modal-cover-photo"
                 :src="profile.cover"
                 alt="cover"
-              />
-              <img
-                v-else
-                class="remove-cover-photo"
-                src="https://htmlcolorcodes.com/assets/images/colors/gray-color-solid-background-1920x1080.png"
-                alt=""
               />
               <input
                 id="cover"
@@ -43,7 +36,7 @@
                 accept="image/*"
                 @change="handleCoverChange"
               />
-              <div @click="handleCoverDelete">
+              <div v-if="deleteClick" @click="handleCoverDelete">
                 <IconCloseWhite class="delete-cover" />
               </div>
 
@@ -141,7 +134,7 @@ export default {
         name: "",
         introduction: "",
       },
-      deleteClick: false,
+      deleteClick: true,
     };
   },
   created() {
@@ -169,10 +162,9 @@ export default {
       if (files.length === 0) {
         //user do not select pic
         this.profile.cover = "";
-        this.deleteClick = false;
         return;
       } else {
-        this.deleteClick = false;
+        this.deleteClick = true;
         const imageURL = window.URL.createObjectURL(files[0]);
         this.profile.cover = imageURL;
       }
@@ -189,7 +181,7 @@ export default {
       }
     },
     handleCoverDelete() {
-      this.deleteClick = true;
+      this.deleteClick = !this.deleteClick;
     },
   },
   computed: {
@@ -281,7 +273,7 @@ export default {
   .upload-cover {
     position: absolute;
     top: 50%;
-    left: 42%;
+    left: 48%;
     z-index: 999;
     cursor: pointer;
   }
@@ -289,6 +281,7 @@ export default {
     position: absolute;
     top: 50%;
     left: 53%;
+    margin-left: 1rem;
     z-index: 999;
     cursor: pointer;
   }
