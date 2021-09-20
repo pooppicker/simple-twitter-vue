@@ -270,7 +270,7 @@ export default {
     },
     async addFollow(profile) {
       try {
-        profile.isFollowed = 1;
+        profile.isFollowed = true;
         await UserAPI.postFollowships({
           id: profile.id,
         });
@@ -278,7 +278,7 @@ export default {
         const { id } = this.$route.params;
         this.fetchUser(id); //重新更新使用者資料
       } catch (error) {
-        profile.isFollowed = 0;
+        profile.isFollowed = false;
         console.log(error);
         Toast.fire({
           icon: "warning",
@@ -288,7 +288,7 @@ export default {
     },
     async cancelFollow(profile) {
       try {
-        profile.isFollowed = 0;
+        profile.isFollowed = false;
         await UserAPI.deleteFollowships({
           followingId: profile.id,
         });
@@ -296,7 +296,7 @@ export default {
         const { id } = this.$route.params;
         this.fetchUser(id); //重新更新使用者資料
       } catch (error) {
-        profile.isFollowed = 1;
+        profile.isFollowed = true;
         console.log(error);
         Toast.fire({
           icon: "warning",

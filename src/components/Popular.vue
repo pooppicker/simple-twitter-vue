@@ -69,7 +69,7 @@ export default {
         this.users = {
           ...response.data,
         };
-        console.log("userid:", this.users[0].id);
+        console.log(this.users)
       } catch (error) {
         console.log(error);
         Toast.fire({

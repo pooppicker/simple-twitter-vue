@@ -18,9 +18,9 @@
           <router-link
             :to="{ name: 'Reply-list', params: { id: tweet.TweetId } }"
           >
-          <p class="tweet-detail-text">
-            {{ tweet.description }}
-          </p>
+            <p class="tweet-detail-text">
+              {{ tweet.description }}
+            </p>
           </router-link>
           <div class="tweet-detail-icon d-flex">
             <div class="reply-part d-flex" @click="handleOpenModal">
@@ -89,7 +89,7 @@ export default {
         });
       }
     },
-     //點擊愛心功能
+    //點擊愛心功能
     async addHeart(tweet) {
       try {
         const { TweetId } = tweet;
@@ -106,6 +106,7 @@ export default {
         tweet.isLike = !tweet.isLike;
       }
     },
+    //
 
     async cancelHeart(tweet) {
       try {
@@ -113,6 +114,8 @@ export default {
         tweet.LikesCount = tweet.LikesCount - 1;
         tweet.isLike = !tweet.isLike;
         await TweetAPI.postTweetUnliked({ tweetId: TweetId });
+        const { id } = this.$route.params;
+        this.fetchTweets(id); //讓刪除愛心當下就可以看到他離開清單
       } catch (error) {
         console.log(error);
         Toast.fire({
