@@ -23,11 +23,7 @@
               <label for="cover"
                 ><IconUploadPhoto class="upload-cover"
               /></label>
-              <img
-                class="modal-cover-photo"
-                :src="profile.cover"
-                alt="cover"
-              />
+              <img class="modal-cover-photo" :src="profile.cover" alt="cover" />
               <input
                 id="cover"
                 style="display: none"
@@ -36,9 +32,17 @@
                 accept="image/*"
                 @change="handleCoverChange"
               />
-              <div v-if="deleteClick" @click="handleCoverDelete">
+              <label for="deleteCover" v-if="!profile.deleteCover">
                 <IconCloseWhite class="delete-cover" />
-              </div>
+              </label>
+              <input  
+                v-model="profile.deleteCover" 
+                id="deleteCover" 
+                name="deleteCover" 
+                type="checkbox"
+                checked="true"
+                @submit.stop.prevent="handleCoverDelete"
+              >
 
               <label for="avatar"
                 ><IconUploadPhoto class="upload-avatar"
@@ -94,7 +98,9 @@
               </div>
 
               <div class="modal-txt-limit">
-                <span v-if="profile.introduction.length >= 160" class="typing-error"
+                <span
+                  v-if="profile.introduction.length >= 160"
+                  class="typing-error"
                   >字數不可超過160字</span
                 >
                 {{ profile.introduction.length }}/160
@@ -133,8 +139,8 @@ export default {
         avatar: "",
         name: "",
         introduction: "",
+        deleteCover: false
       },
-      deleteClick: true,
     };
   },
   created() {
@@ -148,13 +154,17 @@ export default {
         id,
         cover,
         avatar,
-        name: name ? name : '',
-        introduction: introduction ? introduction : '',
+        name: name ? name : "",
+        introduction: introduction ? introduction : "",
+        deleteCover: false
       };
     },
     handleSubmit(e) {
       const form = e.target;
       const formData = new FormData(form);
+      for (let [name, value] of formData.entries()) {
+        console.log(name + ": " + value);
+      }
       this.$emit("after-submit", formData);
     },
     handleCoverChange(e) {
@@ -180,8 +190,10 @@ export default {
         this.profile.avatar = imageURL;
       }
     },
-    handleCoverDelete() {
-      this.deleteClick = !this.deleteClick;
+    handleCoverDelete(e) {
+      const form = e.target;
+      const formData = new FormData(form);
+      formData.append('deleteCover', true)
     },
   },
   computed: {
