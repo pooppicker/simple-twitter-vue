@@ -43,13 +43,12 @@
 import IconDelete from "./../components/icons/IconDelete.vue";
 import { fromNowFilter } from "./../utils/mixins";
 import adminAPI from "./../apis/admin"
-import { descriptionLengthFilter } from "./../utils/mixins";
 
 export default {
   components: {
     IconDelete,
   },
-  mixins: [fromNowFilter, descriptionLengthFilter],
+  mixins: [fromNowFilter],
   // props: {
   //   innitialTweets: {
   //     type: Array,
@@ -72,6 +71,7 @@ export default {
         this.tweets = {
           ...response.data
         }
+        console.log(response.data[0])
       } catch (error) {
         console.log(error.message)
       }
