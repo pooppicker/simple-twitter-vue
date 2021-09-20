@@ -8,5 +8,12 @@ export default {
         Authorization: `Bearer ${adminToken}`
       }
     })
+  },
+  adminGetUsers() {
+    return apiHelper.get('/admin/users', {
+      headers: {
+        Authorization: `Bearer ${adminToken}`
+      }
+    })
   }
 }

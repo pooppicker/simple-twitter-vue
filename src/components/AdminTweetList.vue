@@ -8,14 +8,14 @@
       <!--v-for開始-->
       <div v-for="tweet in tweets" :key="tweet.id">
         <div class="tweet-card d-flex">
-          <router-link :to="{ name: 'User', params: { id: tweet.User.id } }">
+          <router-link :to="{ name: 'User', params: { id: tweet.User.UserId } }">
             <img class="tweet-user-imag" :src="tweet.User.avatar" />
           </router-link>
           <div class="tweet-detail">
             <div class="d-flex justify-content-between">
               <div class="tweet-detail-title d-flex">
                 <router-link
-                  :to="{ name: 'User', params: { id: tweet.User.id } }"
+                  :to="{ name: 'User', params: { id: tweet.User.UserId } }"
                 >
                   <h5>{{ tweet.User.name }}</h5>
                 </router-link>
@@ -49,15 +49,8 @@ export default {
     IconDelete,
   },
   mixins: [fromNowFilter],
-  // props: {
-  //   innitialTweets: {
-  //     type: Array,
-  //     required: true
-  //   },
-  // },
   data() {
     return {
-      // tweets: this.innitialTweets,
       tweets: [],
     };
   },
@@ -71,7 +64,6 @@ export default {
         this.tweets = {
           ...response.data
         }
-        console.log(response.data[0])
       } catch (error) {
         console.log(error.message)
       }
