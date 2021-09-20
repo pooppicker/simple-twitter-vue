@@ -71,7 +71,8 @@
                 </p>
               </router-link>
               <div class="tweet-detail-icon d-flex">
-                <div class="reply-part d-flex" @click="handleOpenModal">
+                <!--要在這裡去取得該篇貼文資訊-->
+                <div class="reply-part d-flex" @click.stop.prevent="catchTweetInfo(tweet)">
                   <IconLiked />
                   <div class="icon-text">{{ tweet.RepliesCount }}</div>
                 </div>
@@ -98,7 +99,8 @@
       <ReplyPostModal
         v-if="openModal"
         :onClose="handleCloseModal"
-        :initialTweet="tweets"
+        :initialTweet="tweet"
+        @closeModal="handleCloseModal"
       />
     </template>
   </div>
@@ -134,6 +136,7 @@ export default {
       openModal: false,
       pageIsProcessing: true,
       timer: 0,
+      tweet:"" //點擊的貼文
     };
   },
 
@@ -232,13 +235,19 @@ export default {
       }
     },
 
+    catchTweetInfo(tweet) {
+      console.log(tweet)
+      this.tweet = tweet
+      this.handleOpenModal()
+    },
+
     handleOpenModal() {
       this.openModal = true;
     },
     handleCloseModal() {
       this.openModal = false;
     },
-    //首頁推文即時更新(5秒)
+    //首頁推文即時更新(5分鐘)
     UpDateTweet() {
       this.timer = setInterval(() => {
         this.fetchTweets();

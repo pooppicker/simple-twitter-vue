@@ -14,32 +14,32 @@
           <slot name="body">
             <div class="single-reply-area">
               <div class="img-create-area">
-                <img
-                  class="create-user-avatar"
-                  :src="currentUser.avatar"
-                />
+                <img class="create-user-avatar" :src="tweet.User.avatar" />
                 <div class="vl"></div>
               </div>
               <div class="single-reply-info">
                 <div class="single-name-account">
-                  <h5>{{currentUser.name}}</h5>
-                  <!-- <span>{{currentUser.account}}・{{ tweet.createdAt | fromNow }}</span> -->
+                  <h5>{{ tweet.User.account }}</h5>
+                  <span
+                    >@{{ tweet.User.account }}・{{
+                      tweet.createdAt | fromNow
+                    }}</span
+                  >
                 </div>
                 <div class="paragraph">
                   <p>
-                    {{currentUser.introduction}}
+                    {{ tweet.description }}
                   </p>
                   <span class="reply-to">回覆給 </span
-                  ><span class="reply-to orange">{{currentUser.account}}</span>
+                  ><span class="reply-to orange"
+                    >@{{ tweet.User.account }}</span
+                  >
                 </div>
               </div>
             </div>
             <div class="create-tweet-area">
               <div class="img-create-area">
-                <img
-                  class="create-user-avatar"
-                  :src="currentUser.avatar"
-                />
+                <img class="create-user-avatar" :src="currentUser.avatar" />
               </div>
               <div class="input-create">
                 <label class="create-label" for="txtarea-input"></label>
@@ -59,7 +59,13 @@
           </slot>
           <slot name="footer">
             <div class="create-tweet-btn">
-              <button class="click-to-create" type="submit">回覆</button>
+              <button
+                class="click-to-create"
+                type="submit"
+                @click.stop.prevent="handleSubmit"
+              >
+                回覆
+              </button>
             </div>
           </slot>
         </form>
@@ -73,7 +79,8 @@ import IconCloseOrange from "./../icons/IconClose.vue";
 import { fromNowFilter } from "../../utils/mixins";
 // import { Toast } from "../../utils/helpers";
 import { mapState } from "vuex";
-
+import TweetAPI from "./../../apis/tweets";
+import { Toast } from "./../../utils/helpers";
 
 export default {
   mixins: [fromNowFilter],
@@ -85,9 +92,43 @@ export default {
       type: Function,
       required: true,
     },
+    initialTweet: {
+      required: true,
+    },
   },
   computed: {
     ...mapState(["currentUser"]),
+  },
+  data() {
+    return {
+      tweet: this.initialTweet,
+      description: "",
+    };
+  },
+  methods: {
+    async handleSubmit() {
+      try {
+        await TweetAPI.addReplies({
+          tweetId: this.tweet.TweetId? this.tweet .TweetId : this.tweet.id ,
+          comment: this.description,
+        });
+        this.tweet.RepliesCount += 1;//這裡是用來即時呈現首頁的推文數，不用充新刷新首頁
+        this.$emit("closeModal");
+        const TweetId = this.tweet.id
+        this.$emit("renewReplyList",TweetId);
+        Toast.fire({
+          icon: "success",
+          title: "回覆成功！",
+        });
+      } catch (error) {
+        console.log(error);
+        Toast.fire({
+          icon: "warning",
+          title: "回覆發生錯誤，請稍後再次試",
+        });
+        this.$emit("closeModal");
+      }
+    },
   },
 };
 </script>

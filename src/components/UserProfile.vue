@@ -23,7 +23,10 @@
             </p>
           </router-link>
           <div class="tweet-detail-icon d-flex">
-            <div class="reply-part d-flex" @click="handleOpenModal">
+            <div
+              class="reply-part d-flex"
+              @click.stop.prevent="catchTweetInfo(tweet)"
+            >
               <IconReply />
               <div class="icon-text">{{ tweet.RepliesCount }}</div>
             </div>
@@ -42,7 +45,12 @@
       <hr />
     </div>
     <!--v-for結束-->
-    <ReplyPostModal v-if="openModal" :onClose="handleCloseModal" />
+    <ReplyPostModal
+      v-if="openModal"
+      :onClose="handleCloseModal"
+      :initialTweet="tweet"
+      @closeModal="handleCloseModal"
+    />
   </div>
 </template>
 
@@ -123,6 +131,11 @@ export default {
         tweet.LikesCount = tweet.LikesCount + 1;
         tweet.isLike = !tweet.isLike;
       }
+    },
+    catchTweetInfo(tweet) {
+      console.log(tweet);
+      this.tweet = tweet;
+      this.handleOpenModal();
     },
 
     handleOpenModal() {

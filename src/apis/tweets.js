@@ -40,5 +40,11 @@ export default {
     })
   },
 
+  addReplies({ tweetId , comment}) {
+    return apiHelper.post(`/tweets/${tweetId}/replies`, {comment}, {
+      headers: { Authorization: `Bearer ${getToken()}` }
+    })
+  },
+
 
 }
