@@ -90,7 +90,7 @@ export default {
           this.isProcessing = false;
           return;
         }
-       
+        
         const response = await authorizationAPI.signIn({
           account: this.account,
           password: this.password,
