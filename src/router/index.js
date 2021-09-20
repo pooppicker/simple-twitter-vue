@@ -5,26 +5,18 @@ import SignIn from "../views/SignIn.vue"
 import store from "./../store/index"
 
 Vue.use(VueRouter);
+//const AdmintokenInLocalStorage = localStorage.getItem('admin-token')
 
-const authorizeIsAdmin = (to, from, next) => {
+/*const authorizeIsAdmin = (to, from, next) => {
   const currentUser = store.state.currentUser
-  if (currentUser && currentUser.role === 'user') {
+  if (!AdmintokenInLocalStorage && currentUser && currentUser.role === 'user') {
     next('/admin/404')
     return
   }
 
   next()
-}
+}*/
 
-const authorizeIsUser = (to, from, next) => {
-  const currentUser = store.state.currentUser
-  if (currentUser && currentUser.role !== 'user') {
-    next('/404')
-    return
-  }
-
-  next()
-}
 
 const routes = [
   {
@@ -51,13 +43,13 @@ const routes = [
     path: "/twitter/Setting",
     name: "Setting",
      component: () => import('../views/UserSetting.vue'),
-     beforeEnter: authorizeIsUser
+   
    },
   {
     path: "/twitter/replylist/:id",
     name: "ReplyList",
     component: () => import('../views/ReplyList.vue'),
-    beforeEnter: authorizeIsUser
+    
   },
   {
     path: "/twitter/user/:id",
@@ -69,19 +61,19 @@ const routes = [
         path: "profile",
         name: "profile",
         component: () => import('../components/UserProfile.vue'),
-        beforeEnter: authorizeIsUser
+    
       },
       {
         path: "Tweets",
         name: "Tweets",
         component: () => import('../components/UserTweet.vue'),
-        beforeEnter: authorizeIsUser
+   
       },
       {
         path: "Liked",
         name: "Liked",
         component: () => import('../components/UserLiked.vue'),
-        beforeEnter: authorizeIsUser
+      
       },
     ]
   },
@@ -89,14 +81,14 @@ const routes = [
     path: "/twitter/user/:id/following",
     name: "User-following",
     component: () => import('../views/UserFollowing.vue'),
-    beforeEnter: authorizeIsUser
+ 
   },
 
   {
     path: "/twitter/user/:id/follower",
     name: "User-follower",
     component: () => import('../views/UserFollower.vue'),
-    beforeEnter: authorizeIsUser
+    
   },
 
 
@@ -104,7 +96,7 @@ const routes = [
     path: "/twitter/replylist/:id",
     name: "Reply-list",
     component: () => import('../views/ReplyList.vue'),
-    beforeEnter: authorizeIsUser
+
   },
 
 
@@ -118,13 +110,13 @@ const routes = [
     path: "/admin/main",
     name: "admin-main",
     component: () => import('../views/AdminMain.vue'),
-    beforeEnter: authorizeIsAdmin
+  
   },
   {
     path: "/admin/users",
     name: "admin-users",
     component: () => import('../views/AdminUsers.vue'),
-    beforeEnter: authorizeIsAdmin
+ //
   },
   {
     path: "/admin/404",
@@ -143,27 +135,48 @@ const router = new VueRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  const tokenInLocalStorage = localStorage.getItem('token') ? localStorage.getItem('token') : localStorage.getItem('admin-token')
+  const tokenInLocalStorage = localStorage.getItem('token') 
+  const AdmintokenInLocalStorage = localStorage.getItem('admin-token')
     
   const tokenInStore = store.state.token
   let isAuthenticated = store.state.isAuthenticated
 
-  const pathsWithAdmin = ['admin-main', 'admin-users', ]
-
-  if (tokenInLocalStorage && pathsWithAdmin.includes(to.name)) {
+  const pathsWithAdmin = ['admin-main', 'admin-users']
+//管理員需有token才能去
+if (AdmintokenInLocalStorage && pathsWithAdmin.includes(to.name)) {
     next()
     return
   }
+
+  //管理員沒有token直接倒去登入頁面
+
+  if (!AdmintokenInLocalStorage && pathsWithAdmin.includes(to.name)) {
+    next('/admin/signin')
+    return
+  }
+
+  //已登入的管理員不能去登入頁
+
+  if (AdmintokenInLocalStorage && to.name.includes("admin-sign-in")) {
+    next('/admin/main')
+    return
+  }
+
+   //登入的使用者驗證
 
   if (tokenInLocalStorage && tokenInLocalStorage !== tokenInStore) {
     isAuthenticated = await store.dispatch('fetchCurrentUser')
   }
 
-  const pathsWithoutAuthentication = ['sign-up', 'sign-in', 'admin-sign-in']
-  if (!isAuthenticated && !pathsWithoutAuthentication.includes(to.name)) {
+  const pathsWithoutAuthentication = ['sign-up', 'sign-in', ]
+
+//非使用者僅可去管理員登入頁面、註冊和登入頁面，否則返回登入頁
+  if (!isAuthenticated && !pathsWithoutAuthentication.includes(to.name) && !to.name.includes('admin-sign-in')) {
     next('/signin')
     return
   }
+
+  //已登入的使用者不能去登入頁
 
   if (isAuthenticated && pathsWithoutAuthentication.includes(to.name)) {
     next('/twitter/Home')
