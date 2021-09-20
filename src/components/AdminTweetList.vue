@@ -2,7 +2,7 @@
   <div class="container admintweets-container">
     <!--上方使用者輸入區-->
     <h4>推文清單</h4>
-
+    <Spinner v-if="isProcessing" />
     <!--下方推文區-->
     <div class="admintweets-part">
       <!--v-for開始-->
@@ -43,15 +43,18 @@
 import IconDelete from "./../components/icons/IconDelete.vue";
 import { fromNowFilter } from "./../utils/mixins";
 import adminAPI from "./../apis/admin"
+import Spinner from "./AdminSpinner.vue"
 
 export default {
   components: {
     IconDelete,
+    Spinner
   },
   mixins: [fromNowFilter],
   data() {
     return {
       tweets: [],
+      isProcessing: true,
     };
   },
   created() {
@@ -64,10 +67,12 @@ export default {
         this.tweets = {
           ...response.data
         }
+        this.isProcessing = false
       } catch (error) {
         console.log(error.message)
       }
     }
+    
   }
 };
 </script>
