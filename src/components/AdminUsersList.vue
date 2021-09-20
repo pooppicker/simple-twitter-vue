@@ -2,21 +2,17 @@
   <div class="container adminUsers-container">
     <!--上方使用者輸入區-->
     <h4>使用者列表</h4>
-
+    <Spinner v-if="isProcessing" />
     <!--下方推文區-->
     <div class="adminUsers-part d-flex">
       <!--v-for開始-->
       <div class="card adminUser-card" v-for="user in users" :key="user.id">
         <div class="adminUsers-image">
           <div class="adminUsers-avatar">
-            <img
-              src="https://source.unsplash.com/1600x1200/?man/?random=38.46792589859454"
-            />
+            <img :src="user.avatar" />
           </div>
           <div class="adminUsers-coverimage">
-            <img
-              src="https://source.unsplash.com/1600x900/?nature/?random=79.00129583279121"
-            />
+            <img :src="user.cover" />
           </div>
         </div>
         <!--姓名資料-->
@@ -38,7 +34,7 @@
 
         <div class="adminUsers-follow d-flex">
           <div class="adminUsers-following">
-            {{ user.FollowingsCount }}位<span>跟隨中</span>
+            {{ user.FollowingCount }}位<span>跟隨中</span>
           </div>
           <div class="adminUsers-follower">
             {{ user.FollowersCount }}位<span>跟隨者</span>
@@ -55,22 +51,37 @@
 import { fromNowFilter } from "./../utils/mixins";
 import IconLiked from "./icons/IconLike";
 import IconHeartEmpty from "./icons/IconHeartEmpty";
+import adminAPI from "../apis/admin";
+import Spinner from "./AdminSpinner.vue"
 
 export default {
   components: {
     IconLiked,
     IconHeartEmpty,
+    Spinner
   },
   mixins: [fromNowFilter],
-  props: {
-    innitialUsers: {
-      type: Array,
-    },
-  },
   data() {
     return {
-      users: this.innitialUsers,
+      users: [],
+      isProcessing: true
     };
+  },
+  created() {
+    this.fetchUsers();
+  },
+  methods: {
+    async fetchUsers() {
+      try {
+        const response = await adminAPI.adminGetUsers();
+        this.users = {
+          ...response.data,
+        };
+        this.isProcessing = false
+      } catch (error) {
+        console.log(error.message)
+      }
+    },
   },
 };
 </script>

@@ -1,6 +1,9 @@
 <template>
   <div class="container admin-signin-container">
-    <form class="d-flex flex-column align-items-center">
+    <form 
+      class="d-flex flex-column align-items-center"
+      @submit.stop.prevent="handleSubmit"
+    >
       <div class="text-center mb-4">
         <AcLogo class="mb-4" />
         <h3 class="mb-4">後台登入</h3>
@@ -8,6 +11,7 @@
       <div class="input-style mb-2">
         <label class="signin-label" for="account">帳號</label>
         <input
+          v-model="account"
           class="signin-input"
           id="account"
           type="account"
@@ -20,6 +24,7 @@
       <div class="input-style mb-2">
         <label class="signin-label" for="password">密碼</label>
         <input
+          v-model="password"
           class="signin-input"
           id="password"
           type="password"
@@ -27,7 +32,23 @@
           required
         />
       </div>
-      <button type="submit" class="signin-btn mb-3">登入</button>
+      <button
+        v-if="isProcessing"
+        type="submit"
+        class="signin-btn mb-3"
+        @click.stop.prevent="handleSubmit"
+        disabled
+      >
+        驗證中 ...
+      </button>
+      <button 
+        v-else
+        type="submit" 
+        class="signin-btn mb-3"
+        @click.stop.prevent="handleSubmit"
+      >
+        登入
+      </button>
       <div class="a-link">
         <router-link class="admin-signin-link" to="/signin">前台登入</router-link>
       </div>
@@ -38,11 +59,57 @@
 
 <script>
 import AcLogo from "../components/icons/AcLogo.vue";
+import adminAuthorizationAPI from "../apis/adminAuthorization"
+import { Toast } from "./../utils/helpers"
 
 export default {
   components: {
     AcLogo,
   },
+  data() {
+    return {
+      account: "",
+      password: "",
+      isProcessing: false
+    }
+  },
+  methods: {
+    async handleSubmit() {
+      try {
+        this.isProcessing = true
+        if (!this.account || !this.password) {
+          Toast.fire({
+            icon: 'warning',
+            title: '請填入 帳號 和 密碼'
+          })
+          return
+        }
+        const { data } = await adminAuthorizationAPI.SignIn({
+          account: this.account,
+          password: this.password
+        })
+        if (data.status !== 'success') {
+          throw new Error(data.message)
+        }
+        Toast.fire({
+          icon: 'success',
+          title: '登入成功'
+        })
+        localStorage.setItem('admin-token', data.token)
+        this.$router.push('/admin/main')
+        
+      } catch (error) {
+        this.account = ""
+        this.password = ""
+        this.isProcessing = false
+        Toast.fire({
+          icon: 'warning',
+          title: '請確認您輸入了正確的帳號密碼'
+        })
+        
+      }
+    }
+  }
 };
 </script>
 
