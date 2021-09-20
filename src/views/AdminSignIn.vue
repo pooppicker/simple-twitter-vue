@@ -82,6 +82,7 @@ export default {
             icon: 'warning',
             title: '請填入 帳號 和 密碼'
           })
+          this.isProcessing = false
           return
         }
         const { data } = await adminAuthorizationAPI.SignIn({
