@@ -90,7 +90,7 @@ export default {
           });
           return;
         }
-       
+        
         const response = await authorizationAPI.signIn({
           account: this.account,
           password: this.password,
