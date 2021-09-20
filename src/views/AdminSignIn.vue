@@ -95,7 +95,7 @@ export default {
           icon: 'success',
           title: '登入成功'
         })
-        localStorage.setItem('admin-token', data.token)
+        localStorage.setItem('token', data.token)
         this.$router.push('/admin/main')
         
       } catch (error) {

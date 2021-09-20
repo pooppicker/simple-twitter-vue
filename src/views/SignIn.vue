@@ -2,7 +2,6 @@
   <div class="container signin-container">
     <form
       class="d-flex flex-column align-items-center"
-      @submit.prevent.stop="handleSubmit"
     >
       <div class="text-center mb-4">
         <AcLogo class="mb-4" />
@@ -88,6 +87,7 @@ export default {
             icon: "warning",
             title: "請填入 帳號 和 密碼",
           });
+          this.isProcessing = false;
           return;
         }
        

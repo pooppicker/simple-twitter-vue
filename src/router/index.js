@@ -112,12 +112,13 @@ const routes = [
     path: "/admin/signin",
     name: "admin-sign-in",
     component: () => import('../views/AdminSignIn.vue'),
-    beforeEnter: authorizeIsAdmin
+  
   },
   {
     path: "/admin/main",
     name: "admin-main",
     component: () => import('../views/AdminMain.vue'),
+    beforeEnter: authorizeIsAdmin
   },
   {
     path: "/admin/users",
@@ -150,11 +151,12 @@ router.beforeEach(async (to, from, next) => {
     isAuthenticated = await store.dispatch('fetchCurrentUser')
   }
 
-  const pathsWithoutAuthentication = ['sign-up', 'sign-in', 'admin-sign-in']
+  const pathsWithoutAuthentication = ['sign-up', 'sign-in', 'admin-sign-in', 'admin-main', 'admin-users', '/admin/users']
   if (!isAuthenticated && !pathsWithoutAuthentication.includes(to.name)) {
     next('/signin')
     return
   }
+
   if (isAuthenticated && pathsWithoutAuthentication.includes(to.name)) {
     next('/twitter/Home')
     return
