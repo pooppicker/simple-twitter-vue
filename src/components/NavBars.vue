@@ -45,11 +45,11 @@
     <div class="logout">
       <ul>
         <li>
-          <router-link class="d-flex nav-link" to="/logOut">
+          <div class="d-flex nav-link" @click.stop.prevent="logout">
             <IconLogout />
 
             <h4>登出</h4>
-          </router-link>
+          </div>
         </li>
       </ul>
     </div>
@@ -86,6 +86,11 @@ export default {
     handleCloseModal() {
       this.openModal = false;
     },
+    logout () {
+      this.$store.commit('revokeAuthentication')
+      this.$router.push('/signin')
+    }
+    
   },
   computed: {
     ...mapState(["currentUser"]),
@@ -112,6 +117,7 @@ export default {
     color: $color-black;
     margin-bottom: 30px;
     align-items: center;
+    cursor: pointer;
     height: 100%;
     .nav-icon {
       width: 22.2px;
@@ -120,10 +126,10 @@ export default {
 
     &:hover,
     .router-link-active {
-      color: #ff6600;
+      color: $color-orange;
       .nav-icon {
         .st0 {
-          fill: #ff6600;
+          fill:$color-orange;
         }
       }
     }
