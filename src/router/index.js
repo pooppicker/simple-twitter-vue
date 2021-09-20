@@ -143,15 +143,23 @@ const router = new VueRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  const tokenInLocalStorage = localStorage.getItem('token')
+  const tokenInLocalStorage = localStorage.getItem('token') ? localStorage.getItem('token') : localStorage.getItem('admin-token')
+    
   const tokenInStore = store.state.token
   let isAuthenticated = store.state.isAuthenticated
+
+  const pathsWithAdmin = ['admin-main', 'admin-users', ]
+
+  if (tokenInLocalStorage && pathsWithAdmin.includes(to.name)) {
+    next()
+    return
+  }
 
   if (tokenInLocalStorage && tokenInLocalStorage !== tokenInStore) {
     isAuthenticated = await store.dispatch('fetchCurrentUser')
   }
 
-  const pathsWithoutAuthentication = ['sign-up', 'sign-in', 'admin-sign-in', 'admin-main', 'admin-users', '/admin/users']
+  const pathsWithoutAuthentication = ['sign-up', 'sign-in', 'admin-sign-in']
   if (!isAuthenticated && !pathsWithoutAuthentication.includes(to.name)) {
     next('/signin')
     return
