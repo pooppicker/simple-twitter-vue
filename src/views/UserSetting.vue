@@ -188,7 +188,6 @@ export default {
     grid-area: sets;
     border-left: 1px solid #e6ecf0;
     margin-left: 1.3%;
-    overflow: scroll;
     h4 {
       // outline: 1px solid black;
       border-bottom: 1px solid #e6ecf0;

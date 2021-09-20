@@ -6,7 +6,7 @@
       </div>
       <div class="user-title">
         <h4 class="user-profile-name">{{ user.name }}</h4>
-        <span class="span-setting">{{user.TweetsCount}} 推文</span>
+        <span class="span-setting">{{ user.TweetsCount }} 推文</span>
       </div>
       <hr />
     </div>
@@ -73,10 +73,27 @@
                     {{ followUser.account }}
                   </p>
                 </div>
-                <button v-if="followUser.isFollowed" class="delete-follow-btn">
-                  正在跟隨
-                </button>
-                <button v-else class="add-follow-btn">跟蹤</button>
+                <template
+                  v-if="
+                    currentUser.id !== followUser.followerId &&
+                    currentUser.id !== followUser.followingId
+                  "
+                >
+                  <button
+                    v-if="followUser.isFollowed"
+                    class="delete-follow-btn"
+                    @click="cancelFollow(followUser)"
+                  >
+                    正在跟隨
+                  </button>
+                  <button
+                    v-else
+                    class="add-follow-btn"
+                    @click="addFollow(followUser)"
+                  >
+                    跟蹤
+                  </button>
+                </template>
               </div>
               <!--使用者內文-->
 
@@ -224,15 +241,16 @@
 
 <script>
 import LeftArrow from "./../components/icons/IconBack.vue";
+import UserAPI from "./../apis/users";
+import { Toast } from "./../utils/helpers";
+import { mapState } from "vuex"; //新增這裡
 
 export default {
   props: {
     innitialFollowUser: {
-      type: Array,
       required: true,
     },
     innitialUser: {
-      type: Object,
       required: true,
     },
   },
@@ -252,19 +270,56 @@ export default {
       this.followUsers = {
         ...this.innitialFollowUser,
       };
-        this.user = {
+      this.user = {
         ...this.innitialUser,
       };
+      console.log("this.followUsers", this.followUsers);
     },
-
 
     previousPage() {
       this.$router.back();
     },
+
+    async addFollow(followUser) {
+      try {
+        followUser.isFollowed = true;
+        await UserAPI.postFollowships({
+          id: followUser.followerId
+            ? followUser.followerId
+            : followUser.followingId,
+        });
+        this.$store.commit("updateNewUser");
+      } catch (error) {
+        followUser.isFollowed = false;
+        console.log(error);
+        Toast.fire({
+          icon: "warning",
+          title: "追蹤失敗，請稍後再試",
+        });
+      }
+    },
+    async cancelFollow(followUser) {
+      try {
+        followUser.isFollowed = false;
+        await UserAPI.deleteFollowships({
+          followingId: followUser.followerId
+            ? followUser.followerId
+            : followUser.followingId,
+        });
+        this.$store.commit("updateNewUser");
+      } catch (error) {
+        followUser.isFollowed = true;
+        console.log(error);
+        Toast.fire({
+          icon: "warning",
+          title: "取消追蹤失敗，請稍後再試",
+        });
+      }
+    },
   },
 
   created() {
-    this.fetchData()
+    this.fetchData();
   },
   watch: {
     innitialFollowUser: {
@@ -273,13 +328,15 @@ export default {
       },
       deep: true,
     },
-        innitialUser: {
+    innitialUser: {
       handler: function () {
         this.fetchData();
       },
       deep: true,
     },
-
+  },
+  computed: {
+    ...mapState(["currentUser"]),
   },
 };
 </script>

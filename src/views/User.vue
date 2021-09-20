@@ -48,14 +48,14 @@
               <button
                 v-if="profile.isFollowed"
                 class="btn btn-deletefollow"
-                @click.prevent.stop="cancelFollow(user)"
+                @click.prevent.stop="cancelFollow(profile)"
               >
                 <h5>正在跟隨</h5>
               </button>
               <button
                 v-else
                 class="btn btn-addfollow"
-                @click.prevent.stop="addFollow(user)"
+                @click.prevent.stop="addFollow(profile)"
               >
                 <h5>跟隨</h5>
               </button>
@@ -168,6 +168,7 @@ export default {
         FollowersCount: "",
         FollowingCount: "",
         isCurrent: "",
+        isFollowed: 0,
         isNotified: false, //這個應該要包在profile裡面，但目前還沒開放進階功能，所以資料結構沒有這個項目
       },
       isProcessing: true,
@@ -200,6 +201,7 @@ export default {
           FollowersCount,
           FollowingCount,
           isCurrent,
+          isFollowed,
         } = response.data;
 
         this.profile = {
@@ -214,6 +216,7 @@ export default {
           FollowersCount,
           FollowingCount,
           isCurrent,
+          isFollowed,
         };
         this.isProcessing = false;
       } catch (error) {
@@ -234,9 +237,7 @@ export default {
           formData,
         });
         console.log("response", response);
-        if (this.$route.name === "profile") {
-          this.$store.commit("updateNewUser");
-        }
+        this.ChangePopularInfo()
         Toast.fire({
           icon: "success",
           title: "成功更新資料",
@@ -266,6 +267,45 @@ export default {
     },
     ChangeNotified() {
       this.profile.isNotified = !this.profile.isNotified;
+    },
+    async addFollow(profile) {
+      try {
+        profile.isFollowed = 1;
+        await UserAPI.postFollowships({
+          id: profile.id,
+        });
+        this.ChangePopularInfo()
+        const { id } = this.$route.params;
+        this.fetchUser(id); //重新更新使用者資料
+      } catch (error) {
+        profile.isFollowed = 0;
+        console.log(error);
+        Toast.fire({
+          icon: "warning",
+          title: "追蹤失敗，請稍後再試",
+        });
+      }
+    },
+    async cancelFollow(profile) {
+      try {
+        profile.isFollowed = 0;
+        await UserAPI.deleteFollowships({
+          followingId: profile.id,
+        });
+        this.ChangePopularInfo()
+        const { id } = this.$route.params;
+        this.fetchUser(id); //重新更新使用者資料
+      } catch (error) {
+        profile.isFollowed = 1;
+        console.log(error);
+        Toast.fire({
+          icon: "warning",
+          title: "取消追蹤失敗，請稍後再試",
+        });
+      }
+    },
+    ChangePopularInfo() {
+        this.$store.commit("updateNewUser");
     },
   },
 };
