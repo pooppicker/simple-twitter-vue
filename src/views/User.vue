@@ -142,6 +142,7 @@ import CreateEditModal from "../components/modal/CreateEditModal.vue";
 import UserSpinner from "../components/Userspinner.vue";
 import UserAPI from "./../apis/users";
 import { Toast } from "./../utils/helpers";
+import { mapState } from "vuex";
 
 export default {
   components: {
@@ -237,7 +238,7 @@ export default {
           formData,
         });
         console.log("response", response);
-        this.ChangePopularInfo()
+        this.ChangePopularInfo();
         Toast.fire({
           icon: "success",
           title: "成功更新資料",
@@ -274,7 +275,7 @@ export default {
         await UserAPI.postFollowships({
           id: profile.id,
         });
-        this.ChangePopularInfo()
+        this.ChangePopularInfo();
         const { id } = this.$route.params;
         this.fetchUser(id); //重新更新使用者資料
       } catch (error) {
@@ -292,7 +293,7 @@ export default {
         await UserAPI.deleteFollowships({
           followingId: profile.id,
         });
-        this.ChangePopularInfo()
+        this.ChangePopularInfo();
         const { id } = this.$route.params;
         this.fetchUser(id); //重新更新使用者資料
       } catch (error) {
@@ -305,8 +306,24 @@ export default {
       }
     },
     ChangePopularInfo() {
-        this.$store.commit("updateNewUser");
+      this.$store.commit("updateNewUser");
     },
+  },
+  watch: {
+    isNewPost: {
+      handler: function () {
+        if (this.isNewPost) {
+          const { id } = this.$route.params;
+          this.fetchUser(id);
+          this.$store.commit("updateNewPost");
+        }
+      },
+      deep: true,
+    },
+  },
+
+  computed: {
+    ...mapState(["isNewPost"]),
   },
 };
 </script>
