@@ -155,8 +155,8 @@ export default {
         id,
         cover,
         avatar,
-        name,
-        introduction,
+        name: name ? name : '',
+        introduction: introduction ? introduction : '',
       };
     },
     handleSubmit(e) {
