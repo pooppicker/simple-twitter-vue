@@ -24,6 +24,11 @@
                 ><IconUploadPhoto class="upload-cover"
               /></label>
               <img class="modal-cover-photo" :src="profile.cover" alt="cover" />
+              <img 
+                
+                class="modal-delete-photo" 
+                src="https://htmlcolorcodes.com/assets/images/colors/gray-color-solid-background-1920x1080.png" alt="deletecover"
+              >
               <input
                 id="cover"
                 style="display: none"
@@ -32,15 +37,16 @@
                 accept="image/*"
                 @change="handleCoverChange"
               />
-              <label for="deleteCover" v-if="!profile.deleteCover">
+              <label for="deleteCover" v-if="removeButton" >
                 <IconCloseWhite class="delete-cover" />
               </label>
+              
               <input  
                 v-model="profile.deleteCover" 
                 id="deleteCover" 
                 name="deleteCover" 
                 type="checkbox"
-                checked="true"
+                checked="false"
                 @submit.stop.prevent="handleCoverDelete"
               >
 
@@ -141,6 +147,7 @@ export default {
         introduction: "",
         deleteCover: false
       },
+      removeButton: true
     };
   },
   created() {
@@ -158,6 +165,7 @@ export default {
         introduction: introduction ? introduction : "",
         deleteCover: false
       };
+      
     },
     handleSubmit(e) {
       const form = e.target;
@@ -172,9 +180,10 @@ export default {
       if (files.length === 0) {
         //user do not select pic
         this.profile.cover = "";
+        this.removeButton = false;
         return;
       } else {
-        this.deleteClick = true;
+        this.removeButton = true;
         const imageURL = window.URL.createObjectURL(files[0]);
         this.profile.cover = imageURL;
       }
@@ -190,10 +199,9 @@ export default {
         this.profile.avatar = imageURL;
       }
     },
-    handleCoverDelete(e) {
-      const form = e.target;
-      const formData = new FormData(form);
-      formData.append('deleteCover', true)
+    handleCoverDelete() {
+      this.removeButton = false
+      this.profile.deleteCover = !this.profile.deleteCover
     },
   },
   computed: {
@@ -312,6 +320,10 @@ export default {
     &:hover {
       transform: scale(1.2, 1.2);
     }
+  }
+  .modal-deleted-photo {
+    height: 200px;
+    width: 100%;
   }
   .modal-cover-photo {
     position: relative;
