@@ -50,6 +50,7 @@ export default {
         this.replies = {
           ...response.data
         };
+        console.log(response)
       } catch (error) {
         console.log(error.message)
         Toast.fire({
@@ -61,3 +62,4 @@ export default {
   },
 };
 </script>
+
