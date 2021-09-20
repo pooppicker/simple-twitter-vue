@@ -1,5 +1,6 @@
 <template>
   <div class="reply-list-area">
+    <ReplySpinner v-if="pageIsProcessing" />
     <!-- Title -->
     <div class="title-area">
       <div class="go-back" @click.stop.prevent="previousPage">
@@ -48,7 +49,7 @@
           <IconHeartFilled class="ic ic-right" />
         </div>
         <div v-else @click.stop.prevent="addHeart(tweet.id)">
-          <IconHeartEmpty class="ic ic-right"  />
+          <IconHeartEmpty class="ic ic-right" />
         </div>
       </div>
       <!-- Modal -->
@@ -85,11 +86,13 @@
           <hr />
         </div>
         <!--v-for結束-->
-        <ReplyPostModal v-if="openModal" 
-        :onClose="handleCloseModal" 
-        :initialTweet="tweet"
-        @closeModal="handleCloseModal"
-        @renewReplyList="fetchTweets"/>
+        <ReplyPostModal
+          v-if="openModal"
+          :onClose="handleCloseModal"
+          :initialTweet="tweet"
+          @closeModal="handleCloseModal"
+          @renewReplyList="fetchTweets"
+        />
       </div>
     </div>
   </div>
@@ -104,6 +107,7 @@ import { Toast } from "./../utils/helpers";
 import ReplyPostModal from "./modal/ReplyPostModal.vue";
 import TweetAPI from "./../apis/tweets";
 import IconHeartFilled from "./../components/icons/IconHeartFilled.vue";
+import ReplySpinner from "./ReplySpinner.vue";
 //import { Toast } from "./../utils/helpers";
 
 export default {
@@ -114,11 +118,13 @@ export default {
     IconHeartEmpty,
     ReplyPostModal,
     IconHeartFilled,
+    ReplySpinner,
   },
   data() {
     return {
       tweet: [],
       openModal: false,
+      pageIsProcessing: true,
     };
   },
 
@@ -129,6 +135,7 @@ export default {
         this.tweet = {
           ...response.data,
         };
+        this.pageIsProcessing = false;
         console.log(response.data);
       } catch (error) {
         console.log(error);
@@ -147,7 +154,7 @@ export default {
     previousPage() {
       this.$router.back();
     },
-        //點擊愛心功能
+    //點擊愛心功能
     async addHeart(TweetId) {
       try {
         this.tweet.LikesCount = this.tweet.LikesCount + 1;
@@ -192,10 +199,12 @@ export default {
 @import "../assets/scss/colorAndSize.scss";
 @import "../assets/scss/efficientSetting.scss";
 .reply-list-area {
+  height: 100vh;
   display: flex;
   flex-direction: column;
   border-left: 1px solid #e6ecf0;
   margin-left: 2%;
+  position: relative;
   overflow: scroll;
   &::-webkit-scrollbar {
     display: none;
@@ -203,8 +212,8 @@ export default {
   .title-area {
     background-color: white;
     position: fixed;
+    width: 45em;
     z-index: 3;
-    width: 100%;
     padding: 0.7rem;
     display: flex;
     border-bottom: 1px solid #e6ecf0;
@@ -325,19 +334,44 @@ export default {
   }
 }
 
-//電腦版
-@media screen and (min-width: 576px) {
-  .middle-container {
-    //outline: black 2px solid;
-    height: 100vh;
+//手機板
+@media screen and (max-width: 1022px) {
+  .reply-list-area {
+    .title-area {
+      width: 35em;
+    }
   }
 }
-.user-profile-name {
-  font-size: 18px;
-  color: $color-black;
-}
-.span-setting {
-  font-size: 13px;
-  color: $color-gray;
+
+@media screen and (max-width: 768px) {
+  .reply-list-area {
+    width: 100%;
+    width: 100vw;
+    border-left: white 0px solid;
+    margin-left: 0px;
+    margin-right: 0px;
+    .title-area {
+      top: 3.7em;
+      width: 100%;
+      background-color: $color-orange;
+      .user-profile-name {
+        color: white;
+      }
+    }
+    .txt-area {
+      margin-top: 7em;
+      .comments-area {
+        padding: 0.5rem 0;
+        font-size: 15px;
+      }
+      .icons-area {
+        padding: 0.5rem 0;
+        .ic {
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
+  }
 }
 </style>
