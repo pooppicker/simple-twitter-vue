@@ -6,6 +6,26 @@ import store from "./../store/index"
 
 Vue.use(VueRouter);
 
+const authorizeIsAdmin = (to, from, next) => {
+  const currentUser = store.state.currentUser
+  if (currentUser && currentUser.role === 'user') {
+    next('/admin/404')
+    return
+  }
+
+  next()
+}
+
+const authorizeIsUser = (to, from, next) => {
+  const currentUser = store.state.currentUser
+  if (currentUser && currentUser.role !== 'user') {
+    next('/404')
+    return
+  }
+
+  next()
+}
+
 const routes = [
   {
     path: "/",
@@ -30,12 +50,14 @@ const routes = [
   {
     path: "/twitter/Setting",
     name: "Setting",
-     component: () => import('../views/UserSetting.vue')
+     component: () => import('../views/UserSetting.vue'),
+     beforeEnter: authorizeIsUser
    },
   {
     path: "/twitter/replylist/:id",
     name: "ReplyList",
-    component: () => import('../views/ReplyList.vue')
+    component: () => import('../views/ReplyList.vue'),
+    beforeEnter: authorizeIsUser
   },
   {
     path: "/twitter/user/:id",
@@ -46,37 +68,43 @@ const routes = [
       {
         path: "profile",
         name: "profile",
-        component: () => import('../components/UserProfile.vue')
+        component: () => import('../components/UserProfile.vue'),
+        beforeEnter: authorizeIsUser
       },
       {
         path: "Tweets",
         name: "Tweets",
-        component: () => import('../components/UserTweet.vue')
+        component: () => import('../components/UserTweet.vue'),
+        beforeEnter: authorizeIsUser
       },
       {
         path: "Liked",
         name: "Liked",
-        component: () => import('../components/UserLiked.vue')
+        component: () => import('../components/UserLiked.vue'),
+        beforeEnter: authorizeIsUser
       },
     ]
   },
   {
     path: "/twitter/user/:id/following",
     name: "User-following",
-    component: () => import('../views/UserFollowing.vue')
+    component: () => import('../views/UserFollowing.vue'),
+    beforeEnter: authorizeIsUser
   },
 
   {
     path: "/twitter/user/:id/follower",
     name: "User-follower",
-    component: () => import('../views/UserFollower.vue')
+    component: () => import('../views/UserFollower.vue'),
+    beforeEnter: authorizeIsUser
   },
 
 
   {
     path: "/twitter/replylist/:id",
     name: "Reply-list",
-    component: () => import('../views/ReplyList.vue')
+    component: () => import('../views/ReplyList.vue'),
+    beforeEnter: authorizeIsUser
   },
 
 
@@ -136,14 +164,6 @@ router.beforeEach(async (to, from, next) => {
   next()
 })
 
-const authorizeIsAdmin = (to, from, next) => {
-  const currentUser = store.state.currentUser
-  if (currentUser && currentUser.role === 'user') {
-    next('/admin/404')
-    return
-  }
 
-  next()
-}
 
 export default router;
