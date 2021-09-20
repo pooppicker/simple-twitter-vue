@@ -307,6 +307,8 @@ export default {
             : followUser.followingId,
         });
         this.$store.commit("updateNewUser");
+        const { id } = this.$route.params
+        this.$emit('updateList',id)
       } catch (error) {
         followUser.isFollowed = true;
         console.log(error);

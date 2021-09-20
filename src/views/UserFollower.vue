@@ -14,8 +14,7 @@
       </div>
       <div>
         <!--popular-->
-        <Popular 
-        @updatefollower=" fetchfollowers"/>
+        <Popular @updatefollower="fetchfollowers" />
       </div>
     </div>
   </div>
@@ -27,6 +26,7 @@ import UserFollowingList from "./../components/UserFollowingList";
 import Popular from "./../components/Popular";
 import UserAPI from "./../apis/users";
 import { Toast } from "./../utils/helpers";
+import { mapState } from "vuex";
 // @ is an alias to /src
 
 export default {
@@ -74,6 +74,23 @@ export default {
     const { id } = this.$route.params;
     this.fetchfollowers(id);
     this.fetchUser(id);
+  },
+  
+  watch: {
+    isNewPost: {
+      handler: function () {
+        if (this.isNewPost) {
+          const { id } = this.$route.params;
+          this.fetchUser(id);
+          this.$store.commit("updateNewPost");
+        }
+      },
+      deep: true,
+    },
+  },
+
+  computed: {
+    ...mapState(["isNewPost"]),
   },
 };
 </script>

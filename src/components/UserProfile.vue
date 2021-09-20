@@ -63,6 +63,7 @@ import ReplyPostModal from "./modal/ReplyPostModal.vue";
 import userAPI from "../apis/users";
 import { Toast } from "../utils/helpers";
 import TweetAPI from "./../apis/tweets";
+import { mapState } from "vuex";
 
 export default {
   mixins: [fromNowFilter],
@@ -149,6 +150,19 @@ export default {
     const { id } = to.params;
     this.fetchTweets(id);
     next();
+  },
+  watch: {
+    isNewPost: {
+      handler: function () {
+          const { id } = this.$route.params;
+          this.fetchTweets(id);
+      },
+      deep: true,
+    },
+  },
+
+  computed: {
+    ...mapState(["isNewPost"]),
   },
 };
 </script>
