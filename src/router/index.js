@@ -84,16 +84,29 @@ const routes = [
     path: "/admin/signin",
     name: "admin-sign-in",
     component: () => import('../views/AdminSignIn.vue'),
+    beforeEnter: authorizeIsAdmin
   },
   {
     path: "/admin/main",
     name: "admin-main",
     component: () => import('../views/AdminMain.vue'),
+    beforeEnter: authorizeIsAdmin
   },
   {
     path: "/admin/users",
     name: "admin-users",
     component: () => import('../views/AdminUsers.vue'),
+    beforeEnter: authorizeIsAdmin
+  },
+  {
+    path: "/admin/404",
+    name: "admin-error",
+    component: () => import('../views/Admin404.vue'),
+  },
+  {
+    path: "*",
+    name: "error",
+    component: () => import('../views/404.vue'),
   }
 ];
 
@@ -101,11 +114,36 @@ const router = new VueRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
-  //console.log('to', to)
-  //console.log('from', from)
-  store.dispatch('fetchCurrentUser')
+router.beforeEach(async (to, from, next) => {
+  const tokenInLocalStorage = localStorage.getItem('token')
+  const tokenInStore = store.state.token
+  let isAuthenticated = store.state.isAuthenticated
+
+  if (tokenInLocalStorage && tokenInLocalStorage !== tokenInStore) {
+    isAuthenticated = await store.dispatch('fetchCurrentUser')
+  }
+
+  const pathsWithoutAuthentication = ['sign-up', 'sign-in']
+  if (!isAuthenticated && !pathsWithoutAuthentication.includes(to.name)) {
+    next('/signin')
+    return
+  }
+  if (isAuthenticated && pathsWithoutAuthentication.includes(to.name)) {
+    next('/twitter/Home')
+    return
+  }
+
   next()
 })
+
+const authorizeIsAdmin = (to, from, next) => {
+  const currentUser = store.state.currentUser
+  if (currentUser && currentUser.role === 'user') {
+    next('/admin/404')
+    return
+  }
+
+  next()
+}
 
 export default router;

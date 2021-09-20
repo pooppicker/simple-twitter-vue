@@ -41,7 +41,7 @@
       </div>
       <!-- icons -->
       <div class="icons-area">
-        <div @click="handleOpenModal">
+        <div @click.stop.prevent="handleOpenModal">
           <IconReply class="ic" />
         </div>
         <div v-if="tweet.isLike" @click.stop.prevent="cancelHeart(tweet.id)">
@@ -85,7 +85,11 @@
           <hr />
         </div>
         <!--v-for結束-->
-        <ReplyPostModal v-if="openModal" :onClose="handleCloseModal" />
+        <ReplyPostModal v-if="openModal" 
+        :onClose="handleCloseModal" 
+        :initialTweet="tweet"
+        @closeModal="handleCloseModal"
+        @renewReplyList="fetchTweets"/>
       </div>
     </div>
   </div>
