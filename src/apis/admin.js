@@ -1,25 +1,25 @@
 import { apiHelper } from './../utils/helpers'
-const adminToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjMyMDQxNzk4fQ.raLEmliSef42KfCeJLvF02vucczxGEg8tva8W1HjNAQ'
+const getToken = () => localStorage.getItem('admin-token')
 
 export default {
   adminGetTweets() {
     return apiHelper.get('/admin/tweets', {
       headers: {
-        Authorization: `Bearer ${adminToken}`
+        Authorization: `Bearer ${getToken()}`
       }
     })
   },
   adminGetUsers() {
     return apiHelper.get('/admin/users', {
       headers: {
-        Authorization: `Bearer ${adminToken}`
+        Authorization: `Bearer ${getToken()}`
       }
     })
   },
   delete({ tweetId }) {
     return apiHelper.delete(`/admin/tweets/${tweetId}`, {
       headers: {
-        Authorization: `Bearer ${adminToken}`
+        Authorization: `Bearer ${getToken()}`
       }
     })
   }
