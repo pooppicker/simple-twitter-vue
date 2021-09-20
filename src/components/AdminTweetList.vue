@@ -157,9 +157,9 @@ export default {
           -webkit-line-clamp: 1;
           -webkit-box-orient: vertical;
           overflow: hidden;
-          text-overflow: ellipsis;
+          // text-overflow: ellipsis;
           margin: 6px 15px 0 0;
-          width: 45%;
+          width: 75%;
           line-height: 22px;
         }
       }
