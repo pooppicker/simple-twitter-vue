@@ -4,8 +4,10 @@
       <div class="navbars">
         <NavBars />
       </div>
+      <div>
       
         <MiddleOfReply />
+        </div>
       
       <div>
         <Popular />
@@ -39,4 +41,21 @@ export default {
     position: relative;
   }
 }
+
+//手機
+@media screen and (max-width: 768px) {
+  .reply-list {
+    height: 100%;
+    h5 {
+      font-size: 15px;
+    }
+    .replylist {
+      grid-template-columns: 1fr;
+      grid-template-rows: 5fr 20fr;
+    }
+    }
+
+    
+    }
+
 </style>

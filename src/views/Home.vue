@@ -41,7 +41,7 @@ export default {
   height: 100vh;
   width: 100vw;
   //標示用
-  outline: red 2px solid;
+ // outline: red 2px solid;
   .home {
     @extend %views-grid;
     //標示用
@@ -77,50 +77,6 @@ export default {
       grid-template-columns: 1fr;
       grid-template-rows: 5fr 20fr;
     }
-
-   /* .nav {
-      border-bottom: 1px solid #e6ecf0;
-      height: 60px;
-      flex-direction: row;
-      position: fixed;
-      width: 100vw;
-      background-color: white;
-      top: 0;
-      z-index: 6;
-      padding-left: 1em;
-      margin: 0 0 0 0;
-      .nav-top,
-      .logout {
-        display: flex;
-        flex-direction: row;
-        .navigation {
-          margin: 0 0 0 20px;
-          display: flex;
-        }
-
-        .ac-logo {
-          transform: translate(0, 6px);
-        }
-        .nav-link {
-          width: 100%;
-          margin: 0px 0px 0px 0px;
-        }
-        ul {
-          display: flex;
-          h4 {
-            display: none;
-          }
-        }
-        .nav-icon {
-          width: 50px;
-          height: 50px;
-          margin: 0 30% 0 20%;
-          transform: translate(0, -1px);
-        }
-      }
-    } 
-    */
-
 
     .middle-container {
       width: 100%;

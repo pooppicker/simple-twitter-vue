@@ -237,6 +237,31 @@
     }
   }
 }
+
+//手機
+@media screen and (max-width: 768px) {
+  .middle-of-follow {
+    width: 100%;
+    width: 100vw;
+    border-left: white 0px solid;
+    margin-left: 0px;
+    margin-right: 0px;
+    .title-area {
+      top: 3.7em;
+      width: 100%;
+      background-color: $color-orange;
+  
+    }
+    .follow-tabs {
+      width: 100%;
+      top: 5.5em;
+    }
+    .tweets-part{
+      margin-top: 11em;
+
+    }
+  }
+}
 </style>
 
 <script>
@@ -307,8 +332,8 @@ export default {
             : followUser.followingId,
         });
         this.$store.commit("updateNewUser");
-        const { id } = this.$route.params
-        this.$emit('updateList',id)
+        const { id } = this.$route.params;
+        this.$emit("updateList", id);
       } catch (error) {
         followUser.isFollowed = true;
         console.log(error);

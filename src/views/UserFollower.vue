@@ -75,7 +75,7 @@ export default {
     this.fetchfollowers(id);
     this.fetchUser(id);
   },
-  
+
   watch: {
     isNewPost: {
       handler: function () {
@@ -107,6 +107,20 @@ export default {
     //標示用
     // outline: green 2px solid;
     position: relative;
+  }
+}
+
+//手機
+@media screen and (max-width: 768px) {
+  .follower-content {
+    height: 100%;
+    h5 {
+      font-size: 15px;
+    }
+    .follower {
+      grid-template-columns: 1fr;
+      grid-template-rows: 5fr 20fr;
+    }
   }
 }
 </style>
