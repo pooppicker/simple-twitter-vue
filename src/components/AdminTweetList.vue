@@ -23,7 +23,7 @@
                   {{ tweet.User.account }}·{{ tweet.createdAt | fromNow }}
                 </p>
               </div>
-              <div clas="admintweets-delete">
+              <div clas="admintweets-delete" @click.stop.prevent="deleteTweet(tweet)">
                 <IconDelete />
               </div>
             </div>
@@ -42,6 +42,7 @@
 <script>
 import IconDelete from "./../components/icons/IconDelete.vue";
 import { fromNowFilter } from "./../utils/mixins";
+import { Toast } from "../utils/helpers"
 import adminAPI from "./../apis/admin"
 import Spinner from "./AdminSpinner.vue"
 
@@ -71,8 +72,26 @@ export default {
       } catch (error) {
         console.log(error.message)
       }
+    },
+    async deleteTweet(tweet) {
+      try {
+        await adminAPI.delete({
+          tweetId: tweet.id 
+        })
+        Toast.fire({
+          icon: 'success',
+          title: '刪除成功'
+        })
+        this.fetchTweets()
+        
+      } catch (error) {
+        console.log(error.message)
+        Toast.fire({
+          icon: 'error',
+          title: '無法刪除推文，請重試'
+        })
+      }
     }
-    
   }
 };
 </script>

@@ -15,5 +15,12 @@ export default {
         Authorization: `Bearer ${adminToken}`
       }
     })
+  },
+  delete({ tweetId }) {
+    return apiHelper.delete(`/admin/tweets/${tweetId}`, {
+      headers: {
+        Authorization: `Bearer ${adminToken}`
+      }
+    })
   }
 }
