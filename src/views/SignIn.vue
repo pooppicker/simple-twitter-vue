@@ -181,6 +181,22 @@ export default {
     color: #fc5a5a;
   }
 }
+//手機
+@media screen and (max-width: 768px) {
+  .signin-container {
+    padding: 5em 2em;
+    height: 100%;
+    .input-style {
+      width: 100%
+    }
+    .signin-btn {
+      width: 100%;
+    }
+     .links{
+       min-width: 100%
+  }
+  }
+}
 
 @import "../assets/scss/efficientSetting.scss";
 </style>
