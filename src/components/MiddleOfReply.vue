@@ -241,8 +241,8 @@ export default {
       padding-bottom: 1rem;
       p {
         margin: 1rem 0;
-        width: 80%;
-        height: 136px;
+        width: 90%;
+        min-height: 136px;
         font-size: 25px;
         line-height: 34px;
         color: $color-black;
