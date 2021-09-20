@@ -43,12 +43,13 @@
 import IconDelete from "./../components/icons/IconDelete.vue";
 import { fromNowFilter } from "./../utils/mixins";
 import adminAPI from "./../apis/admin"
+import { descriptionLengthFilter } from "./../utils/mixins";
 
 export default {
   components: {
     IconDelete,
   },
-  mixins: [fromNowFilter],
+  mixins: [fromNowFilter, descriptionLengthFilter],
   // props: {
   //   innitialTweets: {
   //     type: Array,
@@ -85,10 +86,11 @@ export default {
 @import "../assets/scss/efficientSetting.scss";
 
 .admintweets-container {
+  // outline: 1px solid black;
   border-left: 1px solid #e6ecf0;
   height: 100vh;
   margin-left: 2%;
-  //outline: black 1px solid;
+  width: 71em;
   overflow: scroll;
   position: relative;
   &::-webkit-scrollbar {
@@ -109,12 +111,14 @@ export default {
     .tweet-card {
       padding: 0.3em 0;
       margin-left: 15px;
+      width: 100%;
       .tweet-user-imag {
         @extend %avatar-size;
         margin-right: 10px;
       }
 
       .tweet-detail {
+        width: 95%;
         h5 {
           color: $color-black;
         }
