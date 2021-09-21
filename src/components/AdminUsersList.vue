@@ -9,7 +9,9 @@
       <div class="adminUser-card" v-for="user in users" :key="user.id">
         <div class="adminUsers-image">
           <div class="adminUsers-avatar">
-            <img :src="user.avatar" />
+            <router-link :to="{ name: 'User', params: { id: user.id } }">
+              <img :src="user.avatar" />
+            </router-link>
           </div>
           <div class="adminUsers-coverimage">
             <img :src="user.cover" />
@@ -17,7 +19,9 @@
         </div>
         <!--姓名資料-->
         <div class="adminUsers-info">
-          <h5>{{ user.name }}</h5>
+          <router-link :to="{ name: 'User', params: { id: user.id } }">
+            <h5>{{ user.name }}</h5>
+          </router-link>
           <p>{{ user.account }}</p>
         </div>
         <!--icon-->
@@ -34,10 +38,20 @@
 
         <div class="adminUsers-follow d-flex">
           <div class="adminUsers-following">
-            {{ user.FollowingCount }}位<span>跟隨中</span>
+            <router-link
+              style="text-decoration: none; color: #1C1C1C"
+              :to="{ name: 'User-following', params: { id: user.id } }"
+            >
+              {{ user.FollowingCount }}位<span>跟隨中</span>
+            </router-link>
           </div>
           <div class="adminUsers-follower">
-            {{ user.FollowersCount }}位<span>跟隨者</span>
+            <router-link
+              style="text-decoration: none; color: #1C1C1C"
+              :to="{ name: 'User-follower', params: { id: user.id } }"
+            >
+              {{ user.FollowersCount }}位<span>跟隨者</span>
+            </router-link>
           </div>
         </div>
       </div>
@@ -153,6 +167,9 @@ export default {
         width: 100%;
         margin-top: 33px;
         text-align: center;
+        h5 {
+          color: $color-black;
+        }
         p {
           color: $color-gray;
           font-size: 15px;
@@ -209,7 +226,7 @@ export default {
       padding: 0.7rem;
       background-color: $color-orange;
       color: white;
-      top:3em
+      top: 3em;
     }
     .adminUsers-part {
       margin-top: 7.5em;
