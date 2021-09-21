@@ -47,8 +47,20 @@ export default {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
   },
-  editUserAccount({ userID, formData }) {
-    return apiHelper.put(`users/${userID}/settings`,formData, {
+  editUserAccount({ userID,
+    account,
+    name,
+    email,
+    password,
+    checkPassword}) {
+    return apiHelper.put(`users/${userID}/settings`, {
+      account,
+      name,
+      email,
+      password,
+      checkPassword
+    }, { validateStatus: function (status) {
+       return status <= 500},
       headers: { Authorization: `Bearer ${getToken()}` }
     })
   },

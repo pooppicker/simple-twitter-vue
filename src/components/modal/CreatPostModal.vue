@@ -144,7 +144,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" >
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -172,7 +172,7 @@ export default {
   background-color: #fff;
   border-radius: 14px;
   // min-height: 300px;
-  min-width: 600px;
+  width: 600px;
   margin: 2%;
   animation: scale-in 0.1s linear;
 }
@@ -233,4 +233,19 @@ export default {
   }
 }
 @import "/src/assets/scss/efficientSetting.scss";
+
+//手機
+
+@media screen and (max-width: 768px) {
+  .modal {
+   width: 80%;
+  }
+  .create-tweet-area {
+    .txtarea-input {
+      width: 80%;
+    }
+
+  }
+
+}
 </style>

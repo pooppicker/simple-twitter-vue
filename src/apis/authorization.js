@@ -16,6 +16,10 @@ export default {
       password,
       checkPassword
 
+    }, {
+      validateStatus: function (status) {
+        return status <= 500
+      }
     })
   }
 }

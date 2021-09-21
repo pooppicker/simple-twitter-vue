@@ -243,7 +243,7 @@ export default {
           icon: "success",
           title: "成功更新資料",
         });
-        this.isProcessing = false;
+        this.isProcessing = true;
         const { id } = this.$route.params;
         this.fetchUser(id); //重新更新使用者資料
         this.$store.dispatch("fetchCurrentUser"); //vuex同步更新
