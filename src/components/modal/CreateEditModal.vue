@@ -155,7 +155,6 @@ export default {
         introduction: "",
         deleteCover: false,
       },
-      removeButton: true,
     };
   },
   created() {
@@ -177,9 +176,7 @@ export default {
     handleSubmit(e) {
       const form = e.target;
       const formData = new FormData(form);
-      for (let [name, value] of formData.entries()) {
-        console.log(name + ": " + value);
-      }
+
       this.$emit("after-submit", formData);
     },
     handleCoverChange(e) {
@@ -209,10 +206,6 @@ export default {
     handleCoverDelete() {
       this.profile.deleteCover = true
     },
-    handleRemoveDelete() {
-      this.profile.deleteCover = false
-      console.log('yes')
-    }
   },
   computed: {
     ...mapState(["currentUser"]),
