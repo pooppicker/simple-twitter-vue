@@ -45,4 +45,18 @@ export default {
     position: relative;
   }
 }
+
+@media screen and (max-width: 768px) {
+  .adminmain-content {
+    height: 100%;
+    h5 {
+      font-size: 15px;
+    }
+    .adminmain {
+      grid-template-columns:0fr 1fr;
+      grid-template-rows: 5fr 20fr;
+    }
+  }
+}
+
 </style>

@@ -6,7 +6,7 @@
     <!--下方推文區-->
     <div class="adminUsers-part d-flex">
       <!--v-for開始-->
-      <div class="card adminUser-card" v-for="user in users" :key="user.id">
+      <div class="adminUser-card" v-for="user in users" :key="user.id">
         <div class="adminUsers-image">
           <div class="adminUsers-avatar">
             <img :src="user.avatar" />
@@ -52,19 +52,19 @@ import { fromNowFilter } from "./../utils/mixins";
 import IconLiked from "./icons/IconLike";
 import IconHeartEmpty from "./icons/IconHeartEmpty";
 import adminAPI from "../apis/admin";
-import Spinner from "./AdminSpinner.vue"
+import Spinner from "./AdminSpinner.vue";
 
 export default {
   components: {
     IconLiked,
     IconHeartEmpty,
-    Spinner
+    Spinner,
   },
   mixins: [fromNowFilter],
   data() {
     return {
       users: [],
-      isProcessing: true
+      isProcessing: true,
     };
   },
   created() {
@@ -77,9 +77,9 @@ export default {
         this.users = {
           ...response.data,
         };
-        this.isProcessing = false
+        this.isProcessing = false;
       } catch (error) {
-        console.log(error.message)
+        console.log(error.message);
       }
     },
   },
@@ -119,6 +119,7 @@ export default {
     width: 100%;
     .adminUser-card {
       margin-bottom: 15px;
+      margin-right: 15px;
       padding: 0 0 0 0;
       width: 245px;
       height: 312px;
@@ -191,4 +192,34 @@ export default {
 }
 
 //手機板
+@media screen and (max-width: 768px) {
+  .adminUsers-container {
+    width: 100%;
+    width: 100vw;
+    border-left: white 0px solid;
+
+    margin: 0 auto;
+    h4 {
+      // outline: 1px solid black;
+      position: fixed;
+      z-index: 6;
+      width: 60.1em;
+      border-bottom: 1px solid #e6ecf0;
+      font-size: 19px;
+      padding: 0.7rem;
+      background-color: $color-orange;
+      color: white;
+      top:3em
+    }
+    .adminUsers-part {
+      margin-top: 7.5em;
+      margin-left: 0px;
+      padding: 0 10px;
+      justify-content: center;
+      .adminUser-card {
+        margin: 0 10px 15px 10px;
+      }
+    }
+  }
+}
 </style>
