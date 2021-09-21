@@ -42,3 +42,16 @@ export const nameLengthFilter = {
   }
 
 }
+
+export const popularNameLengthFilter = {
+  filters: {
+    nameLength(name) {
+      if (name.length > 8) {
+        return name.substr(0,8) + '...'
+      } else {
+        return name
+      }
+    }
+  }
+
+}
