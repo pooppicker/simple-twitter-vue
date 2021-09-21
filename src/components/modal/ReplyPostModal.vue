@@ -19,7 +19,7 @@
               </div>
               <div class="single-reply-info">
                 <div class="single-name-account">
-                  <h5>{{ tweet.User.account }}</h5>
+                  <h5>{{ tweet.User.name }}</h5>
                   <span
                     >@{{ tweet.User.account }}・{{
                       tweet.createdAt | fromNow
