@@ -41,7 +41,7 @@
                 src="https://htmlcolorcodes.com/assets/images/colors/gray-color-solid-background-1920x1080.png"
                 alt="deletecover"
               />
-              
+
               <input
                 id="cover"
                 style="display: none"
@@ -210,7 +210,7 @@ export default {
       }
     },
     handleCoverDelete() {
-      this.profile.deleteCover = !this.profile.deleteCover
+      this.profile.deleteCover = !this.profile.deleteCover;
     },
   },
   computed: {
@@ -263,7 +263,7 @@ export default {
   background-color: #fff;
   border-radius: 14px;
   min-height: 657px;
-  min-width: 600px;
+  width: 600px;
   margin: 2%;
   animation: scale-in 0.1s linear;
 }
@@ -395,4 +395,30 @@ export default {
   }
 }
 @import "/src/assets/scss/efficientSetting.scss";
+
+@media screen and (max-width: 768px) {
+  #modal-overlay {
+
+  .typing-error {
+    margin-right: 20%;
+
+  }}
+  #modal {
+    width: 80%;
+    min-height: 500px;
+      .modal-cover-area {
+        height: 100px;;
+  }
+
+  }
+  .modal-input-area {
+    width: 100%;
+    .edit-input {
+      width: 100%;
+    }
+
+  }
+
+
+}
 </style>
