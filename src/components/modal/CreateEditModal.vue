@@ -20,17 +20,11 @@
           <slot name="body">
             <div class="modal-cover-area">
               <!-- Images area -->
-              <label for="cover"
+              <label for="cover" 
                 ><IconUploadPhoto class="upload-cover"
               /></label>
               <img
                 v-if="!profile.deleteCover"
-                class="modal-cover-photo"
-                :src="profile.cover"
-                alt="cover"
-              />
-              <img
-                v-else-if="removeButton"
                 class="modal-cover-photo"
                 :src="profile.cover"
                 alt="cover"
@@ -56,10 +50,11 @@
 
               <input
                 v-model="profile.deleteCover"
+                style="display: none"
                 id="deleteCover"
                 name="deleteCover"
                 type="checkbox"
-                checked="false"
+                checked="true"
                 @submit.stop.prevent="handleCoverDelete"
               />
 
@@ -192,8 +187,10 @@ export default {
       if (files.length === 0) {
         //user do not select pic
         this.profile.cover = "";
+        this.profile.deleteCover = true
         return;
       } else {
+        this.profile.deleteCover = false
         const imageURL = window.URL.createObjectURL(files[0]);
         this.profile.cover = imageURL;
       }
@@ -210,8 +207,12 @@ export default {
       }
     },
     handleCoverDelete() {
-      this.profile.deleteCover = !this.profile.deleteCover
+      this.profile.deleteCover = true
     },
+    handleRemoveDelete() {
+      this.profile.deleteCover = false
+      console.log('yes')
+    }
   },
   computed: {
     ...mapState(["currentUser"]),
