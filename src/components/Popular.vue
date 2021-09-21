@@ -16,8 +16,8 @@
               </router-link>
               <div class="user">
                 <router-link :to="{ name: 'User', params: { id: user.id } }">
-                  <h5 class="user-name">{{ user.name | nameLength }}</h5>
-                  <h5 class="user-account">@{{ user.account | nameLength }}</h5>
+                  <h5 class="user-name">{{ user.name |  nameLength}}</h5>
+                  <h5 class="user-account">@{{ user.account | accountLength }}</h5>
                 </router-link>
               </div>
             </div>
@@ -52,9 +52,10 @@ import UserAPI from "./../apis/users";
 import { Toast } from "./../utils/helpers";
 import { mapState } from "vuex";
 import { popularNameLengthFilter } from "./../utils/mixins";
+import { popularAccountLengthFilter } from "./../utils/mixins";
 
 export default {
-  mixins: [popularNameLengthFilter],
+  mixins: [popularNameLengthFilter, popularAccountLengthFilter],
   data() {
     return {
       users: [],
@@ -69,7 +70,7 @@ export default {
         this.users = {
           ...response.data,
         };
-        console.log(this.users)
+        console.log(this.users);
       } catch (error) {
         console.log(error);
         Toast.fire({
@@ -86,7 +87,7 @@ export default {
         await UserAPI.deleteFollowships({
           followingId: user.id,
         });
-        this.fetchUser()
+        this.fetchUser();
 
         const { id } = this.$route.params;
         this.$emit("updatefollower", id);
@@ -106,7 +107,7 @@ export default {
         await UserAPI.postFollowships({
           id: user.id,
         });
-        this.fetchUser()
+        this.fetchUser();
         const { id } = this.$route.params;
         this.$emit("updatefollower", id);
       } catch (error) {
@@ -178,26 +179,36 @@ export default {
     }
     .card-body {
       flex: 1;
-     height: 712px;
+      height: 712px;
       //border: yellow 2px solid;
       .user-card {
         min-height: 10%;
+
         .user-info {
           margin: 0 15px;
           justify-content: space-between;
-          .user-name {
-            color: $color-black;
-            word-break: break-all;
+          .user {
+            //width: 50%;
+            .user-name {
+              width: 100%;
+
+              color: $color-black;
+              word-break: break-all;
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+            }
+            .user-account {
+              color: $color-gray;
+              word-break: break-all;
+            }
           }
-          .user-account {
-            color: $color-gray;
-            word-break: break-all;
-          }
+
           .btn-addfollow,
           .btn-deletefollow {
             margin-top: 7px;
             @extend %main-button;
-            white-space:nowrap;
+            white-space: nowrap;
           }
           .btn-addfollow {
             background-color: rgba(0, 0, 0, 0);
@@ -221,7 +232,6 @@ hr {
 }
 
 //手機版
-
 
 @media screen and (max-width: 1200px) {
   .card {
