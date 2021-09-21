@@ -51,10 +51,10 @@
 import UserAPI from "./../apis/users";
 import { Toast } from "./../utils/helpers";
 import { mapState } from "vuex";
-import { nameLengthFilter } from "./../utils/mixins";
+import { popularNameLengthFilter } from "./../utils/mixins";
 
 export default {
-  mixins: [nameLengthFilter],
+  mixins: [popularNameLengthFilter],
   data() {
     return {
       users: [],
@@ -161,7 +161,7 @@ export default {
   }
   .card-content {
     background-color: #f5f8fa;
-    height: 770px;
+    min-height: 770px;
     border-radius: 14px;
     padding-top: 14px;
     margin: 0 14px;
@@ -178,10 +178,10 @@ export default {
     }
     .card-body {
       flex: 1;
-      height: 712px;
+     height: 712px;
       //border: yellow 2px solid;
       .user-card {
-        height: 10%;
+        min-height: 10%;
         .user-info {
           margin: 0 15px;
           justify-content: space-between;
@@ -197,6 +197,7 @@ export default {
           .btn-deletefollow {
             margin-top: 7px;
             @extend %main-button;
+            white-space:nowrap;
           }
           .btn-addfollow {
             background-color: rgba(0, 0, 0, 0);
@@ -220,7 +221,9 @@ hr {
 }
 
 //手機版
-@media screen and (max-width: 1022px) {
+
+
+@media screen and (max-width: 1200px) {
   .card {
     .btn {
       display: none;
