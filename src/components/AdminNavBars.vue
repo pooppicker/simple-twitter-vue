@@ -32,11 +32,10 @@
     <div class="logout">
       <ul>
         <li>
-          <router-link class="d-flex nav-link" to="/logOut">
+          <div class="d-flex nav-link" @click.stop.prevent="logout">
             <IconLogout />
-
             <h4>登出</h4>
-          </router-link>
+          </div>
         </li>
       </ul>
     </div>
@@ -77,7 +76,12 @@ export default {
     return {
       curretUser: dummtCurretUser
     }
-  }
+  },
+  methods: {
+  logout(){
+        localStorage.removeItem('admin-token')
+    this.$router.push('/admin/signin')
+  }}
 };
 
 

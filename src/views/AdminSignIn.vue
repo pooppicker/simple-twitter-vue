@@ -86,7 +86,7 @@ export default {
           return
         }
         const { data } = await adminAuthorizationAPI.SignIn({
-          account: this.account,
+          email: this.account,
           password: this.password
         })
         if (data.status !== 'success') {
