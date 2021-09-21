@@ -145,6 +145,9 @@ export default {
           icon: "success",
           title: "成功更新資料",
         });
+        const { id } = this.$route.params;
+        this.fetchUser(id); //重新更新使用者資料
+        this.$store.dispatch("fetchCurrentUser")
         this.$router.push({ name: "User", params: { id: this.userInfo.id } });
         this.isProcessing = false;
       } catch (error) {
