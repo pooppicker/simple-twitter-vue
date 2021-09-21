@@ -85,7 +85,6 @@ export default new Vuex.Store({
       return true
     } catch (error) {
       console.log(error.message);
-      console.log('是這裡出問題')
       commit('revokeAuthentication')
       return false
     }
