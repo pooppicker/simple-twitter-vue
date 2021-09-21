@@ -5,7 +5,7 @@
         <!--navbar-->
         <AdminNavBars />
       </div>
-      <div>
+      <div class="admintweet-list">
         <!--middle of home-->
         <AdminTweetList />
       </div>
@@ -36,19 +36,24 @@ export default {
   height: 100vh;
   width: 100vw;
   //標示用
-  outline: red 2px solid;
+  //outline: red 2px solid;
   .adminmain {
     @extend %views-grid;
-    grid-template-columns: 5fr 21.3fr;
+    grid-template-columns: 5fr 21.3fr 0fr;
     //標示用
     // outline: green 2px solid;
     position: relative;
+    .admintweet-list{
+      position: relative;
+    }
   }
 }
 
 @media screen and (max-width: 768px) {
   .adminmain-content {
     height: 100%;
+    width: 100vw;
+
     h5 {
       font-size: 15px;
     }

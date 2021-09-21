@@ -1,5 +1,5 @@
 <template>
-  <div class="container admintweets-container">
+  <div class="admintweets-container">
     <!--上方使用者輸入區-->
     <h4>推文清單</h4>
     <Spinner v-if="isProcessing" />
@@ -8,9 +8,12 @@
       <!--v-for開始-->
       <div v-for="tweet in tweets" :key="tweet.id">
         <div class="tweet-card d-flex">
-          <router-link :to="{ name: 'User', params: { id: tweet.User.UserId } }">
+          <router-link
+            :to="{ name: 'User', params: { id: tweet.User.UserId } }"
+          >
             <img class="tweet-user-imag" :src="tweet.User.avatar" />
           </router-link>
+
           <div class="tweet-detail">
             <div class="d-flex justify-content-between">
               <div class="tweet-detail-title d-flex">
@@ -23,17 +26,23 @@
                   {{ tweet.User.account }}·{{ tweet.createdAt | fromNow }}
                 </p>
               </div>
-              <div clas="admintweets-delete" @click.stop.prevent="deleteTweet(tweet)">
+              <div
+                clas="admintweets-delete"
+                @click.stop.prevent="deleteTweet(tweet)"
+              >
                 <IconDelete />
               </div>
             </div>
-            <p class="tweet-detail-text">
-              {{ tweet.description }}
-            </p>
+            
+              <p class="tweet-detail-text">
+                {{ tweet.description | nameLength}}
+              </p>
+            
           </div>
         </div>
         <hr />
       </div>
+
       <!--v-for結束-->
     </div>
   </div>
@@ -42,16 +51,17 @@
 <script>
 import IconDelete from "./../components/icons/IconDelete.vue";
 import { fromNowFilter } from "./../utils/mixins";
-import { Toast } from "../utils/helpers"
-import adminAPI from "./../apis/admin"
+import { nameLengthFilter } from "./../utils/mixins";
+import { Toast } from "../utils/helpers";
+import adminAPI from "./../apis/admin";
 import Spinner from "./AdminSpinner.vue"
 
 export default {
   components: {
-    IconDelete,
+     IconDelete,
     Spinner
   },
-  mixins: [fromNowFilter],
+  mixins: [fromNowFilter, nameLengthFilter],
   data() {
     return {
       tweets: [],
@@ -59,40 +69,39 @@ export default {
     };
   },
   created() {
-    this.fetchTweets()
+    this.fetchTweets();
   },
   methods: {
     async fetchTweets() {
       try {
-        const response = await adminAPI.adminGetTweets()
+        const response = await adminAPI.adminGetTweets();
         this.tweets = {
-          ...response.data
-        }
-        this.isProcessing = false
+          ...response.data,
+        };
+        this.isProcessing = false;
       } catch (error) {
-        console.log(error.message)
+        console.log(error.message);
       }
     },
     async deleteTweet(tweet) {
       try {
         await adminAPI.delete({
-          tweetId: tweet.id 
-        })
+          tweetId: tweet.id,
+        });
         Toast.fire({
-          icon: 'success',
-          title: '刪除成功'
-        })
-        this.fetchTweets()
-        
+          icon: "success",
+          title: "刪除成功",
+        });
+        this.fetchTweets();
       } catch (error) {
-        console.log(error.message)
+        console.log(error.message);
         Toast.fire({
-          icon: 'error',
-          title: '無法刪除推文，請重試'
-        })
+          icon: "error",
+          title: "無法刪除推文，請重試",
+        });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -102,13 +111,16 @@ export default {
 @import "../assets/scss/efficientSetting.scss";
 
 .admintweets-container {
-  // outline: 1px solid black;
+  //outline: 1px solid black;
   border-left: 1px solid #e6ecf0;
+  //outline: green 2px solid;
   height: 100vh;
   margin-left: 2%;
-  width: 71em;
+  width: 100%;
+  //width: 50em;
   overflow: scroll;
   position: relative;
+  flex-shrink: 1;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -123,7 +135,9 @@ export default {
   }
 
   .admintweets-part {
+    max-width: 98%;
     margin-top: 3.8em;
+    padding-right: 1em ;
     .tweet-card {
       padding: 0.3em 0;
       margin-left: 15px;
@@ -137,6 +151,7 @@ export default {
         width: 95%;
         h5 {
           color: $color-black;
+          word-break: break-all;
         }
 
         .post-time {
@@ -153,13 +168,12 @@ export default {
         }
 
         &-text {
-          display: -webkit-box;
-          -webkit-line-clamp: 1;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-          // text-overflow: ellipsis;
+          //display: -webkit-box;
+          //-webkit-line-clamp: 1;
+          //-webkit-box-orient: vertical;
+          word-break: break-all;
           margin: 6px 15px 0 0;
-          width: 75%;
+          width: 80%;
           line-height: 22px;
         }
       }
@@ -168,4 +182,18 @@ export default {
 }
 
 //手機板
+@media screen and (max-width: 768px) {
+  .admintweets-container {
+    width: 100vw;
+     margin-left: 0%;
+    border-left: white 0px solid;
+    h4 {
+    // outline: 1px solid black;
+    top:3em;
+    color: white;
+    background-color: $color-orange;
+  }
+  .admintweets-part {
+    margin-top: 7.5em;
+  }}}
 </style>
