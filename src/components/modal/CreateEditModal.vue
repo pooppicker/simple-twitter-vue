@@ -23,12 +23,25 @@
               <label for="cover"
                 ><IconUploadPhoto class="upload-cover"
               /></label>
-              <img class="modal-cover-photo" :src="profile.cover" alt="cover" />
-              <img 
-                
-                class="modal-delete-photo" 
-                src="https://htmlcolorcodes.com/assets/images/colors/gray-color-solid-background-1920x1080.png" alt="deletecover"
-              >
+              <img
+                v-if="!profile.deleteCover"
+                class="modal-cover-photo"
+                :src="profile.cover"
+                alt="cover"
+              />
+              <img
+                v-else-if="removeButton"
+                class="modal-cover-photo"
+                :src="profile.cover"
+                alt="cover"
+              />
+              <img
+                v-else-if="profile.deleteCover"
+                class="modal-delete-photo"
+                src="https://htmlcolorcodes.com/assets/images/colors/gray-color-solid-background-1920x1080.png"
+                alt="deletecover"
+              />
+              
               <input
                 id="cover"
                 style="display: none"
@@ -37,18 +50,18 @@
                 accept="image/*"
                 @change="handleCoverChange"
               />
-              <label for="deleteCover" v-if="removeButton" >
+              <label for="deleteCover" v-if="!profile.deleteCover">
                 <IconCloseWhite class="delete-cover" />
               </label>
-              
-              <input  
-                v-model="profile.deleteCover" 
-                id="deleteCover" 
-                name="deleteCover" 
+
+              <input
+                v-model="profile.deleteCover"
+                id="deleteCover"
+                name="deleteCover"
                 type="checkbox"
                 checked="false"
                 @submit.stop.prevent="handleCoverDelete"
-              >
+              />
 
               <label for="avatar"
                 ><IconUploadPhoto class="upload-avatar"
@@ -145,9 +158,9 @@ export default {
         avatar: "",
         name: "",
         introduction: "",
-        deleteCover: false
+        deleteCover: false,
       },
-      removeButton: true
+      removeButton: true,
     };
   },
   created() {
@@ -163,9 +176,8 @@ export default {
         avatar,
         name: name ? name : "",
         introduction: introduction ? introduction : "",
-        deleteCover: false
+        deleteCover: false,
       };
-      
     },
     handleSubmit(e) {
       const form = e.target;
@@ -180,10 +192,8 @@ export default {
       if (files.length === 0) {
         //user do not select pic
         this.profile.cover = "";
-        this.removeButton = false;
         return;
       } else {
-        this.removeButton = true;
         const imageURL = window.URL.createObjectURL(files[0]);
         this.profile.cover = imageURL;
       }
@@ -200,7 +210,6 @@ export default {
       }
     },
     handleCoverDelete() {
-      this.removeButton = false
       this.profile.deleteCover = !this.profile.deleteCover
     },
   },

@@ -33,8 +33,8 @@ export const descriptionLengthFilter = {
 export const nameLengthFilter = {
   filters: {
     nameLength(name) {
-      if (name.length > 10) {
-        return name.substr(0, 10) + '...'
+      if (name.length > 50) {
+        return name.substr(0, 50) + '...'
       } else {
         return name
       }

@@ -1,6 +1,6 @@
 <template>
   <div class="container admin-signin-container">
-    <form 
+    <form
       class="d-flex flex-column align-items-center"
       @submit.stop.prevent="handleSubmit"
     >
@@ -41,26 +41,27 @@
       >
         驗證中 ...
       </button>
-      <button 
+      <button
         v-else
-        type="submit" 
+        type="submit"
         class="signin-btn mb-3"
         @click.stop.prevent="handleSubmit"
       >
         登入
       </button>
       <div class="a-link">
-        <router-link class="admin-signin-link" to="/signin">前台登入</router-link>
+        <router-link class="admin-signin-link" to="/signin"
+          >前台登入</router-link
+        >
       </div>
-      
     </form>
   </div>
 </template>
 
 <script>
 import AcLogo from "../components/icons/AcLogo.vue";
-import adminAuthorizationAPI from "../apis/adminAuthorization"
-import { Toast } from "./../utils/helpers"
+import adminAuthorizationAPI from "../apis/adminAuthorization";
+import { Toast } from "./../utils/helpers";
 
 export default {
   components: {
@@ -70,47 +71,45 @@ export default {
     return {
       account: "",
       password: "",
-      isProcessing: false
-    }
+      isProcessing: false,
+    };
   },
   methods: {
     async handleSubmit() {
       try {
-        this.isProcessing = true
+        this.isProcessing = true;
         if (!this.account || !this.password) {
           Toast.fire({
-            icon: 'warning',
-            title: '請填入 帳號 和 密碼'
-          })
-          this.isProcessing = false
-          return
+            icon: "warning",
+            title: "請填入 帳號 和 密碼",
+          });
+          this.isProcessing = false;
+          return;
         }
         const { data } = await adminAuthorizationAPI.SignIn({
           email: this.account,
-          password: this.password
-        })
-        if (data.status !== 'success') {
-          throw new Error(data.message)
+          password: this.password,
+        });
+        if (data.status !== "success") {
+          throw new Error(data.message);
         }
         Toast.fire({
-          icon: 'success',
-          title: '登入成功'
-        })
-        localStorage.setItem('admin-token', data.token)
-        this.$router.push('/admin/main')
-        
+          icon: "success",
+          title: "登入成功",
+        });
+        localStorage.setItem("admin-token", data.token);
+        this.$router.push("/admin/main");
       } catch (error) {
-        this.account = ""
-        this.password = ""
-        this.isProcessing = false
+        this.account = "";
+        this.password = "";
+        this.isProcessing = false;
         Toast.fire({
-          icon: 'warning',
-          title: '請確認您輸入了正確的帳號密碼'
-        })
-        
+          icon: "warning",
+          title: "請確認您輸入了正確的帳號密碼",
+        });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -157,6 +156,23 @@ export default {
       display: inline-block;
       font-size: 13px;
       font-weight: 700;
+    }
+  }
+}
+
+//手機
+@media screen and (max-width: 768px) {
+  .admin-signin-container {
+    padding: 5em 2em;
+    height: 100%;
+    .input-style {
+      width: 100%;
+    }
+    .signin-btn {
+      width: 100%;
+    }
+    .a-link {
+      min-width: 100%;
     }
   }
 }

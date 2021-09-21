@@ -79,7 +79,6 @@ export default {
     }
 
     .middle-container {
-      width: 100%;
       width: 100vw;
       border-left: white 0px solid;
       margin-left: 0px;

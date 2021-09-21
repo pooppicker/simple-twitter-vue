@@ -35,7 +35,7 @@ export default {
   height: 100vh;
   width: 100vw;
   //標示用
-  outline: red 2px solid;
+  //outline: red 2px solid;
   .adminmain {
     @extend %views-grid;
     grid-template-columns: 5fr 21.3fr;

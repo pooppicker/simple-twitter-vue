@@ -1,5 +1,5 @@
 <template>
-  <nav class="d-flex flex-column admin-nav">
+  <nav class="d-flex  admin-nav">
     <div class="nav-top">
       <!--logo區塊-->
       <div class="logo-part">
@@ -100,12 +100,14 @@ export default {
   padding-top: 14px;
   margin-left: 20px;
   justify-content: space-between;
+  flex-direction: column;
   //連結點按的樣式
   .nav-link {
     //可以用scss改寫
     color: $color-black;
     margin-bottom: 30px;
     align-items: center;
+    cursor: pointer;
     height: 100%;
     .nav-icon {
       width: 22.2px;
@@ -144,15 +146,72 @@ export default {
   }
   //下方區域目前沒樣式
 
-
-//電腦版
-@media screen and (min-width: 576px) {
-.nav {
-  height: 100vh;
-}
 }
 
+//手機版
+
+@media screen and (max-width: 768px) {
+  .admin-nav {
+    flex-direction: row;
+    border-bottom: 1px solid #e6ecf0;
+    height: 60px;
+    position: fixed;
+    width: 100vw;
+    background-color: white;
+    top: 0;
+    z-index: 6;
+    padding-left: 1em;
+    margin: 0 0 0 0;
+    justify-content: stretch;
+    .nav-top,
+    .logout {
+      display: flex;
+      flex-direction: row;
+      .navigation {
+        margin: 0 0 0 20px;
+        display: flex;
+      }
+
+      .ac-logo {
+        transform: translate(0, 6px);
+      }
+      .nav-link {
+        width: 100%;
+        margin: 0px 0px 0px 0px;
+      }
+      ul {
+        display: flex;
+        h4 {
+          display: none;
+        }
+      }
+      .nav-icon {
+        width: 50px;
+        height: 50px;
+        margin: 0 30% 0 20%;
+        transform: translate(0, -1px);
+      }
+    }
+    .nav-top {
+      flex: 1;
+      .navigation {
+        width: 100%;
+        justify-content: space-between;
+        .post-button {
+          background-color: rgba(0, 0, 0, 0);
+          border: solid 1px $color-orange;
+          color: $color-orange;
+
+          width: 20%;
+          h4 {
+            font-size: 13px;
+          }
+        }
+      }
+    }
+  }
 }
+
 
 
 </style>
