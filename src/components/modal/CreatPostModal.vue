@@ -38,7 +38,7 @@
                 字數不可超過140字
               </span>
               <span v-if="isDescriptionEmpty" class="input-error">
-                內文不可空白
+                內容不可空白
               </span>
               <span v-if="isSubmitError" class="input-error">
                 發送失敗，請重新發送一次
@@ -48,7 +48,7 @@
                 class="click-to-create"
                 type="submit"
                 :disabled="
-                  description.trim().length === 0 || description.length >= 140
+                  description.trim().length === 0 || description.length > 140
                 "
               >
                 推文
@@ -144,7 +144,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" >
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -172,7 +172,7 @@ export default {
   background-color: #fff;
   border-radius: 14px;
   // min-height: 300px;
-  min-width: 600px;
+  width: 600px;
   margin: 2%;
   animation: scale-in 0.1s linear;
 }
@@ -233,4 +233,19 @@ export default {
   }
 }
 @import "/src/assets/scss/efficientSetting.scss";
+
+//手機
+
+@media screen and (max-width: 768px) {
+  .modal {
+   width: 80%;
+  }
+  .create-tweet-area {
+    .txtarea-input {
+      width: 80%;
+    }
+
+  }
+
+}
 </style>

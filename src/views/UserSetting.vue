@@ -6,11 +6,11 @@
         <NavBars />
       </div>
       <div class="setting-container">
-        <UserSpinner v-if="isProcessing" />
+     
         <h4>帳戶設定</h4>
         <form
           class="d-flex flex-column align-items-start"
-          @submit.stop.prevent="handleSubmit"
+          
         >
           <div class="setting-rwb">
             <div class="set-input mb-2">
@@ -75,7 +75,7 @@
           </div>
 
           <div class="set-btn">
-            <button type="submit" class="setting-btn mb-3">儲存</button>
+            <button type="submit" class="setting-btn mb-3" @click.stop.prevent="handleSubmit" :disabled="isProcessing">儲存</button>
           </div>
         </form>
       </div>
@@ -88,12 +88,10 @@ import NavBars from "./../components/NavBars.vue";
 import UserAPI from "./../apis/users";
 import { Toast } from "./../utils/helpers";
 import { mapState } from "vuex"; //新增這裡
-import UserSpinner from "../components/Userspinner.vue";
 
 export default {
   components: {
     NavBars,
-    UserSpinner,
   },
 
   data() {
@@ -106,7 +104,7 @@ export default {
         password: "",
         checkPassword: "",
       },
-      isProcessing: true,
+      isProcessing: false,
     };
   },
 
@@ -133,10 +131,74 @@ export default {
 
     async handleSubmit() {
       try {
-        const formData = this.userInfo;
+        this.isProcessing = true;
+        const { id, account, name, email, password, checkPassword} =this.userInfo;
+        
+        //確認沒缺格
+        if (!account || !name || !email) {
+          Toast.fire({
+            icon: "warning",
+            title: "帳號、姓名與電子信箱為必填",
+          });
+          this.isProcessing = false;
+          return;
+        }
+
+        //確認密碼確認跟密碼一樣
+        if (password !== checkPassword) {
+          Toast.fire({
+            icon: "warning",
+            title: "密碼與密碼確認內容須相同！",
+          });
+          this.userInfo.checkPassword = "";
+          this.isProcessing = false;
+          return;
+        }
+
+        //確認帳號格式(不能有空格)
+
+        if (account.indexOf(" ") !== -1) {
+          Toast.fire({
+            icon: "warning",
+            title: "帳號不能有空格",
+          });
+          this.isProcessing = false;
+          return;
+        }
+
+        //確認名字格式(不能有空格)
+
+        if (name.length > 50) {
+          Toast.fire({
+            icon: "warning",
+            title: "名稱不能多於50字！",
+          });
+          this.isProcessing = false;
+          return;
+        }
+
+        //確認email格式
+        if (
+          email.indexOf("@") === -1 ||
+          email.indexOf(".com") === -1
+        ) {
+          Toast.fire({
+            icon: "warning",
+            title: "email須含有@與.com等字元",
+          });
+          this.isProcessing = false;
+          return;
+        }
+
+        //console.log(formData);
+
         const { data } = await UserAPI.editUserAccount({
-          userID: this.userInfo.id,
-          formData,
+          userID: id,
+          account,
+          name,
+          email,
+          password,
+          checkPassword,
         });
         if (data.status === "error") {
           throw new Error(data.message);
@@ -145,17 +207,29 @@ export default {
           icon: "success",
           title: "成功更新資料",
         });
-        const { id } = this.$route.params;
-        this.fetchUser(id); //重新更新使用者資料
-        this.$store.dispatch("fetchCurrentUser")
+
+        this.$store.dispatch("fetchCurrentUser");
         this.$router.push({ name: "User", params: { id: this.userInfo.id } });
         this.isProcessing = false;
       } catch (error) {
+        console.log(error);
         this.isProcessing = false;
-        Toast.fire({
-          icon: "error",
-          title: "無法更新資料，請重試",
-        });
+        if (error.message === "This account name has been registered") {
+          Toast.fire({
+            icon: "warning",
+            title: "帳號已重覆註冊",
+          });
+        } else if (error.message === "This email has been registered") {
+          Toast.fire({
+            icon: "warning",
+            title: "Email已重覆註冊",
+          });
+        } else {
+          Toast.fire({
+            icon: "warning",
+            title: "更新失敗，請稍後再試！",
+          });
+        }
       }
     },
   },

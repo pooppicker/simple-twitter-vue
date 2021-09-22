@@ -42,3 +42,29 @@ export const nameLengthFilter = {
   }
 
 }
+
+export const popularNameLengthFilter = {
+  filters: {
+    nameLength(name) {
+      if (name.length > 10) {
+        return name.substr(0,10) + '...'
+      } else {
+        return name
+      }
+    }
+  }
+
+}
+
+export const popularAccountLengthFilter = {
+  filters: {
+    accountLength(name) {
+      if (name.length > 15) {
+        return name.substr(0, 15) + '...'
+      } else {
+        return name
+      }
+    }
+  }
+
+}

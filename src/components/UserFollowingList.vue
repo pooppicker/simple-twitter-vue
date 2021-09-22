@@ -5,7 +5,7 @@
         <LeftArrow />
       </div>
       <div class="user-title">
-        <h4 class="user-profile-name">{{ user.name }}</h4>
+        <h4 class="user-profile-name">{{ user.name  | accountLength}}</h4>
         <span class="span-setting">{{ user.TweetsCount }} 推文</span>
       </div>
       <hr />
@@ -269,8 +269,10 @@ import LeftArrow from "./../components/icons/IconBack.vue";
 import UserAPI from "./../apis/users";
 import { Toast } from "./../utils/helpers";
 import { mapState } from "vuex"; //新增這裡
+import { popularAccountLengthFilter } from "./../utils/mixins";
 
 export default {
+  mixins: [popularAccountLengthFilter],
   props: {
     innitialFollowUser: {
       required: true,

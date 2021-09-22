@@ -19,7 +19,7 @@
               </div>
               <div class="single-reply-info">
                 <div class="single-name-account">
-                  <h5>{{ tweet.User.account }}</h5>
+                  <h5>{{ tweet.User.name }}</h5>
                   <span
                     >@{{ tweet.User.account }}・{{
                       tweet.createdAt | fromNow
@@ -49,7 +49,6 @@
                   row="5"
                   type="text"
                   class="txtarea-input"
-                  maxLength="140"
                   autofocus
                   required
                   placeholder="推你的回覆"
@@ -108,14 +107,23 @@ export default {
   methods: {
     async handleSubmit() {
       try {
+          if (this.description.trim().length === 0) {
+          Toast.fire({
+            icon: "warning",
+            title: "回覆不得為空白！",
+          });
+          this.isProcessing = false;
+          this.$emit("closeModal");
+          return;
+        }
         await TweetAPI.addReplies({
-          tweetId: this.tweet.TweetId? this.tweet .TweetId : this.tweet.id ,
+          tweetId: this.tweet.TweetId ? this.tweet.TweetId : this.tweet.id,
           comment: this.description,
         });
-        this.tweet.RepliesCount += 1;//這裡是用來即時呈現首頁的推文數，不用充新刷新首頁
+        this.tweet.RepliesCount += 1; //這裡是用來即時呈現首頁的推文數，不用重新刷新首頁
         this.$emit("closeModal");
-        const TweetId = this.tweet.id
-        this.$emit("renewReplyList",TweetId);
+        const TweetId = this.tweet.id;
+        this.$emit("renewReplyList", TweetId);
         Toast.fire({
           icon: "success",
           title: "回覆成功！",
@@ -155,7 +163,7 @@ export default {
   background-color: #fff;
   border-radius: 14px;
   // min-height: 300px;
-  min-width: 600px;
+  width: 600px;
   margin: 2%;
   animation: scale-in 0.1s linear;
 }
@@ -197,6 +205,7 @@ export default {
     margin-bottom: 0.5rem;
     // outline: 1px solid black;
     display: flex;
+    flex-direction: row;
     h5 {
       font-weight: 700;
     }
@@ -267,4 +276,21 @@ export default {
   }
 }
 @import "/src/assets/scss/efficientSetting.scss";
+
+@media screen and (max-width: 768px) {
+  .modal {
+    width: 80%;
+  }
+  .create-tweet-area {
+    .txtarea-input {
+      width: 80%;
+    }
+  }
+  .single-reply-info {
+    .single-name-account {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
 </style>

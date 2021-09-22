@@ -13,7 +13,7 @@
               <LeftArrow />
             </div>
             <div class="user-title">
-              <h4 class="user-profile-name">{{ profile.name }}</h4>
+              <h4 class="user-profile-name">{{ profile.name | accountLength}} </h4>
               <span class="span-setting">{{ profile.TweetsCount }} 推文</span>
             </div>
             <hr />
@@ -143,8 +143,10 @@ import UserSpinner from "../components/Userspinner.vue";
 import UserAPI from "./../apis/users";
 import { Toast } from "./../utils/helpers";
 import { mapState } from "vuex";
+import { popularAccountLengthFilter } from "./../utils/mixins";
 
 export default {
+  mixins: [popularAccountLengthFilter],
   components: {
     NavBars,
     Popular,
@@ -243,13 +245,14 @@ export default {
           icon: "success",
           title: "成功更新資料",
         });
-        this.isProcessing = false;
+        this.isProcessing = true;
         const { id } = this.$route.params;
         this.fetchUser(id); //重新更新使用者資料
         this.$store.dispatch("fetchCurrentUser"); //vuex同步更新
         this.handleCloseModal(); //關modal
         //this.$router.push({ name: 'Home'})
       } catch (error) {
+        console.log(error)
         this.isProcessing = false;
         Toast.fire({
           icon: "error",

@@ -43,7 +43,7 @@
           required
         />
         <div class="input-hint" v-if="!emailCorrect">
-          信箱格式錯誤，須含有 @ 等字符！
+          信箱格式錯誤，須含有 "@"、".com" 等字符！
         </div>
       </div>
 
@@ -132,7 +132,7 @@ export default {
         //確認沒缺格
         if (
           !this.account ||
-          !this.password ||
+          !this.name ||
           !this.email ||
           !this.password ||
           !this.passwordChecked
@@ -164,7 +164,7 @@ export default {
         }
 
         //確認email格式
-        if (this.email.indexOf("@") === -1) {
+        if (this.email.indexOf("@") === -1 || this.email.indexOf(".com") === -1) {
           this.emailCorrect = false;
         }
 
@@ -174,7 +174,8 @@ export default {
           this.password !== this.passwordChecked ||
           this.account.indexOf(" ") !== -1 ||
           this.name.length > 50 ||
-          this.email.indexOf("@") === -1
+          this.email.indexOf("@") === -1 ||
+          this.email.indexOf(".com") === -1
         ) {
           this.isProcessing = false;
           return;

@@ -119,6 +119,7 @@ import HomerSpinner from "./HomeSpinner.vue";
 import { mapState } from "vuex";
 import { setInterval, clearInterval } from "timers";
 
+
 export default {
   mixins: [fromNowFilter, descriptionLengthFilter],
   components: {
