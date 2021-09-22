@@ -93,7 +93,7 @@ export default {
       try {
         this.isProcessing = true;
         //空白不能發文
-        if (!this.description) {
+        if (this.description.trim().length === 0) {
           this.isDescriptionEmpty = true;
           this.isProcessing = false;
           return;

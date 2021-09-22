@@ -164,7 +164,7 @@ export default {
       try {
         this.isProcessing = true;
         //空白不能發文
-        if (!this.description) {
+        if (this.description.trim().length === 0) {
           Toast.fire({
             icon: "warning",
             title: "推文內容不得為空白",
