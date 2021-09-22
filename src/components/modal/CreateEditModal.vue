@@ -20,7 +20,7 @@
           <slot name="body">
             <div class="modal-cover-area">
               <!-- Images area -->
-              <label for="cover" 
+              <label for="cover"
                 ><IconUploadPhoto class="upload-cover"
               /></label>
               <img
@@ -94,6 +94,9 @@
               <div class="modal-txt-limit">
                 <span v-if="profile.name.length >= 50" class="name-error"
                   >字數不可超過50字</span
+                >
+                <span v-if="profile.name.trim().length === 0" class="name-error"
+                  >名字不可為空</span
                 >
                 {{ profile.name.length }}/50
               </div>
@@ -174,6 +177,14 @@ export default {
       };
     },
     handleSubmit(e) {
+      //發文長度限制
+      if (this.profile.name.length > 50 || this.profile.name.trim().length === 0) {
+        return
+      }
+        if (this.profile.introduction.length > 160) {
+        return
+      }
+    
       const form = e.target;
       const formData = new FormData(form);
 
@@ -184,10 +195,10 @@ export default {
       if (files.length === 0) {
         //user do not select pic
         this.profile.cover = "";
-        this.profile.deleteCover = true
+        this.profile.deleteCover = true;
         return;
       } else {
-        this.profile.deleteCover = false
+        this.profile.deleteCover = false;
         const imageURL = window.URL.createObjectURL(files[0]);
         this.profile.cover = imageURL;
       }
@@ -204,7 +215,7 @@ export default {
       }
     },
     handleCoverDelete() {
-      this.profile.deleteCover = true
+      this.profile.deleteCover = true;
     },
   },
   computed: {
@@ -392,27 +403,22 @@ export default {
 
 @media screen and (max-width: 768px) {
   #modal-overlay {
-
-  .typing-error {
-    margin-right: 20%;
-
-  }}
+    .typing-error {
+      margin-right: 20%;
+    }
+  }
   #modal {
     width: 80%;
     min-height: 500px;
-      .modal-cover-area {
-        height: 100px;;
-  }
-
+    .modal-cover-area {
+      height: 100px;
+    }
   }
   .modal-input-area {
     width: 100%;
     .edit-input {
       width: 100%;
     }
-
   }
-
-
 }
 </style>

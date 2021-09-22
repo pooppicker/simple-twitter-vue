@@ -38,7 +38,7 @@
                 字數不可超過140字
               </span>
               <span v-if="isDescriptionEmpty" class="input-error">
-                內文不可空白
+                內容不可空白
               </span>
               <span v-if="isSubmitError" class="input-error">
                 發送失敗，請重新發送一次
@@ -48,7 +48,7 @@
                 class="click-to-create"
                 type="submit"
                 :disabled="
-                  description.trim().length === 0 || description.length >= 140
+                  description.trim().length === 0 || description.length > 140
                 "
               >
                 推文
