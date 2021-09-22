@@ -184,7 +184,7 @@ export default {
         ) {
           Toast.fire({
             icon: "warning",
-            title: "email須含有@與icom等字元",
+            title: "email須含有@與.com等字元",
           });
           this.isProcessing = false;
           return;
