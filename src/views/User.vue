@@ -250,6 +250,7 @@ export default {
         this.handleCloseModal(); //關modal
         //this.$router.push({ name: 'Home'})
       } catch (error) {
+        console.log(error)
         this.isProcessing = false;
         Toast.fire({
           icon: "error",
