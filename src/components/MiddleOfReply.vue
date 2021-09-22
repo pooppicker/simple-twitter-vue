@@ -156,7 +156,6 @@ export default {
     //點擊愛心功能
     async addHeart(TweetId) {
       try {
-        this.pageIsProcessing = true;
         this.tweet.LikesCount = this.tweet.LikesCount + 1;
         this.tweet.isLike = !this.tweet.isLike;
         await TweetAPI.postTweetLiked({ tweetId: TweetId });
