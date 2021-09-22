@@ -49,7 +49,6 @@
                   row="5"
                   type="text"
                   class="txtarea-input"
-                  maxLength="140"
                   autofocus
                   required
                   placeholder="推你的回覆"
@@ -108,11 +107,20 @@ export default {
   methods: {
     async handleSubmit() {
       try {
+          if (this.description.trim().length === 0) {
+          Toast.fire({
+            icon: "warning",
+            title: "回覆不得為空白！",
+          });
+          this.isProcessing = false;
+          this.$emit("closeModal");
+          return;
+        }
         await TweetAPI.addReplies({
           tweetId: this.tweet.TweetId ? this.tweet.TweetId : this.tweet.id,
           comment: this.description,
         });
-        this.tweet.RepliesCount += 1; //這裡是用來即時呈現首頁的推文數，不用充新刷新首頁
+        this.tweet.RepliesCount += 1; //這裡是用來即時呈現首頁的推文數，不用重新刷新首頁
         this.$emit("closeModal");
         const TweetId = this.tweet.id;
         this.$emit("renewReplyList", TweetId);
