@@ -20,7 +20,7 @@
         <!--姓名資料-->
         <div class="adminUsers-info">
           <router-link :to="{ name: 'User', params: { id: user.id } }">
-            <h5>{{ user.name }}</h5>
+            <h5>{{ user.name | accountLength}}</h5>
           </router-link>
           <p>{{ user.account }}</p>
         </div>
@@ -67,6 +67,7 @@ import IconLiked from "./icons/IconLike";
 import IconHeartEmpty from "./icons/IconHeartEmpty";
 import adminAPI from "../apis/admin";
 import Spinner from "./AdminSpinner.vue";
+import { popularAccountLengthFilter } from "./../utils/mixins";
 
 export default {
   components: {
@@ -74,7 +75,7 @@ export default {
     IconHeartEmpty,
     Spinner,
   },
-  mixins: [fromNowFilter],
+  mixins: [fromNowFilter, popularAccountLengthFilter],
   data() {
     return {
       users: [],
