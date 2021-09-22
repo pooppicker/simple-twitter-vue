@@ -13,7 +13,7 @@
               <LeftArrow />
             </div>
             <div class="user-title">
-              <h4 class="user-profile-name">{{ profile.name }}</h4>
+              <h4 class="user-profile-name">{{ profile.name | accountLength}} </h4>
               <span class="span-setting">{{ profile.TweetsCount }} 推文</span>
             </div>
             <hr />
@@ -143,8 +143,10 @@ import UserSpinner from "../components/Userspinner.vue";
 import UserAPI from "./../apis/users";
 import { Toast } from "./../utils/helpers";
 import { mapState } from "vuex";
+import { popularAccountLengthFilter } from "./../utils/mixins";
 
 export default {
+  mixins: [popularAccountLengthFilter],
   components: {
     NavBars,
     Popular,

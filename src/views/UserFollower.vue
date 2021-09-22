@@ -29,6 +29,7 @@ import { Toast } from "./../utils/helpers";
 import { mapState } from "vuex";
 // @ is an alias to /src
 
+
 export default {
   name: "UserFollower",
   components: {
