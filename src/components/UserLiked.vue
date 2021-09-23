@@ -3,7 +3,7 @@
   <div class="user-profile-area">
     <div v-for="tweet in tweets" :key="tweet.TweetId">
       <div class="tweet-card d-flex">
-        <router-link :to="{ name: 'User', params: { id: tweet.Likes.UserId } }">
+        <router-link :to="{ name: 'User', params: { id: tweet.User.id } }">
           <img class="user-self-img" :src="tweet.User.avatar" />
         </router-link>
         <div class="tweet-detail">
