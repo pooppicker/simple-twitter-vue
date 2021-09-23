@@ -271,12 +271,8 @@ export default {
       strong {
         color: $color-black;
       }
-      .coms-amount {
-        cursor: pointer;
-      }
       .likes-amount {
         margin-left: 2rem;
-        cursor: pointer;
       }
     }
     .icons-area {
@@ -328,7 +324,6 @@ export default {
       color: $color-gray;
       .user-reply-account {
         color: $color-orange;
-        cursor: pointer;
       }
     }
   }
