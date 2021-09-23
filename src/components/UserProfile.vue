@@ -12,7 +12,7 @@
               <h5>{{ tweet.User.name }}</h5>
             </router-link>
             <p class="post-time">
-              {{ tweet.User.account }}·{{ tweet.createdAt | fromNow }}
+              @{{ tweet.User.account }}·{{ tweet.createdAt | fromNow }}
             </p>
           </div>
           <router-link

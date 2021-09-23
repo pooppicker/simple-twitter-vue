@@ -12,10 +12,10 @@
               <h5>{{ reply.User.name }}</h5>
             </router-link>
             <p class="post-time">
-              {{ reply.User.account }}·{{ reply.createdAt | fromNow }}
+              @{{ reply.User.account }}·{{ reply.createdAt | fromNow }}
             </p>
           </div>
-          <div class="user-reply-to">回覆 <span class="user-reply-account">{{ reply.Tweet.User.account }}</span></div>
+          <div class="user-reply-to">回覆 <span class="user-reply-account">@{{ reply.Tweet.User.account }}</span></div>
           <p class="tweet-detail-text">
             {{ reply.comment }}
           </p>
