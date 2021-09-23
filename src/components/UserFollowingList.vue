@@ -91,7 +91,7 @@
                     class="add-follow-btn"
                     @click="addFollow(followUser)"
                   >
-                    跟蹤
+                    跟隨
                   </button>
                 </template>
               </div>

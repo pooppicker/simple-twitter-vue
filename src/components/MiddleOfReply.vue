@@ -74,9 +74,13 @@
               </div>
               <div class="user-reply-to">
                 回覆
-                <span class="user-reply-account"
-                  >@{{ tweet.User.account }}</span
+                <router-link
+                  :to="{ name: 'User', params: { id: tweet.User.id } }"
                 >
+                  <span class="user-reply-account"
+                    >@{{ tweet.User.account }}</span
+                  >
+                </router-link>
               </div>
               <p class="tweet-detail-text">
                 {{ reply.comment }}
