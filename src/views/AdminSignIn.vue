@@ -9,7 +9,7 @@
         <h3 class="mb-4">後台登入</h3>
       </div>
       <div class="input-style mb-2">
-        <label class="signin-label" for="account">帳號</label>
+        <label class="signin-label" for="account">Email</label>
         <input
           v-model="account"
           class="signin-input"
@@ -81,7 +81,7 @@ export default {
         if (!this.account || !this.password) {
           Toast.fire({
             icon: "warning",
-            title: "請填入 帳號 和 密碼",
+            title: "請填入 Email 和 密碼",
           });
           this.isProcessing = false;
           return;
@@ -105,7 +105,7 @@ export default {
         this.isProcessing = false;
         Toast.fire({
           icon: "warning",
-          title: "請確認您輸入了正確的帳號密碼",
+          title: "請確認您輸入了正確的Email和密碼",
         });
       }
     },
