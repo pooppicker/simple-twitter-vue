@@ -22,7 +22,7 @@
           <router-link :to="{ name: 'User', params: { id: user.id } }">
             <h5>{{ user.name | accountLength}}</h5>
           </router-link>
-          <p>{{ user.account }}</p>
+          <p>@{{ user.account }}</p>
         </div>
         <!--icon-->
         <div class="adminUsers-icon d-flex">
