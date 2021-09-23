@@ -70,7 +70,7 @@
                     <h5>{{ followUser.name }}</h5>
                   </router-link>
                   <p class="post-time">
-                    {{ followUser.account }}
+                    @{{ followUser.account }}
                   </p>
                 </div>
                 <template

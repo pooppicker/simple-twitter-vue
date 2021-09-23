@@ -69,7 +69,7 @@
                   <h5>{{ reply.User.name }}</h5>
                 </router-link>
                 <p class="post-time">
-                  {{ reply.User.account }}·{{ reply.createdAt | fromNow }}
+                  @{{ reply.User.account }}·{{ reply.createdAt | fromNow }}
                 </p>
               </div>
               <div class="user-reply-to">

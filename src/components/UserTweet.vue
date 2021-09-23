@@ -3,19 +3,18 @@
   <div class="user-profile-area">
     <div v-for="reply in replies" :key="reply.id">
       <div class="tweet-card d-flex">
-        <router-link :to="{ name: 'User', params: { id: reply.id } }">
           <img class="user-self-img" :src="reply.User.avatar" />
-        </router-link>
         <div class="tweet-detail">
           <div class="tweet-detail-title d-flex">
-            <router-link :to="{ name: 'User', params: { id: reply.id } }">
               <h5>{{ reply.User.name }}</h5>
-            </router-link>
             <p class="post-time">
-              {{ reply.User.account }}·{{ reply.createdAt | fromNow }}
+              @{{ reply.User.account }}·{{ reply.createdAt | fromNow }}
             </p>
           </div>
-          <div class="user-reply-to">回覆 <span class="user-reply-account">{{ reply.Tweet.User.account }}</span></div>
+          <div class="user-reply-to">回覆 
+            <router-link :to="{ name: 'User', params: { id: reply.Tweet.User.id } }">
+            <span class="user-reply-account">@{{ reply.Tweet.User.account }}</span> </router-link>
+           </div>
           <p class="tweet-detail-text">
             {{ reply.comment }}
           </p>
