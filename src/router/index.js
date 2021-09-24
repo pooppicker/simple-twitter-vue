@@ -99,6 +99,13 @@ const routes = [
 
   },
 
+  {
+    path: "/twitter/message/public",
+    name: "Public-message",
+    component: () => import('../views/PublicMessage.vue'),
+
+  },
+
 
   {
     path: "/admin/signin",
