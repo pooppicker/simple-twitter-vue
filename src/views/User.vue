@@ -192,7 +192,6 @@ export default {
     async fetchUser(userID) {
       try {
         const response = await UserAPI.getUser({ userID });
-        console.log(response);
         const {
           id,
           name,
@@ -372,7 +371,7 @@ export default {
     margin-top: 3.5em;
     height: 250px;
     position: relative;
-    cursor: pointer;
+   
     img {
       object-fit: cover;
     }
