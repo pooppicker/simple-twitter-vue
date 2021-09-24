@@ -5,7 +5,7 @@
         <LeftArrow />
       </div>
       <div class="user-title">
-        <h4 class="user-profile-name">{{ user.name  | accountLength}}</h4>
+        <h4 class="user-profile-name">{{ user.name | accountLength}}</h4>
         <span class="span-setting">{{ user.TweetsCount }} 推文</span>
       </div>
       <hr />
@@ -300,7 +300,6 @@ export default {
       this.user = {
         ...this.innitialUser,
       };
-      console.log("this.followUsers", this.followUsers);
     },
 
     previousPage() {
@@ -318,7 +317,6 @@ export default {
         this.$store.commit("updateNewUser");
       } catch (error) {
         followUser.isFollowed = false;
-        console.log(error);
         Toast.fire({
           icon: "warning",
           title: "追蹤失敗，請稍後再試",
@@ -338,7 +336,6 @@ export default {
         this.$emit("updateList", id);
       } catch (error) {
         followUser.isFollowed = true;
-        console.log(error);
         Toast.fire({
           icon: "warning",
           title: "取消追蹤失敗，請稍後再試",
