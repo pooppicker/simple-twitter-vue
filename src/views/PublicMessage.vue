@@ -6,13 +6,31 @@
         <NavBars />
       </div>
       <!--上線使用者-->
-      <div>
-
+      <div class="public-users">
+        <div class="public-users-title">
+          <h2>上線使用者({{ usersCount }})</h2>
+        </div>
+        <div class="public-users-content">
+          <!--底下跑v-for迴圈-->
+          <div v-for="user in users" :key="user.id">
+            <div class="public-users-content-card">
+              <img class="public-users-content-img" :src="user.avatar" />
+              <div class="public-users-content-text">
+                <div class="public-users-content-text-name">
+                  {{ user.name }}
+                </div>
+                <div class="public-users-content-text-account">
+                  @{{ user.account }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--底下跑v-for迴圈結束-->
       </div>
       <!--公開聊天室-->
-      <div>
-        <Message />
-
+      <div class="public-messages">
+        <Message :roomId="roomId" />
       </div>
     </div>
   </div>
@@ -21,30 +39,149 @@
 <script>
 import NavBars from "./../components/NavBars";
 import Message from "./../components/Message.vue";
+import { io } from "socket.io-client";
 
 export default {
   name: "Public-message",
   components: {
     NavBars,
-    Message
+    Message,
+  },
+
+  data() {
+    return {
+      socket: [],
+      users: [],
+      usersCount: 0,
+      roomId: 1,
+    };
+  },
+
+  methods: {
+    createdSocket() {
+      const tokenInLocalStorage = localStorage.getItem("token");
+      this.socket = io("https://twitter-apis-demo.herokuapp.com", {
+        auth: { token: tokenInLocalStorage },
+      });
+    },
+    //進去後傳房間給後端
+    enterMessage() {
+      this.socket.emit("join", {
+        roomId: 1,
+      });
+    },
+
+    //通知哪位使用者上線/離線
+    NoticeUser() {
+      this.socket.on("active users", (obj) => {
+        //console.log("obj", obj);
+        this.usersCount = obj.userCount;
+        this.users = obj.activeUsers;
+        // console.log("message:", this.users);
+      });
+    },
+
+    //後端確認收到訊息通知
+    debugNotice() {
+      this.socket.on("debug notice", (obj) => {
+        console.log(obj);
+      });
+    },
+  },
+
+  created() {
+    this.createdSocket();
+    this.enterMessage();
+  },
+
+  mounted() {
+    this.debugNotice();
+    this.NoticeUser();
   },
 };
 </script>
 
 <style lang="scss">
+@import "../assets/scss/colorAndSize.scss";
 @import "../assets/scss/efficientSetting.scss";
 .public-message-content {
   height: 100vh;
   width: 100vw;
   //標示用
- // outline: red 2px solid;
+  // outline: red 2px solid;
   .public-message {
     @extend %views-grid;
-    grid-template-columns: 5fr 9fr 11.5fr;
+    grid-template-columns: 5fr 8fr 12.5fr;
     //標示用
     // outline: green 2px solid;
     position: relative;
   }
 }
 
+.public-users {
+  border-left: 1px solid #e6ecf0;
+  height: 100vh;
+  margin-left: 1.5em;
+  //outline: black 1px solid;
+  overflow: scroll;
+  position: relative;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  &-title {
+    padding-left: 15px;
+    padding-top: 13px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    height: 55px;
+    border-bottom: $color-message-gray 1px solid;
+    h2 {
+      font-size: 18px;
+    }
+  }
+  &-content {
+    margin-top: 55px;
+
+    &-card {
+      align-items: center;
+      padding-left: 15px;
+      display: flex;
+      height: 75px;
+      border-bottom: $color-message-gray 1px solid;
+    }
+
+    &-img {
+      @extend %avatar-size;
+    }
+    &-text {
+      margin-left: 10px;
+      display: flex;
+      &-name {
+        margin-right: 5px;
+        font-size: 15px;
+        color: $color-black;
+      }
+      &-account {
+        font-size: 15px;
+        color: $color-gray;
+      }
+    }
+  }
+}
+
+//手機板
+@media screen and (max-width: 768px) {
+  .public-message-content {
+    height: 100%;
+    h5 {
+      font-size: 15px;
+    }
+     .public-message {
+      grid-template-columns: 1fr;
+      grid-template-rows: 5fr 20fr;
+    }
+  }
+  .public-users {
+}}
 </style>

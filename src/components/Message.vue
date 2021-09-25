@@ -5,27 +5,35 @@
     </div>
     <div class="message-show">
       <!--上線-->
-      <div class="message-info">
-        <p class="message-info-text">李喵吉 上線</p>
-      </div>
-      <div class="message-other">
-        <img
-          class="message-other-img"
-          src="https://booksfromtaiwan.tw/images/authors_img/20200114033913%E6%80%AA%E5%A5%87%E4%BA%8B%E7%89%A9%E6%89%80%E6%89%80%E9%95%B7.png"
-        />
-        <div class="message-other-content">
-          <div class="message-other-content-text">
-            推薦大家去看怪奇事務所、ptt
-            morvel版，喵吉真可愛，我好想睡覺又好想切版，484有病
+      <div v-for="message in Messages" :key="message.id">
+        <div class="message-info" v-if="message.type === 'notice'">
+          <p class="message-info-text">{{ message.message }}</p>
+        </div>
+        <div
+          class="message-other"
+          v-if="message.type === 'message' && message.userId !== currentUser.id"
+        >
+          <img class="message-other-img" :src="message.avatar" />
+          <div class="message-other-content">
+            <div class="message-other-content-text">
+              {{ message.text.content }}
+            </div>
+            <div class="message-other-content-time">
+              {{ message.createdAt | fromNow}}
+            </div>
           </div>
-          <div class="message-other-content-time">發送時間</div>
         </div>
-      </div>
-      <div class="message-self">
-        <div class="message-self-text">
-          大家好我是李喵吉二號今年三歲，興趣吃飯睡覺大吼大叫，最近流行不播貓砂，好爽喔
+        <div
+          class="message-self"
+          v-if="message.type === 'message' && message.userId === currentUser.id"
+        >
+          <div class="message-self-content">
+            <div class="message-self-text">
+              {{ message.text.content }}
+            </div>
+            <div class="message-self-time">{{ message.createdAt }}</div>
+          </div>
         </div>
-        <div class="message-self-time">發送時間</div>
       </div>
     </div>
     <div class="message-input">
@@ -36,8 +44,9 @@
         required
         autofocus
         v-model="inputMessage"
+        @keyup.enter="sendMessage"
       />
-      <div class="message-input-icon">
+      <div class="message-input-icon" @click="sendMessage">
         <IconSendMessage />
       </div>
     </div>
@@ -64,20 +73,22 @@
     top: 0;
     height: 55px;
     border-bottom: $color-message-gray 1px solid;
+    z-index: 6;
+    background-color: white;
   }
   .message-show {
     padding-top: 2%;
     padding-left: 15px;
     padding-right: 15px;
-    margin-top: 55px;
+    margin: 55px 0;
+
     .message-info {
-       margin-bottom: 15px;
-       padding-bottom: 15px;
-     
+      margin-bottom: 15px;
+      padding-bottom: 15px;
+
       display: flex;
 
       &-text {
-        
         font-size: 15px;
         color: $color-gray;
         display: inline-block;
@@ -102,7 +113,7 @@
         max-width: 70%;
         margin-left: 12px;
         &-text {
-          padding: 15px 10px;
+          padding: 10px 15px;
           background-color: $color-message-gray;
           color: $color-black;
           font-size: 15px;
@@ -117,13 +128,16 @@
       }
     }
     .message-self {
-      
+      display: flex;
       margin-top: 20px;
-      width: 100%;
+      max-width: 100%;
       padding-left: 30%;
       text-align: right;
+      justify-content: flex-end;
+      &-content {
+      }
       &-text {
-        padding: 15px 10px;
+        padding: 10px 15px;
         text-align: left;
         background-color: $color-orange;
         font-size: 15px;
@@ -147,11 +161,13 @@
     display: flex;
     align-items: center;
     padding: 0 15px;
+    z-index: 6;
+    background-color: white;
 
     &-area {
       height: 32px;
       display: block;
-      width: 40%;
+      width: 43%;
       background-color: $color-message-gray;
       border-radius: 50px;
       margin-right: 1%;
@@ -167,15 +183,140 @@
 
 <script>
 import IconSendMessage from "./../components/icons/IconSendMessage.vue";
+import { io } from "socket.io-client";
+import { mapState } from "vuex";
+import MessageAPI from "./../apis/message";
+import { fromNowFilter } from "./../utils/mixins";
+
 export default {
   name: "Message",
+  mixins: [fromNowFilter],
+  props: {
+    roomId: {
+      required: true,
+    },
+  },
   components: {
     IconSendMessage,
   },
   data() {
     return {
+      socket: [],
+      Messages: [],
       inputMessage: "",
     };
+  },
+
+  methods: {
+    // 滾輪置底
+    // handleScroll() {
+    //   if (window.scrollY + window.screen.height >= document.///body.scrollHeight) {
+    //     this.loadMore();
+    //   }
+    // },
+
+    //增加歷史訊息
+    async fetchMessage() {
+      try {
+        const response = await MessageAPI.getMessage({
+          roomId: this.roomId
+        })
+
+        console.log('getmessage',response)
+
+
+      } catch(error) {
+        console.log(error)
+      }
+
+    },
+
+    
+
+    createdSocket() {
+      const tokenInLocalStorage = localStorage.getItem("token");
+      this.socket = io("https://twitter-apis-demo.herokuapp.com", {
+        auth: { token: tokenInLocalStorage },
+      });
+    },
+
+    //進去後傳房間給後端
+    enterMessage() {
+      this.socket.emit("join", {
+        roomId: this.roomId,
+      });
+    },
+
+    //傳訊息給後端
+    sendMessage() {
+      if(this.inputMessage.trim().length === 0) {
+        return
+      }
+      if (this.roomId === 1) {
+        this.socket.emit("public chat", {
+          UserId: this.currentUser.id,
+          roomId: this.roomId,
+          content: this.inputMessage,
+        });
+        this.inputMessage = "";
+      } else {
+        this.socket.emit("private chat", {
+          UserId: this.currentUser.id,
+          roomId: this.roomId,
+          content: this.inputMessage,
+        });
+        this.inputMessage = "";
+      }
+    },
+
+    //上下線通知
+    message() {
+      this.socket.on("message", (obj) => {
+        this.Messages.push(obj);
+      });
+    },
+
+    //訊息通知
+    getMessage() {
+      if (this.roomId === 1) {
+        this.socket.on("public chat", (obj) => {
+          console.log("msgobj", obj);
+          this.Messages.push(obj);
+        });
+      } else {
+        this.socket.on("private chat", (obj) => {
+          console.log("msgobj", obj);
+        });
+      }
+    },
+
+    //離開房間
+    leaveRoom(){
+       this.socket.emit("leave", {
+        roomId: this.roomId,
+      });
+
+    }
+  },
+
+  created() {
+    this.createdSocket();
+    this.enterMessage();
+    this.fetchMessage()
+   // window.addEventListener("scroll", this.handleScroll);
+  },
+
+  mounted() {
+    this.message();
+    this.getMessage();
+  },
+
+  beforeDestroy() {
+    this.leaveRoom()
+  },
+
+  computed: {
+    ...mapState(["currentUser"]),
   },
 };
 </script>
