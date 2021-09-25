@@ -10,8 +10,8 @@
         <Notifications />
       </div>
       <div class="myfollowing">
-        <!--popular-->
-        <MyFollowing />
+        <MyFollowing v-if="isMore" :isMore ="false" />
+        <MoreFollowing v-else />
       </div>
     </div>
   </div>
@@ -20,12 +20,19 @@
 <script>
 import NavBars from "./../components/NavBars.vue"
 import MyFollowing from "./../components/MyFollowing.vue"
+import MoreFollowing from "./../components/MoreFollowing.vue"
 import Notifications from "./../components/Notifications.vue"
 export default {
   components: {
     NavBars,
     Notifications,
-    MyFollowing
+    MyFollowing,
+    MoreFollowing
+  },
+  data() {
+    return {
+      isMore: false
+    }
   }
 }
 </script>
@@ -40,6 +47,10 @@ export default {
   .notification {
     @extend %views-grid;
     position: relative;
+  }
+  .myfollowing {
+    height: 100vh;
+    border-right: 1px solid #e6ecf0;
   }
 }
 </style>

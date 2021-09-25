@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="m-card">
     <div class="card-content">
       <div class="card-header">
         <h4 class="card-title">跟隨誰</h4>
@@ -7,8 +7,7 @@
       </div>
 
       <div class="card-body">
-        <!--開始跑v-for迴圈處-->
-        <div class="user-card" v-for="user in users" :key="user.id">
+        <div class="user-card" v-for="user in topUsers" :key="user.id">
           <div class="user-info d-flex">
             <div class="user-detail d-flex">
               <router-link :to="{ name: 'User', params: { id: user.id } }">
@@ -40,9 +39,8 @@
               </button>
             </div>
           </div>
-          <hr v-if="user.id !== users[9].id" />
         </div>
-        <!--v-for迴圈結束處-->
+        <button class="show-more">顯示更多</button>
       </div>
     </div>
   </div>
@@ -57,18 +55,22 @@ import { popularAccountLengthFilter } from "./../utils/mixins";
 
 export default {
   mixins: [popularNameLengthFilter, popularAccountLengthFilter],
+  props: {
+    isMore: {
+      type: Boolean,
+    },
+  },
   data() {
     return {
-      users: [],
-      isMore: true,
+      topUsers: [],
     };
   },
-
   methods: {
-    async fetchUser() {
+    async fetchTopUser() {
       try {
-        const response = await UserAPI.getTopUsers();
-        this.users = {
+        const response = await UserAPI.getTopfollowingUsers();
+        console.log(response);
+        this.topUsers = {
           ...response.data,
         };
       } catch (error) {
@@ -79,7 +81,6 @@ export default {
         });
       }
     },
-
     async cancelFollow(user) {
       try {
         user.isFollowed = false;
@@ -120,9 +121,8 @@ export default {
       }
     },
   },
-
   created() {
-    this.fetchUser();
+    this.fetchTopUser();
   },
   computed: {
     ...mapState(["currentUser", "isNewUser"]),
@@ -132,7 +132,7 @@ export default {
     isNewUser: {
       handler: function () {
         if (this.isNewUser) {
-          this.fetchUser();
+          this.fetchTopUser();
           this.$store.commit("updateNewUser");
         }
       },
@@ -146,24 +146,24 @@ export default {
 @import "../assets/scss/colorAndSize.scss";
 @import "../assets/scss/efficientSetting.scss";
 
-.card {
+.m-card {
   // outline: black 2px solid;
   // border-left: 1px solid #e6ecf0;
   position: relative;
   background-color: white;
   z-index: 5;
-  height: 100vh;
+  // height: 100vh;
   margin-right: 20px;
   padding-left: 2%;
   padding-top: 14px;
-  overflow: scroll;
+  // overflow: scroll;
   &::-webkit-scrollbar {
     display: none;
   }
   .card-content {
     background-color: #f5f8fa;
-    min-height: 770px;
-    border-radius: 14px;
+    height: 500px;
+    border-radius: 14px 14px 0 0;
     padding-top: 14px;
     margin: 0 14px;
 
@@ -184,7 +184,7 @@ export default {
       //border: yellow 2px solid;
       .user-card {
         min-height: 10%;
-
+        border-bottom: 1px solid #e6ecf0;
         .user-info {
           margin: 0 15px;
           justify-content: space-between;
@@ -222,6 +222,16 @@ export default {
           margin-right: 15px;
         }
       }
+    }
+    .show-more {
+      color: #FF6600;
+      font-size: 15px;
+      background-color: #f5f8fa;
+      min-height: 7%;
+      width: 100%;
+      border-radius: 0 0 14px 14px ;
+      display: flex;
+      padding: .7rem;
     }
   }
 }

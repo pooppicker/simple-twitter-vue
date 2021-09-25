@@ -27,6 +27,10 @@
       <img class="noti-avatar" src="https://i.ytimg.com/vi/Q9o4MumeWj8/maxresdefault.jpg" alt="">
       <h6 class="noti-new">JoJo 喜歡你的貼文</h6>
     </div>
+    <div class="noti-content">
+      <img class="noti-avatar" src="https://i.ytimg.com/vi/Q9o4MumeWj8/maxresdefault.jpg" alt="">
+      <h6 class="noti-new">JoJo 喜歡你的貼文</h6>
+    </div>
   </div>
 </template>
 
@@ -35,13 +39,17 @@
   height: 100vh;
   width: 100%;
   border-left: 1px solid #e6ecf0;
-  margin-left: 1.5em;
+  border-right: 1px solid #e6ecf0;
+  overflow: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
   .noti-title {
     padding: 0.7rem;
   }
   .noti-content {
     border-bottom: 1px solid #e6ecf0;
-    padding: 0.5rem 0 0.5rem 0.5rem;
+    padding: 0.7rem 0 0.7rem 0.7rem;
     .noti-avatar {
       width: 55px;
       height: 55px;
