@@ -345,7 +345,7 @@ export default {
   display: flex;
   flex-direction: column;
   border-left: 1px solid #e6ecf0;
-  margin-left: 2%;
+  margin-left: 1.5em;
   overflow: scroll;
   position: relative;
   &::-webkit-scrollbar {

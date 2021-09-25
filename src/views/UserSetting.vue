@@ -264,7 +264,7 @@ export default {
   .setting-container {
     grid-area: sets;
     border-left: 1px solid #e6ecf0;
-    margin-left: 1.3%;
+    margin-left: 1.5em;
     h4 {
       // outline: 1px solid black;
       border-bottom: 1px solid #e6ecf0;
