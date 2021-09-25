@@ -9,9 +9,9 @@
        <!-- NOtifications -->
         <Notifications />
       </div>
-      <div class="popular">
+      <div class="myfollowing">
         <!--popular-->
-        <Popular />
+        <MyFollowing />
       </div>
     </div>
   </div>
@@ -19,13 +19,13 @@
 
 <script>
 import NavBars from "./../components/NavBars.vue"
-import Popular from "./../components/Popular.vue"
+import MyFollowing from "./../components/MyFollowing.vue"
 import Notifications from "./../components/Notifications.vue"
 export default {
   components: {
     NavBars,
     Notifications,
-    Popular
+    MyFollowing
   }
 }
 </script>

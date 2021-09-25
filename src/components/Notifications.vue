@@ -35,6 +35,7 @@
   height: 100vh;
   width: 100%;
   border-left: 1px solid #e6ecf0;
+  margin-left: 1.5em;
   .noti-title {
     padding: 0.7rem;
   }
