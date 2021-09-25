@@ -105,7 +105,12 @@ const routes = [
     component: () => import('../views/PublicMessage.vue'),
 
   },
+  {
+    path: "/twitter/notification",
+    name: "Notification",
+    component: () => import('../views/Notification.vue'),
 
+  },
 
   {
     path: "/admin/signin",
