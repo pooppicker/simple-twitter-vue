@@ -12,7 +12,7 @@
         </div>
         <div class="public-users-content">
           <!--底下跑v-for迴圈-->
-          <div v-for="user in users" :key="user.id">
+          <div v-for="user in users" :key="user.uuid">
             <div class="public-users-content-card">
               <router-link :to="{ name: 'User', params: { id: user.id } }">
                 <img class="public-users-content-img" :src="user.avatar" />
@@ -46,6 +46,8 @@ import NavBars from "./../components/NavBars";
 import Message from "./../components/Message.vue";
 import { io } from "socket.io-client";
 import MessageAPI from "./../apis/message";
+import { v4 as uuidv4 } from "uuid"
+
 //import UserAPI from "./../apis/users";
 
 export default {
@@ -80,7 +82,7 @@ export default {
       });
     },
 
-    //通知哪位使用者上線
+    //通知哪位使用者上線(中間欄位)
     NoticeUser() {
       this.socket.on("active users", (obj) => {
         //console.log("obj", obj);
@@ -90,19 +92,18 @@ export default {
       });
     },
 
-    //訊息通知
+    //訊息通知(在對話框加入訊息)
     getMessage() {
-        this.socket.on("public chat", (obj) => {
-          console.log("msgobj", obj);
-          console.log("有沒有收到公開訊息");
-          this.Messages.push(obj);
-          this.handleScroll();
-          this.messageBottom = false;
-        });
-      
+      this.socket.on("public chat", (obj) => {
+        console.log("msgobj", obj);
+        console.log("有沒有收到公開訊息");
+        this.Messages.push(obj);
+        this.handleScroll();
+        this.messageBottom = false;
+      });
     },
 
-        //上下線通知
+    //上下線通知(在對話框加入上下線通知)
     message() {
       this.socket.on("message", (obj) => {
         this.Messages.push(obj);
@@ -111,9 +112,7 @@ export default {
       });
     },
 
-
-
-    //離開房間
+    //離開房間(離開房間訊息)
     leaveRoom() {
       if (this.roomId === 1) {
         this.socket.emit("leave", {
@@ -142,6 +141,7 @@ export default {
           type: "message",
           avatar: user.User.avatar,
           createdAt: user.createdAt,
+          uuId: uuidv4(),
           text: {
             content: user.content,
           },
@@ -163,13 +163,14 @@ export default {
 
   mounted() {
     this.debugNotice();
-    this.NoticeUser();
     this.fetchMessage();
-     this.getMessage()
-     this.message()
+    this.getMessage();
+    this.message();
+    this.NoticeUser();
+     this.enterMessage();
   },
 
-   beforeDestroy() {
+  beforeDestroy() {
     this.leaveRoom();
   },
 

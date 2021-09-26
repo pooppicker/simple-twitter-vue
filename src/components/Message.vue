@@ -1,7 +1,7 @@
 <template>
   <div class="message-part">
-    <MessageSpinner v-if="messageSpiner" />
-    <ChooseMessageSpiner v-if="chooseMessageSpiner" />
+    <MessageSpinner v-if="roomId===1 && messageSpiner" />
+    <ChooseMessageSpiner v-if="roomId!==1 && chooseMessageSpiner" />
     <div class="message-title">
       <h2 v-if="roomId === 1">公開聊天室</h2>
       <div v-else>
@@ -243,12 +243,13 @@ import { fromNowFilter } from "./../utils/mixins";
 import MessageSpinner from "./MessageSpinner.vue";
 import ChooseMessageSpiner from "./ChooseMessageSpiner.vue";
 
+
 export default {
   name: "Message",
   mixins: [fromNowFilter],
   props: {
     roomId: {
-      type: Number,
+      required: true,
     },
     initialMessage:{
       required: true
@@ -268,7 +269,7 @@ export default {
       Messages: [],
       inputMessage: "",
       messageBottom: true,
-      messageSpiner: false,
+     // messageSpiner: true,
       chooseMessageSpiner: true,
     };
   },
@@ -299,6 +300,7 @@ export default {
        this.Messages = {
          ...this.initialMessage
        }
+       
        
      
     },
@@ -358,7 +360,6 @@ export default {
   },
 
   mounted() {
-    this.message();
     this.handleScroll();
   },
 
@@ -369,6 +370,7 @@ export default {
       this.handleScroll()
       this. messageBottom = false
       this.chooseMessageSpiner = false
+      
 
     },
     deep: true, 
