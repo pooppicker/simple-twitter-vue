@@ -184,7 +184,11 @@ export default {
       this.socket.on("private chat", (obj) => {
         console.log("msgobj", obj);
         console.log("有沒有收到公開訊息");
-        this.Messages.push(obj);
+        const newMessage = {
+          ...obj,
+          uuId: uuidv4(),
+        }
+        this.Messages.push(newMessage);
         this.handleScroll();
         this.messageBottom = false;
 

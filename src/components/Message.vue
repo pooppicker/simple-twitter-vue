@@ -16,7 +16,7 @@
 
     <div class="message-show" ref="messageShowScroll">
       <!--上線-->
-      <div v-for="message in Messages" :key="message.userId">
+      <div v-for="message in Messages" :key="message.uuId">
         <div class="message-info" v-if="message.type === 'notice'">
           <p class="message-info-text">{{ message.message }}</p>
         </div>
@@ -242,6 +242,7 @@ import { fromNowFilter } from "./../utils/mixins";
 //import UserAPI from "./../apis/users";
 import MessageSpinner from "./MessageSpinner.vue";
 import ChooseMessageSpiner from "./ChooseMessageSpiner.vue";
+import { v4 as uuidv4 } from "uuid"
 
 
 export default {
@@ -297,9 +298,12 @@ export default {
 
     //增加歷史訊息
      fetchMessage() {
-       this.Messages = {
-         ...this.initialMessage
-       }
+       this.Messages =  this.initialMessage.map((user) => ({
+         ...user,
+         uuId: uuidv4(),
+
+       }))
+       
        
        
      
@@ -375,6 +379,8 @@ export default {
     },
     deep: true, 
   },
+
+
 },
 
  
