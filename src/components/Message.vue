@@ -288,11 +288,8 @@ export default {
 
     handleScroll() {
       this.$nextTick(() => {
-        console.log("我在這裡");
-        let msg = this.$refs.messageShowScroll.lastElementChild; // 获取对象
-        console.log("msg", msg);
-        console.log("msg.scrollTop", msg.scrollTop);
-        msg.scrollIntoView({ block: "end" }); // 滚动高度
+        let msg = this.$refs.messageShowScroll.lastElementChild;
+        msg.scrollIntoView({ block: "end" }); 
       });
     },
 
@@ -333,27 +330,6 @@ export default {
       }
     },
 
-    // //上下線通知
-    // message() {
-    //   this.socket.on("message", (obj) => {
-    //     this.Messages.push(obj);
-    //     this.handleScroll(); //滾輪
-    //     this.messageBottom = true;
-    //   });
-    // },
-
-
-
-    // //離開房間
-    // leaveRoom() {
-    //   if (this.roomId === 1) {
-    //     this.socket.emit("leave", {
-    //       roomId: this.roomId,
-    //     });
-    //   } else {
-    //     return;
-    //   }
-    // },
   },
 
   created() {
