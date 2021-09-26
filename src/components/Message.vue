@@ -5,8 +5,8 @@
     <div class="message-title">
       <h2 v-if="roomId === 1">公開聊天室</h2>
       <div v-else>
-        <h2 class="message-title-name">{{ otherUser.name }}</h2>
-        <div class="message-title-account">@{{ otherUser.account }}</div>
+        <h2 class="message-title-name">{{ otherUser.name ? otherUser.account : '私人聊天室' }}</h2>
+        <div class="message-title-account">@{{ otherUser.account ? otherUser.account : '請點選使用者' }}  </div>
       </div>
     </div>
     
