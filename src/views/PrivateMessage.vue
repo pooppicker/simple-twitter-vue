@@ -164,7 +164,7 @@ export default {
         const response = await MessageAPI.getUsers();
         console.log("fetchUsers", response.data);
         this.users = response.data.map((user) => ({
-          userId: user.receiverId,
+          userId: user.user.id,
           avatar: user.user.avatar,
           account: user.user.account,
           name: user.user.name,
@@ -177,51 +177,19 @@ export default {
     },
 
     //收到訊息
-     getMessage() {
-        this.socket.on("private chat", (obj) => {
-          console.log("msgobj", obj);
-          console.log("有沒有收到公開訊息");
-          this.Messages.push(obj);
-          this.handleScroll();
-          this.messageBottom = false;
-        });
-      
+    getMessage() {
+      this.socket.on("private chat", (obj) => {
+        console.log("msgobj", obj);
+        console.log("有沒有收到公開訊息");
+        this.Messages.push(obj);
+        this.handleScroll();
+        this.messageBottom = false;
+
+
+      });
     },
 
-    // //確認房間
-    // async createRoomId() {
-    //   try {
-    //     const { id } = this.$route.params;
-    //     const reponse = await UserAPI.getUser({ userID: id });
-    //     this.otherUser = reponse.data;
-    //     if (this.otherUser.id < this.currentUser.id) {
-    //       this.roomId = `${this.otherUser.id}0${this.currentUser.id}`;
-    //       this.enterMessage();
-    //     } else {
-    //       this.roomId = `${this.currentUser.id}0${this.otherUser.id}`;
-    //       this.enterMessage();
-    //     }
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // },
 
-    // //進去後傳房間給後端
-    // enterMessage() {
-    //   this.socket.emit("join", {
-    //     roomId: this.roomId,
-    //   });
-    // },
-
-    //通知哪位使用者上線/離線
-    // NoticeUser() {
-    //   this.socket.on("active users", (obj) => {
-    //     //console.log("obj", obj);
-    //     this.usersCount = obj.userCount;
-    //     this.users = obj.activeUsers;
-    //     // console.log("message:", this.users);
-    //   });
-    // },
 
     //後端確認收到訊息通知
     debugNotice() {
@@ -240,7 +208,7 @@ export default {
 
   mounted() {
     this.debugNotice();
-    this.getMessage()
+    this.getMessage();
     //this.NoticeUser();
   },
   computed: {
@@ -248,10 +216,14 @@ export default {
   },
 
   beforeRouteUpdate(to, from, next) {
-    const { id } = to.params;
-    console.log("toid", id);
-    this.createRoomId(id);
-    next();
+    if (to.name === "Private-message") {
+      const { id } = to.params;
+      console.log("toid", id);
+      this.createRoomId(id);
+      next();
+    } else {
+      next();
+    }
   },
 };
 </script>

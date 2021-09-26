@@ -80,7 +80,7 @@ export default {
       });
     },
 
-    //通知哪位使用者上線
+    //通知哪位使用者上線(中間欄位)
     NoticeUser() {
       this.socket.on("active users", (obj) => {
         //console.log("obj", obj);
@@ -90,19 +90,18 @@ export default {
       });
     },
 
-    //訊息通知
+    //訊息通知(在對話框加入訊息)
     getMessage() {
-        this.socket.on("public chat", (obj) => {
-          console.log("msgobj", obj);
-          console.log("有沒有收到公開訊息");
-          this.Messages.push(obj);
-          this.handleScroll();
-          this.messageBottom = false;
-        });
-      
+      this.socket.on("public chat", (obj) => {
+        console.log("msgobj", obj);
+        console.log("有沒有收到公開訊息");
+        this.Messages.push(obj);
+        this.handleScroll();
+        this.messageBottom = false;
+      });
     },
 
-        //上下線通知
+    //上下線通知(在對話框加入上下線通知)
     message() {
       this.socket.on("message", (obj) => {
         this.Messages.push(obj);
@@ -111,9 +110,7 @@ export default {
       });
     },
 
-
-
-    //離開房間
+    //離開房間(離開房間訊息)
     leaveRoom() {
       if (this.roomId === 1) {
         this.socket.emit("leave", {
@@ -163,13 +160,13 @@ export default {
 
   mounted() {
     this.debugNotice();
-    this.NoticeUser();
     this.fetchMessage();
-     this.getMessage()
-     this.message()
+    this.getMessage();
+    this.message();
+    this.NoticeUser();
   },
 
-   beforeDestroy() {
+  beforeDestroy() {
     this.leaveRoom();
   },
 
