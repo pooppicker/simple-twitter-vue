@@ -201,6 +201,7 @@ export default {
             user.content = newMessage.text.content;
             user.createdAt = newMessage.createdAt;
           } else if (user.userId !== this.otherUser.id) {
+            this.fetchUsers()
             //如果收到的訊息非正在對話的訊息，僅考慮收件
             if (user.userId === newMessage.userId) {
               user.content = newMessage.text.content;
@@ -214,6 +215,9 @@ export default {
         this.messageBottom = false;
       });
     },
+
+    //判斷是否為第一次進去聊天室的人
+ 
 
     //後端確認收到訊息通知
     //   debugNotice() {
