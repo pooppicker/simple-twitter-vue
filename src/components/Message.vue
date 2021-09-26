@@ -1,5 +1,7 @@
 <template>
   <div class="message-part">
+    <MessageSpinner v-if="messageSpiner"/>
+    <ChooseMessageSpiner v-if="chooseMessageSpiner"/>
     <div class="message-title">
       <h2 v-if="roomId === 1">公開聊天室</h2>
       <div v-else>
@@ -7,7 +9,9 @@
         <div class="message-title-account">@{{ otherUser.account }}</div>
       </div>
     </div>
+    
     <div class="message-show" ref="messageShowScroll">
+      
       <!--上線-->
       <div v-for="message in Messages" :key="message.userId">
         <div class="message-info" v-if="message.type === 'notice'">
@@ -66,6 +70,7 @@
 @import "../assets/scss/colorAndSize.scss";
 @import "../assets/scss/efficientSetting.scss";
 .message-part {
+
   position: relative;
   height: 100vh;
   border-left: $color-message-gray 1px solid;
@@ -77,6 +82,7 @@
 
   .message-title {
     display: flex;
+    border-left: $color-message-gray 1px solid;
     align-items: center;
     padding-left: 15px;
     //padding-top: 13px;
@@ -206,10 +212,12 @@
 //手機板
 @media screen and (max-width: 768px) {
   .message-part {
+    
     .message-title {
       top:59px;
       background-color: $color-orange;
       color: white;
+      z-index: 8;
     }
     .message-show {
       margin: 150px 0 55px 0;
@@ -224,9 +232,6 @@
 </style>
 
 
-
-
-
 <script>
 import IconSendMessage from "./../components/icons/IconSendMessage.vue";
 import { io } from "socket.io-client";
@@ -234,6 +239,9 @@ import { mapState } from "vuex";
 import MessageAPI from "./../apis/message";
 import { fromNowFilter } from "./../utils/mixins";
 import UserAPI from "./../apis/users";
+import MessageSpinner from "./MessageSpinner.vue";
+import ChooseMessageSpiner from "./ChooseMessageSpiner.vue";
+
 
 export default {
   name: "Message",
@@ -245,6 +253,8 @@ export default {
   },
   components: {
     IconSendMessage,
+    MessageSpinner,
+    ChooseMessageSpiner
   },
   data() {
     return {
@@ -254,6 +264,8 @@ export default {
       roomId: "",
       otherUser: "",
       messageBottom: true,
+      messageSpiner: false,
+      chooseMessageSpiner: false
     };
   },
 
@@ -269,15 +281,23 @@ export default {
     //確認房間
     async createRoomId() {
       try {
+        
         if (this.initialRoomId === 1) {
+        
           this.roomId = this.initialRoomId;
           this.enterMessage();
           this.fetchMessage(); //取得歷史訊息
+         
 
           return;
         }
+        this.chooseMessageSpiner= true
 
         const { id } = this.$route.params;
+        if(id === "home"){
+          return
+        } 
+        this.chooseMessageSpiner= false
         const reponse = await UserAPI.getUser({ userID: id });
         this.otherUser = reponse.data;
         if (this.otherUser.id < this.currentUser.id) {

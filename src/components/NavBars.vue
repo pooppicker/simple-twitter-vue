@@ -32,7 +32,7 @@
           </li>
           
           <li>
-            <router-link class="d-flex nav-link" to="/twitter/home">
+            <router-link class="d-flex nav-link" to="/twitter/message/private/home">
               <IconPublic />
               <h4>私人訊息</h4>
             </router-link>
@@ -201,7 +201,7 @@ export default {
     width: 100vw;
     background-color: white;
     top: 0;
-    z-index: 6;
+    z-index: 9;
     padding-left: 1em;
     margin: 0 0 0 0;
     justify-content: stretch;
@@ -209,12 +209,14 @@ export default {
     .logout {
       display: flex;
       flex-direction: row;
+      margin-right: 2%;
       .navigation {
         margin: 0 0 0 20px;
         display: flex;
       }
 
       .ac-logo {
+        margin-right: 0px;
         transform: translate(0, 6px);
       }
       .nav-link {
@@ -228,9 +230,9 @@ export default {
         }
       }
       .nav-icon {
-        width: 50px;
-        height: 50px;
-        margin: 0 30% 0 20%;
+        width: 30px;
+        height: 30px;
+        margin: 0 10% 0 10%;
         transform: translate(0, -1px);
       }
     }
@@ -238,11 +240,13 @@ export default {
       flex: 1;
       .navigation {
         width: 100%;
+        
         justify-content: space-between;
         .post-button {
           background-color: rgba(0, 0, 0, 0);
           border: solid 1px $color-orange;
           color: $color-orange;
+          margin-right: 2%;
 
           width: 20%;
           h4 {

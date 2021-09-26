@@ -14,14 +14,23 @@
           <!--底下跑v-for迴圈-->
           <div v-for="user in users" :key="user.id">
             <div class="public-users-content-card">
+               <router-link
+                :to="{ name: 'User', params: { id: user.id } }"
+                >
               <img class="public-users-content-img" :src="user.avatar" />
+              </router-link>
               <div class="public-users-content-text">
+                 <router-link
+                :to="{ name: 'User', params: { id: user.id } }"
+                >
                 <div class="public-users-content-text-name">
                   {{ user.name }}
                 </div>
+                 </router-link>
                 <div class="public-users-content-text-account">
                   @{{ user.account }}
                 </div>
+                
               </div>
             </div>
           </div>
@@ -120,10 +129,11 @@ export default {
 
 .public-users {
   border-left: 1px solid #e6ecf0;
+ border-right: 1px solid #e6ecf0;
   height: 100vh;
   margin-left: 1.5em;
   background-color: white;
-  z-index: 6;
+  z-index: 5;
   //outline: black 1px solid;
   overflow: scroll;
   position: relative;
@@ -131,6 +141,7 @@ export default {
     display: none;
   }
   &-title {
+    
     padding-left: 15px;
     padding-top: 13px;
     position: fixed;
@@ -187,7 +198,8 @@ export default {
   }
   .public-users {
     border-bottom: $color-message-gray 2px solid;
-    z-index: 6;
+   
+    z-index: 7;
     width: 100%;
     height: 120px;
     position: fixed;
