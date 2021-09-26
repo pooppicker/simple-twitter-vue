@@ -16,7 +16,7 @@
 
     <div class="message-show" ref="messageShowScroll">
       <!--上線-->
-      <div v-for="message in Messages" :key="message.userId">
+      <div v-for="message in Messages" :key="message.uuId">
         <div class="message-info" v-if="message.type === 'notice'">
           <p class="message-info-text">{{ message.message }}</p>
         </div>
@@ -242,6 +242,7 @@ import { fromNowFilter } from "./../utils/mixins";
 //import UserAPI from "./../apis/users";
 import MessageSpinner from "./MessageSpinner.vue";
 import ChooseMessageSpiner from "./ChooseMessageSpiner.vue";
+import { v4 as uuidv4 } from "uuid"
 
 
 export default {
@@ -287,19 +288,19 @@ export default {
 
     handleScroll() {
       this.$nextTick(() => {
-        console.log("我在這裡");
-        let msg = this.$refs.messageShowScroll.lastElementChild; // 获取对象
-        console.log("msg", msg);
-        console.log("msg.scrollTop", msg.scrollTop);
-        msg.scrollIntoView({ block: "end" }); // 滚动高度
+        let msg = this.$refs.messageShowScroll.lastElementChild;
+        msg.scrollIntoView({ block: "end" }); 
       });
     },
 
     //增加歷史訊息
      fetchMessage() {
-       this.Messages = {
-         ...this.initialMessage
-       }
+       this.Messages =  this.initialMessage.map((user) => ({
+         ...user,
+         uuId: uuidv4(),
+
+       }))
+       
        
        
      
@@ -329,27 +330,6 @@ export default {
       }
     },
 
-    // //上下線通知
-    // message() {
-    //   this.socket.on("message", (obj) => {
-    //     this.Messages.push(obj);
-    //     this.handleScroll(); //滾輪
-    //     this.messageBottom = true;
-    //   });
-    // },
-
-
-
-    // //離開房間
-    // leaveRoom() {
-    //   if (this.roomId === 1) {
-    //     this.socket.emit("leave", {
-    //       roomId: this.roomId,
-    //     });
-    //   } else {
-    //     return;
-    //   }
-    // },
   },
 
   created() {
@@ -375,6 +355,8 @@ export default {
     },
     deep: true, 
   },
+
+
 },
 
  
