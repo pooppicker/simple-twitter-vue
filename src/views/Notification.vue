@@ -10,8 +10,8 @@
         <Notifications />
       </div>
       <div class="myfollowing">
-        <MyFollowing v-if="isMore" :isMore ="false" />
-        <MoreFollowing v-else />
+        <MyFollowing v-if="isMore" />
+        <MoreFollowing v-else :onClick="showMore" />
       </div>
     </div>
   </div>
@@ -32,6 +32,11 @@ export default {
   data() {
     return {
       isMore: false
+    }
+  },
+  methods: {
+    showMore() {
+      this.isMore = true
     }
   }
 }

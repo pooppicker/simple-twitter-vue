@@ -40,7 +40,7 @@
             </div>
           </div>
         </div>
-        <button class="show-more">顯示更多</button>
+        <button class="show-more" @click="onClick">顯示更多</button>
       </div>
     </div>
   </div>
@@ -56,13 +56,15 @@ import { popularAccountLengthFilter } from "./../utils/mixins";
 export default {
   mixins: [popularNameLengthFilter, popularAccountLengthFilter],
   props: {
-    isMore: {
-      type: Boolean,
+    onClick: {
+      type: Function,
+      required: true
     },
   },
   data() {
     return {
       topUsers: [],
+      
     };
   },
   methods: {
