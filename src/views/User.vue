@@ -35,7 +35,12 @@
               編輯個人資料
             </button>
             <template v-else>
+              <router-link
+                :to="{ name: 'Private-message', params: { id: profile.id } }"
+                >
               <IconMsg class="other-user-btn" />
+              </router-link>
+            
               <div
                 v-if="!profile.isNotified"
                 @click.stop.prevent="ChangeNotified"
