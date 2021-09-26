@@ -289,7 +289,7 @@ export default {
 .middle-container {
   border-left: 1px solid #e6ecf0;
   height: 100vh;
-  margin-left: 2%;
+  margin-left: 1.5em;
   //outline: black 1px solid;
   overflow: scroll;
   position: relative;
