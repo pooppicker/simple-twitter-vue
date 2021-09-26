@@ -327,27 +327,27 @@ export default {
       }
     },
 
-    //上下線通知
-    message() {
-      this.socket.on("message", (obj) => {
-        this.Messages.push(obj);
-        this.handleScroll(); //滾輪
-        this.messageBottom = true;
-      });
-    },
+    // //上下線通知
+    // message() {
+    //   this.socket.on("message", (obj) => {
+    //     this.Messages.push(obj);
+    //     this.handleScroll(); //滾輪
+    //     this.messageBottom = true;
+    //   });
+    // },
 
 
 
-    //離開房間
-    leaveRoom() {
-      if (this.roomId === 1) {
-        this.socket.emit("leave", {
-          roomId: this.roomId,
-        });
-      } else {
-        return;
-      }
-    },
+    // //離開房間
+    // leaveRoom() {
+    //   if (this.roomId === 1) {
+    //     this.socket.emit("leave", {
+    //       roomId: this.roomId,
+    //     });
+    //   } else {
+    //     return;
+    //   }
+    // },
   },
 
   created() {
@@ -377,10 +377,7 @@ export default {
 
  
 
-  beforeDestroy() {
-    this.leaveRoom();
-  },
-
+ 
  
 
 

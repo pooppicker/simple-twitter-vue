@@ -102,6 +102,28 @@ export default {
       
     },
 
+        //上下線通知
+    message() {
+      this.socket.on("message", (obj) => {
+        this.Messages.push(obj);
+        this.handleScroll(); //滾輪
+        this.messageBottom = true;
+      });
+    },
+
+
+
+    //離開房間
+    leaveRoom() {
+      if (this.roomId === 1) {
+        this.socket.emit("leave", {
+          roomId: this.roomId,
+        });
+      } else {
+        return;
+      }
+    },
+
     //後端確認收到訊息通知
     debugNotice() {
       this.socket.on("debug notice", (obj) => {
@@ -144,7 +166,13 @@ export default {
     this.NoticeUser();
     this.fetchMessage();
      this.getMessage()
+     this.message()
   },
+
+   beforeDestroy() {
+    this.leaveRoom();
+  },
+
 };
 </script>
 
