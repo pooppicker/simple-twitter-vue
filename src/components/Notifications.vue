@@ -4,6 +4,7 @@
       <h4>通知</h4>
     </div>
     <hr>
+    <div class="noti-content-part">
     <div class="noti-content">
       <img class="noti-avatar" src="https://i.ytimg.com/vi/Q9o4MumeWj8/maxresdefault.jpg" alt="">
       <h6 class="noti-new">JoJo 有新的推文通知</h6>
@@ -31,15 +32,18 @@
       <img class="noti-avatar" src="https://i.ytimg.com/vi/Q9o4MumeWj8/maxresdefault.jpg" alt="">
       <h6 class="noti-new">JoJo 喜歡你的貼文</h6>
     </div>
+    </div>
   </div>
 </template>
 
 <style lang="scss">
+@import "../assets/scss/colorAndSize.scss";
 .notification-area {
+  margin-left: 1.5em;
   height: 100vh;
   width: 100%;
   border-left: 1px solid #e6ecf0;
-  border-right: 1px solid #e6ecf0;
+  //border-right: 1px solid #e6ecf0;
   overflow: scroll;
   &::-webkit-scrollbar {
     display: none;
@@ -68,6 +72,23 @@
       font-size: -15px;
       cursor: pointer;
     }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .notification-area {
+    margin-left: 0px;
+    margin-top:55px;
+    .noti-title {
+      position: fixed;
+      width: 100%;
+      background-color: $color-orange ;
+      color: white;
+    }
+    .noti-content-part {
+      margin-top: 40px;
+    }
+    
   }
 }
 </style>

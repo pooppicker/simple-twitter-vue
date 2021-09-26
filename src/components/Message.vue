@@ -248,7 +248,7 @@ export default {
   mixins: [fromNowFilter],
   props: {
     initialRoomId: {
-      required: true,
+      type: Number,
     },
   },
   components: {

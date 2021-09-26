@@ -50,6 +50,7 @@ import Message from "./../components/Message.vue";
 import { io } from "socket.io-client";
 import UserAPI from "./../apis/users";
 import { mapState } from "vuex";
+import MessageAPI from "./../apis/message";
 
 export default {
   name: "Public-message",
@@ -75,6 +76,18 @@ export default {
       this.socket = io("https://twitter-apis-demo.herokuapp.com", {
         auth: { token: tokenInLocalStorage },
       });
+    },
+
+    //呼叫列表確認有沒有進去房間
+    async fetchUsers() {
+      try {
+         const reponse = await MessageAPI.getUsers();
+         console.log('fetchUsers',reponse.data)
+
+      } catch(error) {
+        console.log(error)
+      }
+     
     },
 
     //確認房間
@@ -123,6 +136,7 @@ export default {
   created() {
     this.createRoomId();
     this.createdSocket();
+    this.fetchUsers()
   },
 
   mounted() {
@@ -234,7 +248,7 @@ export default {
   }
   .public-users {
     border-bottom: $color-message-gray 2px solid;
-    z-index: 6;
+    z-index: 8;
     width: 100%;
     height: 120px;
     position: fixed;

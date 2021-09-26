@@ -153,12 +153,14 @@ export default {
   // border-left: 1px solid #e6ecf0;
   position: relative;
   background-color: white;
+  //border-left: 1px solid #e6ecf0;
   z-index: 5;
   // height: 100vh;
   margin-right: 20px;
   padding-left: 2%;
   padding-top: 14px;
-  // overflow: scroll;
+  height: 100vh;
+  overflow: hidden;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -187,7 +189,9 @@ export default {
       .user-card {
         min-height: 10%;
         border-bottom: 1px solid #e6ecf0;
+        //padding-top:8px ;
         .user-info {
+          padding-top:10px ;
           margin: 0 15px;
           justify-content: space-between;
           .user {
@@ -247,7 +251,7 @@ hr {
 //手機版
 
 @media screen and (max-width: 1200px) {
-  .card {
+  .m-card {
     .btn {
       display: none;
     }
