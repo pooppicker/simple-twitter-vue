@@ -13,7 +13,7 @@
         </div>
         <div class="public-users-content">
           <!--底下跑v-for迴圈-->
-          <div v-for="user in users" :key="user.id">
+          <div v-for="user in users" :key="user.uuId">
             <div class="public-users-content-card">
               <router-link
                 :to="{ name: 'Private-message', params: { id: user.userId } }"
@@ -75,9 +75,11 @@ import { mapState } from "vuex";
 import MessageAPI from "./../apis/message";
 import IconAddMessage from "../components/icons/IconAddMessage.vue";
 import { fromNowFilter } from "./../utils/mixins";
+import { v4 as uuidv4 } from "uuid"
 
 export default {
-  name: "Public-message",
+  name: "Private-message",
+  
   mixins: [fromNowFilter],
   components: {
     NavBars,
@@ -145,6 +147,7 @@ export default {
           type: "message",
           avatar: user.User.avatar,
           createdAt: user.createdAt,
+          uuId: uuidv4(),
           text: {
             content: user.content,
           },

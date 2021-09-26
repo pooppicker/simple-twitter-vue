@@ -243,12 +243,13 @@ import { fromNowFilter } from "./../utils/mixins";
 import MessageSpinner from "./MessageSpinner.vue";
 import ChooseMessageSpiner from "./ChooseMessageSpiner.vue";
 
+
 export default {
   name: "Message",
   mixins: [fromNowFilter],
   props: {
     roomId: {
-      type: Number,
+      required: true,
     },
     initialMessage:{
       required: true
