@@ -75,11 +75,11 @@ import { mapState } from "vuex";
 import MessageAPI from "./../apis/message";
 import IconAddMessage from "../components/icons/IconAddMessage.vue";
 import { fromNowFilter } from "./../utils/mixins";
-import { v4 as uuidv4 } from "uuid"
+import { v4 as uuidv4 } from "uuid";
 
 export default {
   name: "Private-message",
-  
+
   mixins: [fromNowFilter],
   components: {
     NavBars,
@@ -163,7 +163,7 @@ export default {
 
     async fetchUsers() {
       try {
-        console.log("有到這裡");
+        //console.log("有到這裡");
         const response = await MessageAPI.getUsers();
         console.log("fetchUsers", response.data);
         this.users = response.data.map((user) => ({
@@ -182,38 +182,45 @@ export default {
     //收到訊息
     getMessage() {
       this.socket.on("private chat", (obj) => {
-       // console.log("msgobj", obj);
+        // console.log("msgobj", obj);
         //console.log("有沒有收到公開訊息");
         const newMessage = {
           ...obj,
           uuId: uuidv4(),
-        }
+        };
         this.Messages.push(newMessage);
         this.users.map((user) => {
-          console.log('user',user)
-          console.log('newMessage.text.UserId',newMessage)
-          // if(user.userID === newMessage.text.UserId) {
-          //   console.log(user.userID)
-          //   user.content = newMessage.text.content
-          // } else {
-          //   return
-          // }
-        })
-       
+          // console.log('user',user)
+          // console.log('userId',user.userId)
+          // console.log('newMessage.userId',newMessage.userId)
+
+          //如果收到的訊息是正在對話的訊息，不考慮收件人與寄件人問題
+          if (user.userId === this.otherUser.id) {
+            console.log("newMessage", newMessage);
+            console.log("user", user);
+            user.content = newMessage.text.content;
+            user.createdAt = newMessage.createdAt;
+          } else if (user.userId !== this.otherUser.id) {
+            //如果收到的訊息非正在對話的訊息，僅考慮收件
+            if (user.userId === newMessage.userId) {
+              user.content = newMessage.text.content;
+              user.createdAt = newMessage.createdAt;
+            }
+          } else {
+            return;
+          }
+        });
+
         this.messageBottom = false;
-
-
       });
     },
-
-
 
     //後端確認收到訊息通知
-    debugNotice() {
-      this.socket.on("debug notice", (obj) => {
-        console.log(obj);
-      });
-    },
+    //   debugNotice() {
+    //     this.socket.on("debug notice", (obj) => {
+    //       console.log(obj);
+    //     });
+    //   },
   },
 
   created() {
@@ -224,7 +231,7 @@ export default {
   },
 
   mounted() {
-    this.debugNotice();
+    // this.debugNotice();
     this.getMessage();
     //this.NoticeUser();
   },
@@ -327,6 +334,13 @@ export default {
         margin-top: 1px;
         font-size: 15px;
         color: $color-gray;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        white-space: normal;
       }
     }
   }
