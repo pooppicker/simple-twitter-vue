@@ -1,17 +1,20 @@
 <template>
   <div class="message-part">
-    <MessageSpinner v-if="messageSpiner"/>
-    <ChooseMessageSpiner v-if="chooseMessageSpiner"/>
+    <MessageSpinner v-if="messageSpiner" />
+    <ChooseMessageSpiner v-if="chooseMessageSpiner" />
     <div class="message-title">
       <h2 v-if="roomId === 1">公開聊天室</h2>
       <div v-else>
-        <h2 class="message-title-name">{{ otherUser.name ? otherUser.account : '私人聊天室' }}</h2>
-        <div class="message-title-account">@{{ otherUser.account ? otherUser.account : '請點選使用者' }}  </div>
+        <h2 class="message-title-name">
+          {{ otherUser.name ? otherUser.account : "私人聊天室" }}
+        </h2>
+        <div class="message-title-account">
+          @{{ otherUser.account ? otherUser.account : "請點選使用者" }}
+        </div>
       </div>
     </div>
-    
+
     <div class="message-show" ref="messageShowScroll">
-      
       <!--上線-->
       <div v-for="message in Messages" :key="message.userId">
         <div class="message-info" v-if="message.type === 'notice'">
@@ -70,7 +73,6 @@
 @import "../assets/scss/colorAndSize.scss";
 @import "../assets/scss/efficientSetting.scss";
 .message-part {
-
   position: relative;
   height: 100vh;
   border-left: $color-message-gray 1px solid;
@@ -212,9 +214,8 @@
 //手機板
 @media screen and (max-width: 768px) {
   .message-part {
-    
     .message-title {
-      top:59px;
+      top: 59px;
       background-color: $color-orange;
       color: white;
       z-index: 8;
@@ -236,36 +237,39 @@
 import IconSendMessage from "./../components/icons/IconSendMessage.vue";
 import { io } from "socket.io-client";
 import { mapState } from "vuex";
-import MessageAPI from "./../apis/message";
+//import MessageAPI from "./../apis/message";
 import { fromNowFilter } from "./../utils/mixins";
-import UserAPI from "./../apis/users";
+//import UserAPI from "./../apis/users";
 import MessageSpinner from "./MessageSpinner.vue";
 import ChooseMessageSpiner from "./ChooseMessageSpiner.vue";
-
 
 export default {
   name: "Message",
   mixins: [fromNowFilter],
   props: {
-    initialRoomId: {
+    roomId: {
       type: Number,
     },
+    initialMessage:{
+      required: true
+    },
+    otherUser: {
+      type: Object
+    }
   },
   components: {
     IconSendMessage,
     MessageSpinner,
-    ChooseMessageSpiner
+    ChooseMessageSpiner,
   },
   data() {
     return {
       socket: [],
       Messages: [],
       inputMessage: "",
-      roomId: "",
-      otherUser: "",
       messageBottom: true,
       messageSpiner: false,
-      chooseMessageSpiner: false
+      chooseMessageSpiner: true,
     };
   },
 
@@ -278,48 +282,7 @@ export default {
       });
     },
 
-    //確認房間
-    async createRoomId() {
-      try {
-        
-        if (this.initialRoomId === 1) {
-        
-          this.roomId = this.initialRoomId;
-          this.enterMessage();
-          this.fetchMessage(); //取得歷史訊息
-         
-
-          return;
-        }
-        this.chooseMessageSpiner= true
-
-        const { id } = this.$route.params;
-        if(id === "home"){
-          return
-        } 
-        this.chooseMessageSpiner= false
-        const reponse = await UserAPI.getUser({ userID: id });
-        this.otherUser = reponse.data;
-        if (this.otherUser.id < this.currentUser.id) {
-          this.roomId = `${this.otherUser.id}0${this.currentUser.id}`;
-          this.enterMessage();
-          this.fetchMessage(); //取得歷史訊息
-        } else {
-          this.roomId = `${this.currentUser.id}0${this.otherUser.id}`;
-          this.enterMessage();
-          this.fetchMessage();
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    },
-
-    //進去後傳房間給後端
-    enterMessage() {
-      this.socket.emit("join", {
-        roomId: this.roomId,
-      });
-    },
+    
 
     handleScroll() {
       this.$nextTick(() => {
@@ -332,28 +295,12 @@ export default {
     },
 
     //增加歷史訊息
-    async fetchMessage() {
-      try {
-        const response = await MessageAPI.getMessage({
-          roomId: this.roomId,
-        });
-        this.Messages = response.data.map((user) => ({
-          userId: user.User.id,
-          type: "message",
-          avatar: user.User.avatar,
-          createdAt: user.createdAt,
-          text: {
-            content: user.content,
-          },
-        }));
-
-        this.Messages.push(response.data);
-        this.handleScroll(); //滾輪
-        this.messageBottom = false
-
-      } catch (error) {
-        console.log(error);
-      }
+     fetchMessage() {
+       this.Messages = {
+         ...this.initialMessage
+       }
+       
+     
     },
 
     //傳訊息給後端
@@ -371,6 +318,7 @@ export default {
         this.inputMessage = "";
       } else {
         this.socket.emit("private chat", {
+          receiverId: this.otherUser.id,
           UserId: this.currentUser.id,
           roomId: this.roomId,
           content: this.inputMessage,
@@ -388,25 +336,7 @@ export default {
       });
     },
 
-    //訊息通知
-    getMessage() {
-      if (this.roomId === 1) {
-        this.socket.on("public chat", (obj) => {
-          console.log("msgobj", obj);
-          console.log("有沒有收到公開訊息");
-          this.Messages.push(obj);
-          this.handleScroll();
-          this.messageBottom = false;
-        });
-      } else {
-        this.socket.on("private chat", (obj) => {
-          console.log("有沒有收到私訊");
-          this.Messages.push(obj);
-          this.handleScroll();
-          this.messageBottom = false;
-        });
-      }
-    },
+
 
     //離開房間
     leaveRoom() {
@@ -421,19 +351,39 @@ export default {
   },
 
   created() {
+    //const { id } = this.$route.params;
     this.createdSocket();
-    this.createRoomId();
+     this.fetchMessage()
+    //this.createRoomId(id);
   },
 
   mounted() {
     this.message();
-    this.getMessage();
     this.handleScroll();
   },
+
+  watch: {
+  initialMessage: {
+    handler: function () {
+      this.fetchMessage()
+      this.handleScroll()
+      this. messageBottom = false
+      this.chooseMessageSpiner = false
+
+    },
+    deep: true, 
+  },
+},
+
+ 
 
   beforeDestroy() {
     this.leaveRoom();
   },
+
+ 
+
+
 
   computed: {
     ...mapState(["currentUser"]),

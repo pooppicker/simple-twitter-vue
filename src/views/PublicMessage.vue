@@ -14,23 +14,19 @@
           <!--底下跑v-for迴圈-->
           <div v-for="user in users" :key="user.id">
             <div class="public-users-content-card">
-               <router-link
-                :to="{ name: 'User', params: { id: user.id } }"
-                >
-              <img class="public-users-content-img" :src="user.avatar" />
+              <router-link :to="{ name: 'User', params: { id: user.id } }">
+                <img class="public-users-content-img" :src="user.avatar" />
               </router-link>
+
               <div class="public-users-content-text">
-                 <router-link
-                :to="{ name: 'User', params: { id: user.id } }"
-                >
-                <div class="public-users-content-text-name">
-                  {{ user.name }}
-                </div>
-                 </router-link>
+                <router-link :to="{ name: 'User', params: { id: user.id } }">
+                  <div class="public-users-content-text-name">
+                    {{ user.name }}
+                  </div>
+                </router-link>
                 <div class="public-users-content-text-account">
                   @{{ user.account }}
                 </div>
-                
               </div>
             </div>
           </div>
@@ -39,7 +35,7 @@
       </div>
       <!--公開聊天室-->
       <div class="public-messages">
-        <Message :initialRoomId="roomId" />
+        <Message :roomId="roomId" :initialMessage="Messages" />
       </div>
     </div>
   </div>
@@ -49,6 +45,8 @@
 import NavBars from "./../components/NavBars";
 import Message from "./../components/Message.vue";
 import { io } from "socket.io-client";
+import MessageAPI from "./../apis/message";
+//import UserAPI from "./../apis/users";
 
 export default {
   name: "Public-message",
@@ -63,6 +61,7 @@ export default {
       users: [],
       usersCount: 0,
       roomId: 1,
+      Messages: [],
     };
   },
 
@@ -73,6 +72,7 @@ export default {
         auth: { token: tokenInLocalStorage },
       });
     },
+
     //進去後傳房間給後端
     enterMessage() {
       this.socket.emit("join", {
@@ -80,7 +80,7 @@ export default {
       });
     },
 
-    //通知哪位使用者上線/離線
+    //通知哪位使用者上線
     NoticeUser() {
       this.socket.on("active users", (obj) => {
         //console.log("obj", obj);
@@ -90,11 +90,47 @@ export default {
       });
     },
 
+    //訊息通知
+    getMessage() {
+        this.socket.on("public chat", (obj) => {
+          console.log("msgobj", obj);
+          console.log("有沒有收到公開訊息");
+          this.Messages.push(obj);
+          this.handleScroll();
+          this.messageBottom = false;
+        });
+      
+    },
+
     //後端確認收到訊息通知
     debugNotice() {
       this.socket.on("debug notice", (obj) => {
         console.log(obj);
       });
+    },
+
+    //取得歷史訊息
+    async fetchMessage() {
+      try {
+        const response = await MessageAPI.getMessage({
+          roomId: this.roomId,
+        });
+        this.Messages = response.data.map((user) => ({
+          userId: user.User.id,
+          type: "message",
+          avatar: user.User.avatar,
+          createdAt: user.createdAt,
+          text: {
+            content: user.content,
+          },
+        }));
+
+        this.Messages.push(response.data);
+        this.handleScroll(); //滾輪
+        this.messageBottom = false;
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 
@@ -106,6 +142,8 @@ export default {
   mounted() {
     this.debugNotice();
     this.NoticeUser();
+    this.fetchMessage();
+     this.getMessage()
   },
 };
 </script>
@@ -129,7 +167,7 @@ export default {
 
 .public-users {
   border-left: 1px solid #e6ecf0;
- border-right: 1px solid #e6ecf0;
+  border-right: 1px solid #e6ecf0;
   height: 100vh;
   margin-left: 1.5em;
   background-color: white;
@@ -141,7 +179,6 @@ export default {
     display: none;
   }
   &-title {
-    
     padding-left: 15px;
     padding-top: 13px;
     position: fixed;
@@ -198,7 +235,7 @@ export default {
   }
   .public-users {
     border-bottom: $color-message-gray 2px solid;
-   
+
     z-index: 7;
     width: 100%;
     height: 120px;

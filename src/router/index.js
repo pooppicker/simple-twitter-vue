@@ -100,6 +100,13 @@ const routes = [
   },
 
   {
+    path: "/twitter/message/private/:id",
+    name: "Private-message",
+    component: () => import('../views/PrivateMessage.vue'),
+
+  },
+
+  {
     path: "/twitter/message/public",
     name: "Public-message",
     component: () => import('../views/PublicMessage.vue'),
@@ -113,12 +120,7 @@ const routes = [
     
   },
 
-  {
-    path: "/twitter/message/private/:id",
-    name: "Private-message",
-    component: () => import('../views/PrivateMessage.vue'),
 
-  },
 
 
   {

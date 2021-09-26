@@ -13,9 +13,9 @@
 .home-spinner-content {
   border-left: $color-message-gray 1px solid;
   padding: 35vh 0;
-  width: 100%;
-  height: 100%;
-  position: absolute;
+  width: 50%;
+  height: 100vh;
+  position: fixed;
   background-color: white;
   flex-direction: column;
   z-index: 7;
