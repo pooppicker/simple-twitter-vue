@@ -95,14 +95,14 @@ export default {
     //訊息通知(在對話框加入訊息)
     getMessage() {
       this.socket.on("public chat", (obj) => {
-        console.log("msgobj", obj);
+        //console.log("msgobj", obj);
         console.log("有沒有收到公開訊息");
            const newMessage = {
           ...obj,
           uuId: uuidv4(),
         }
         this.Messages.push(newMessage);
-        this.handleScroll();
+        //this.handleScroll();
         this.messageBottom = false;
       });
     },
@@ -111,7 +111,7 @@ export default {
     message() {
       this.socket.on("message", (obj) => {
         this.Messages.push(obj);
-        this.handleScroll(); //滾輪
+        //this.handleScroll(); //滾輪
         this.messageBottom = true;
       });
     },
@@ -152,7 +152,7 @@ export default {
         }));
 
         this.Messages.push(response.data);
-        this.handleScroll(); //滾輪
+        //this.handleScroll(); //滾輪
         this.messageBottom = false;
       } catch (error) {
         console.log(error);
@@ -171,7 +171,7 @@ export default {
     this.getMessage();
     this.message();
     this.NoticeUser();
-     this.enterMessage();
+    
   },
 
   beforeDestroy() {

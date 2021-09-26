@@ -154,7 +154,7 @@ export default {
         }));
 
         this.Messages.push(response.data);
-        this.handleScroll(); //滾輪
+        //this.handleScroll(); //滾輪
         this.messageBottom = false;
       } catch (error) {
         console.log(error);
@@ -182,14 +182,24 @@ export default {
     //收到訊息
     getMessage() {
       this.socket.on("private chat", (obj) => {
-        console.log("msgobj", obj);
-        console.log("有沒有收到公開訊息");
+       // console.log("msgobj", obj);
+        //console.log("有沒有收到公開訊息");
         const newMessage = {
           ...obj,
           uuId: uuidv4(),
         }
         this.Messages.push(newMessage);
-        this.handleScroll();
+        this.users.map((user) => {
+          console.log('user',user)
+          console.log('newMessage.text.UserId',newMessage)
+          // if(user.userID === newMessage.text.UserId) {
+          //   console.log(user.userID)
+          //   user.content = newMessage.text.content
+          // } else {
+          //   return
+          // }
+        })
+       
         this.messageBottom = false;
 
 
