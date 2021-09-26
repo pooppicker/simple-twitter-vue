@@ -33,6 +33,7 @@
           
           <li>
             <router-link class="d-flex nav-link" to="/twitter/message/private/home">
+            <div class="message-notce"></div>
               <IconPublic />
               <h4>私人訊息</h4>
             </router-link>
@@ -202,7 +203,7 @@ export default {
     background-color: white;
     top: 0;
     z-index: 9;
-    padding-left: 1em;
+    padding-left: 0em;
     margin: 0 0 0 0;
     justify-content: stretch;
     .nav-top,
@@ -211,13 +212,14 @@ export default {
       flex-direction: row;
       margin-right: 2%;
       .navigation {
-        margin: 0 0 0 20px;
+        margin: 0 0 0 10px;
         display: flex;
       }
 
       .ac-logo {
         margin-right: 0px;
         transform: translate(0, 6px);
+        display: none;
       }
       .nav-link {
         width: 100%;
@@ -230,9 +232,9 @@ export default {
         }
       }
       .nav-icon {
-        width: 30px;
-        height: 30px;
-        margin: 0 10% 0 10%;
+        width: 35px;
+        height:350px;
+        margin: 0 20% 0 0;
         transform: translate(0, -1px);
       }
     }

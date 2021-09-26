@@ -55,7 +55,22 @@ export default {
   }
   .myfollowing {
     height: 100vh;
-    border-right: 1px solid #e6ecf0;
+    border-left: 1px solid #e6ecf0;
   }
 }
+
+@media screen and (max-width: 768px) {
+  .noti-container {
+    height: 100%;
+    h5 {
+      font-size: 15px;
+    }
+    .notification {
+      grid-template-columns: 1fr;
+      grid-template-rows: 5fr 20fr;
+    }
+    }
+
+    
+    }
 </style>

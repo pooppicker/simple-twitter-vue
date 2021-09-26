@@ -10,4 +10,12 @@ export default {
     })
   },
 
+  getUsers() {
+    return apiHelper.get('/messages/privateMessages', {
+      headers: {
+        Authorization: `Bearer ${getToken()}`
+      }
+    })
+  },
+
 }

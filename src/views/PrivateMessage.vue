@@ -9,27 +9,45 @@
       <div class="public-users">
         <div class="public-users-title">
           <h2>訊息</h2>
+          <IconAddMessage />
         </div>
         <div class="public-users-content">
           <!--底下跑v-for迴圈-->
           <div v-for="user in users" :key="user.id">
             <div class="public-users-content-card">
-              <img class="public-users-content-img" :src="user.avatar" />
+              <router-link
+                :to="{ name: 'Private-message', params: { id: user.userId } }"
+              >
+                <img class="public-users-content-img" :src="user.avatar" />
+              </router-link>
               <div style="width: 100%">
                 <div class="public-users-content-text">
                   <div class="public-users-content-detail d-flex">
-                    <div class="public-users-content-text-name">
-                      {{ user.name }}
-                    </div>
+                    <router-link
+                      :to="{
+                        name: 'Private-message',
+                        params: { id: user.userId },
+                      }"
+                    >
+                      <div class="public-users-content-text-name">
+                        {{ user.name }}
+                      </div>
+                    </router-link>
                     <div class="public-users-content-text-account">
                       @{{ user.account }}
                     </div>
                   </div>
-                  <div class="public-users-content-text-time">訊息時間</div>
+                  <div class="public-users-content-text-time">
+                    {{ user.createdAt | fromNow }}
+                  </div>
                 </div>
-                <div class="public-users-content-text-message">
-                  這裡是多多文字區
-                </div>
+                <router-link
+                  :to="{ name: 'Private-message', params: { id: user.userId } }"
+                >
+                  <div class="public-users-content-text-message">
+                    {{ user.content }}
+                  </div>
+                </router-link>
               </div>
             </div>
           </div>
@@ -38,7 +56,11 @@
       </div>
       <!--公開聊天室-->
       <div class="public-messages">
-        <Message :roomId="roomId" />
+        <Message
+          :roomId="roomId"
+          :initialMessage="Messages"
+          :otherUser="otherUser"
+        />
       </div>
     </div>
   </div>
@@ -50,12 +72,17 @@ import Message from "./../components/Message.vue";
 import { io } from "socket.io-client";
 import UserAPI from "./../apis/users";
 import { mapState } from "vuex";
+import MessageAPI from "./../apis/message";
+import IconAddMessage from "../components/icons/IconAddMessage.vue";
+import { fromNowFilter } from "./../utils/mixins";
 
 export default {
   name: "Public-message",
+  mixins: [fromNowFilter],
   components: {
     NavBars,
     Message,
+    IconAddMessage,
   },
 
   data() {
@@ -65,6 +92,7 @@ export default {
       usersCount: 0,
       roomId: "",
       otherUser: {},
+      Messages: [],
     };
   },
 
@@ -77,18 +105,22 @@ export default {
       });
     },
 
-    //確認房間
-    async createRoomId() {
+    //創建房間
+    async createRoomId(id) {
       try {
-        const { id } = this.$route.params;
+        if (id === "home") {
+          return;
+        }
         const reponse = await UserAPI.getUser({ userID: id });
         this.otherUser = reponse.data;
         if (this.otherUser.id < this.currentUser.id) {
           this.roomId = `${this.otherUser.id}0${this.currentUser.id}`;
           this.enterMessage();
+          this.fetchMessage(); //取得歷史訊息
         } else {
           this.roomId = `${this.currentUser.id}0${this.otherUser.id}`;
           this.enterMessage();
+          this.fetchMessage();
         }
       } catch (error) {
         console.log(error);
@@ -101,6 +133,85 @@ export default {
         roomId: this.roomId,
       });
     },
+
+    //增加歷史訊息
+    async fetchMessage() {
+      try {
+        const response = await MessageAPI.getMessage({
+          roomId: this.roomId,
+        });
+        this.Messages = response.data.map((user) => ({
+          userId: user.User.id,
+          type: "message",
+          avatar: user.User.avatar,
+          createdAt: user.createdAt,
+          text: {
+            content: user.content,
+          },
+        }));
+
+        this.Messages.push(response.data);
+        this.handleScroll(); //滾輪
+        this.messageBottom = false;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async fetchUsers() {
+      try {
+        console.log("有到這裡");
+        const response = await MessageAPI.getUsers();
+        console.log("fetchUsers", response.data);
+        this.users = response.data.map((user) => ({
+          userId: user.receiverId,
+          avatar: user.user.avatar,
+          account: user.user.account,
+          name: user.user.name,
+          content: user.content,
+          createdAt: user.createdAt,
+        }));
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    //收到訊息
+     getMessage() {
+        this.socket.on("private chat", (obj) => {
+          console.log("msgobj", obj);
+          console.log("有沒有收到公開訊息");
+          this.Messages.push(obj);
+          this.handleScroll();
+          this.messageBottom = false;
+        });
+      
+    },
+
+    // //確認房間
+    // async createRoomId() {
+    //   try {
+    //     const { id } = this.$route.params;
+    //     const reponse = await UserAPI.getUser({ userID: id });
+    //     this.otherUser = reponse.data;
+    //     if (this.otherUser.id < this.currentUser.id) {
+    //       this.roomId = `${this.otherUser.id}0${this.currentUser.id}`;
+    //       this.enterMessage();
+    //     } else {
+    //       this.roomId = `${this.currentUser.id}0${this.otherUser.id}`;
+    //       this.enterMessage();
+    //     }
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // },
+
+    // //進去後傳房間給後端
+    // enterMessage() {
+    //   this.socket.emit("join", {
+    //     roomId: this.roomId,
+    //   });
+    // },
 
     //通知哪位使用者上線/離線
     // NoticeUser() {
@@ -121,16 +232,26 @@ export default {
   },
 
   created() {
-    this.createRoomId();
+    const { id } = this.$route.params;
+    this.createRoomId(id);
     this.createdSocket();
+    this.fetchUsers();
   },
 
   mounted() {
     this.debugNotice();
+    this.getMessage()
     //this.NoticeUser();
   },
   computed: {
     ...mapState(["currentUser"]),
+  },
+
+  beforeRouteUpdate(to, from, next) {
+    const { id } = to.params;
+    console.log("toid", id);
+    this.createRoomId(id);
+    next();
   },
 };
 </script>
@@ -153,7 +274,7 @@ export default {
 }
 
 .public-users {
-  background-color: white ;
+  background-color: white;
   border-left: 1px solid #e6ecf0;
   height: 100vh;
   margin-left: 1.5em;
@@ -164,6 +285,7 @@ export default {
     display: none;
   }
   &-title {
+    display: flex;
     background-color: white;
     z-index: 6;
     padding-left: 15px;
@@ -175,6 +297,7 @@ export default {
     border-bottom: $color-message-gray 1px solid;
     h2 {
       font-size: 18px;
+      margin-right: 20%;
     }
   }
   &-content {
@@ -191,10 +314,10 @@ export default {
     &-img {
       @extend %avatar-size;
       margin-right: 10px;
+      flex-shrink: 0;
     }
     &-text {
       width: 100%;
-
       display: flex;
       justify-content: space-between;
       &-name {
@@ -207,7 +330,7 @@ export default {
         color: $color-gray;
       }
       &-time {
-        margin-right: 15px;
+        margin-right: 10px;
         font-size: 15px;
         color: $color-gray;
       }
@@ -234,7 +357,7 @@ export default {
   }
   .public-users {
     border-bottom: $color-message-gray 2px solid;
-    z-index: 6;
+    z-index: 8;
     width: 100%;
     height: 120px;
     position: fixed;
