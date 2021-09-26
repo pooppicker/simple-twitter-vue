@@ -349,8 +349,8 @@ export default {
 
         this.Messages.push(response.data);
         this.handleScroll(); //滾輪
+        this.messageBottom = false
 
-        console.log("getmessage", response);
       } catch (error) {
         console.log(error);
       }
