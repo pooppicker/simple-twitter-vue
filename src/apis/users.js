@@ -29,7 +29,11 @@ export default {
     return apiHelper.get(`/users/topUsers`, {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
-
+  },
+  getTopfollowingUsers() {
+    return apiHelper.get(`users/topSixUsers`, {
+      headers: { Authorization: `Bearer ${getToken()}` }
+    })
   },
   postFollowships({ id }) {
     return apiHelper.post(`/followships`, { id }, {

@@ -392,7 +392,7 @@ export default {
   }
   .edit-area {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     margin: 1rem 1rem;
 
     .user-edit-btn {

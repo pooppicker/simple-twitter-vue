@@ -18,6 +18,27 @@
           </li>
 
           <li>
+            <router-link class="d-flex nav-link" to="/twitter/notification">
+              <IconBell />
+              <h4>通知</h4>
+            </router-link>
+          </li>
+
+          <li>
+            <router-link class="d-flex nav-link" to="/twitter/message/public">
+              <IconPublic />
+              <h4>公開聊天室</h4>
+            </router-link>
+          </li>
+          
+          <li>
+            <router-link class="d-flex nav-link" to="/twitter/home">
+              <IconPublic />
+              <h4>私人訊息</h4>
+            </router-link>
+          </li>
+
+          <li>
             <router-link
               class="d-flex nav-link"
               :to="{ name: 'User', params: { id: currentUser.id } }"
@@ -59,6 +80,8 @@
 <script>
 import IconLogout from "./icons/IconLogout";
 import IconHome from "./icons/IconHome";
+import IconBell from "./icons/IconBell.vue"
+import IconPublic from "./icons/IconPublic.vue"
 import IconSetting from "./icons/IconSetting";
 import IconUser from "./icons/IconUser";
 import CreatePostModal from "./modal/CreatPostModal.vue";
@@ -71,6 +94,8 @@ export default {
     IconHome,
     IconSetting,
     IconUser,
+    IconBell,
+    IconPublic,
     CreatePostModal,
   },
 
