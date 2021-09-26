@@ -1,11 +1,15 @@
 <template>
   <div class="message-part">
     <div class="message-title">
-      <h2>公開聊天室</h2>
+      <h2 v-if="roomId === 1">公開聊天室</h2>
+      <div v-else>
+        <h2 class="message-title-name">{{ otherUser.name }}</h2>
+        <div class="message-title-account">@{{ otherUser.account }}</div>
+      </div>
     </div>
-    <div class="message-show">
+    <div class="message-show" ref="messageShowScroll">
       <!--上線-->
-      <div v-for="message in Messages" :key="message.id">
+      <div v-for="message in Messages" :key="message.userId">
         <div class="message-info" v-if="message.type === 'notice'">
           <p class="message-info-text">{{ message.message }}</p>
         </div>
@@ -19,7 +23,7 @@
               {{ message.text.content }}
             </div>
             <div class="message-other-content-time">
-              {{ message.createdAt | fromNow}}
+              {{ message.createdAt | fromNow }}
             </div>
           </div>
         </div>
@@ -31,9 +35,14 @@
             <div class="message-self-text">
               {{ message.text.content }}
             </div>
-            <div class="message-self-time">{{ message.createdAt }}</div>
+            <div class="message-self-time">
+              {{ message.createdAt | fromNow }}
+            </div>
           </div>
         </div>
+      </div>
+      <div class="scroll-focus">
+        <div v-if="messageBottom">----訊息載入中！----</div>
       </div>
     </div>
     <div class="message-input">
@@ -65,9 +74,12 @@
   &::-webkit-scrollbar {
     display: none;
   }
+
   .message-title {
+    display: flex;
+    align-items: center;
     padding-left: 15px;
-    padding-top: 13px;
+    //padding-top: 13px;
     position: fixed;
     width: 100%;
     top: 0;
@@ -75,11 +87,13 @@
     border-bottom: $color-message-gray 1px solid;
     z-index: 6;
     background-color: white;
+    &-account {
+      font-size: 13px;
+      color: $color-gray;
+    }
   }
   .message-show {
     padding-top: 2%;
-    padding-left: 15px;
-    padding-right: 15px;
     margin: 55px 0;
 
     .message-info {
@@ -101,6 +115,7 @@
     .message-other {
       display: flex;
       margin-top: 20px;
+      margin-left: 15px;
       align-items: flex-end;
       &-img {
         border-radius: 100%;
@@ -129,6 +144,7 @@
     }
     .message-self {
       display: flex;
+      margin-right: 15px;
       margin-top: 20px;
       max-width: 100%;
       padding-left: 30%;
@@ -150,6 +166,17 @@
         font-size: 13px;
         color: $color-gray;
       }
+    }
+    .scroll-focus {
+      position: absolute;
+
+      width: 100%;
+      height: 55px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      font-size: 13px;
+      color: $color-gray;
     }
   }
   .message-input {
@@ -175,6 +202,25 @@
     }
   }
 }
+
+//手機板
+@media screen and (max-width: 768px) {
+  .message-part {
+    .message-title {
+      top:59px;
+      background-color: $color-orange;
+      color: white;
+    }
+    .message-show {
+      margin: 150px 0 55px 0;
+    }
+    .message-input {
+      &-area {
+        width: 100%;
+      }
+    }
+  }
+}
 </style>
 
 
@@ -187,12 +233,13 @@ import { io } from "socket.io-client";
 import { mapState } from "vuex";
 import MessageAPI from "./../apis/message";
 import { fromNowFilter } from "./../utils/mixins";
+import UserAPI from "./../apis/users";
 
 export default {
   name: "Message",
   mixins: [fromNowFilter],
   props: {
-    roomId: {
+    initialRoomId: {
       required: true,
     },
   },
@@ -204,40 +251,47 @@ export default {
       socket: [],
       Messages: [],
       inputMessage: "",
+      roomId: "",
+      otherUser: "",
+      messageBottom: true,
     };
   },
 
   methods: {
-    // 滾輪置底
-    // handleScroll() {
-    //   if (window.scrollY + window.screen.height >= document.///body.scrollHeight) {
-    //     this.loadMore();
-    //   }
-    // },
-
-    //增加歷史訊息
-    async fetchMessage() {
-      try {
-        const response = await MessageAPI.getMessage({
-          roomId: this.roomId
-        })
-
-        console.log('getmessage',response)
-
-
-      } catch(error) {
-        console.log(error)
-      }
-
-    },
-
-    
-
+    //建立連線
     createdSocket() {
       const tokenInLocalStorage = localStorage.getItem("token");
       this.socket = io("https://twitter-apis-demo.herokuapp.com", {
         auth: { token: tokenInLocalStorage },
       });
+    },
+
+    //確認房間
+    async createRoomId() {
+      try {
+        if (this.initialRoomId === 1) {
+          this.roomId = this.initialRoomId;
+          this.enterMessage();
+          this.fetchMessage(); //取得歷史訊息
+
+          return;
+        }
+
+        const { id } = this.$route.params;
+        const reponse = await UserAPI.getUser({ userID: id });
+        this.otherUser = reponse.data;
+        if (this.otherUser.id < this.currentUser.id) {
+          this.roomId = `${this.otherUser.id}0${this.currentUser.id}`;
+          this.enterMessage();
+          this.fetchMessage(); //取得歷史訊息
+        } else {
+          this.roomId = `${this.currentUser.id}0${this.otherUser.id}`;
+          this.enterMessage();
+          this.fetchMessage();
+        }
+      } catch (error) {
+        console.log(error);
+      }
     },
 
     //進去後傳房間給後端
@@ -247,11 +301,47 @@ export default {
       });
     },
 
+    handleScroll() {
+      this.$nextTick(() => {
+        console.log("我在這裡");
+        let msg = this.$refs.messageShowScroll.lastElementChild; // 获取对象
+        console.log("msg", msg);
+        console.log("msg.scrollTop", msg.scrollTop);
+        msg.scrollIntoView({ block: "end" }); // 滚动高度
+      });
+    },
+
+    //增加歷史訊息
+    async fetchMessage() {
+      try {
+        const response = await MessageAPI.getMessage({
+          roomId: this.roomId,
+        });
+        this.Messages = response.data.map((user) => ({
+          userId: user.User.id,
+          type: "message",
+          avatar: user.User.avatar,
+          createdAt: user.createdAt,
+          text: {
+            content: user.content,
+          },
+        }));
+
+        this.Messages.push(response.data);
+        this.handleScroll(); //滾輪
+
+        console.log("getmessage", response);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
     //傳訊息給後端
     sendMessage() {
-      if(this.inputMessage.trim().length === 0) {
-        return
+      if (this.inputMessage.trim().length === 0) {
+        return;
       }
+
       if (this.roomId === 1) {
         this.socket.emit("public chat", {
           UserId: this.currentUser.id,
@@ -273,6 +363,8 @@ export default {
     message() {
       this.socket.on("message", (obj) => {
         this.Messages.push(obj);
+        this.handleScroll(); //滾輪
+        this.messageBottom = true;
       });
     },
 
@@ -281,38 +373,46 @@ export default {
       if (this.roomId === 1) {
         this.socket.on("public chat", (obj) => {
           console.log("msgobj", obj);
+          console.log("有沒有收到公開訊息");
           this.Messages.push(obj);
+          this.handleScroll();
+          this.messageBottom = false;
         });
       } else {
         this.socket.on("private chat", (obj) => {
-          console.log("msgobj", obj);
+          console.log("有沒有收到私訊");
+          this.Messages.push(obj);
+          this.handleScroll();
+          this.messageBottom = false;
         });
       }
     },
 
     //離開房間
-    leaveRoom(){
-       this.socket.emit("leave", {
-        roomId: this.roomId,
-      });
-
-    }
+    leaveRoom() {
+      if (this.roomId === 1) {
+        this.socket.emit("leave", {
+          roomId: this.roomId,
+        });
+      } else {
+        return;
+      }
+    },
   },
 
   created() {
     this.createdSocket();
-    this.enterMessage();
-    this.fetchMessage()
-   // window.addEventListener("scroll", this.handleScroll);
+    this.createRoomId();
   },
 
   mounted() {
     this.message();
     this.getMessage();
+    this.handleScroll();
   },
 
   beforeDestroy() {
-    this.leaveRoom()
+    this.leaveRoom();
   },
 
   computed: {

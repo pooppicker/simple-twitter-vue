@@ -8,19 +8,27 @@
       <!--上線使用者-->
       <div class="public-users">
         <div class="public-users-title">
-          <h2>上線使用者({{ usersCount }})</h2>
+          <h2>訊息</h2>
         </div>
         <div class="public-users-content">
           <!--底下跑v-for迴圈-->
           <div v-for="user in users" :key="user.id">
             <div class="public-users-content-card">
               <img class="public-users-content-img" :src="user.avatar" />
-              <div class="public-users-content-text">
-                <div class="public-users-content-text-name">
-                  {{ user.name }}
+              <div style="width: 100%">
+                <div class="public-users-content-text">
+                  <div class="public-users-content-detail d-flex">
+                    <div class="public-users-content-text-name">
+                      {{ user.name }}
+                    </div>
+                    <div class="public-users-content-text-account">
+                      @{{ user.account }}
+                    </div>
+                  </div>
+                  <div class="public-users-content-text-time">訊息時間</div>
                 </div>
-                <div class="public-users-content-text-account">
-                  @{{ user.account }}
+                <div class="public-users-content-text-message">
+                  這裡是多多文字區
                 </div>
               </div>
             </div>
@@ -30,7 +38,7 @@
       </div>
       <!--公開聊天室-->
       <div class="public-messages">
-        <Message :initialRoomId="roomId" />
+        <Message :roomId="roomId" />
       </div>
     </div>
   </div>
@@ -40,6 +48,8 @@
 import NavBars from "./../components/NavBars";
 import Message from "./../components/Message.vue";
 import { io } from "socket.io-client";
+import UserAPI from "./../apis/users";
+import { mapState } from "vuex";
 
 export default {
   name: "Public-message",
@@ -53,33 +63,54 @@ export default {
       socket: [],
       users: [],
       usersCount: 0,
-      roomId: 1,
+      roomId: "",
+      otherUser: {},
     };
   },
 
   methods: {
+    //建立連線
     createdSocket() {
       const tokenInLocalStorage = localStorage.getItem("token");
       this.socket = io("https://twitter-apis-demo.herokuapp.com", {
         auth: { token: tokenInLocalStorage },
       });
     },
+
+    //確認房間
+    async createRoomId() {
+      try {
+        const { id } = this.$route.params;
+        const reponse = await UserAPI.getUser({ userID: id });
+        this.otherUser = reponse.data;
+        if (this.otherUser.id < this.currentUser.id) {
+          this.roomId = `${this.otherUser.id}0${this.currentUser.id}`;
+          this.enterMessage();
+        } else {
+          this.roomId = `${this.currentUser.id}0${this.otherUser.id}`;
+          this.enterMessage();
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
     //進去後傳房間給後端
     enterMessage() {
       this.socket.emit("join", {
-        roomId: 1,
+        roomId: this.roomId,
       });
     },
 
     //通知哪位使用者上線/離線
-    NoticeUser() {
-      this.socket.on("active users", (obj) => {
-        //console.log("obj", obj);
-        this.usersCount = obj.userCount;
-        this.users = obj.activeUsers;
-        // console.log("message:", this.users);
-      });
-    },
+    // NoticeUser() {
+    //   this.socket.on("active users", (obj) => {
+    //     //console.log("obj", obj);
+    //     this.usersCount = obj.userCount;
+    //     this.users = obj.activeUsers;
+    //     // console.log("message:", this.users);
+    //   });
+    // },
 
     //後端確認收到訊息通知
     debugNotice() {
@@ -90,13 +121,16 @@ export default {
   },
 
   created() {
+    this.createRoomId();
     this.createdSocket();
-    this.enterMessage();
   },
 
   mounted() {
     this.debugNotice();
-    this.NoticeUser();
+    //this.NoticeUser();
+  },
+  computed: {
+    ...mapState(["currentUser"]),
   },
 };
 </script>
@@ -119,11 +153,10 @@ export default {
 }
 
 .public-users {
+  background-color: white ;
   border-left: 1px solid #e6ecf0;
   height: 100vh;
   margin-left: 1.5em;
-  background-color: white;
-  z-index: 6;
   //outline: black 1px solid;
   overflow: scroll;
   position: relative;
@@ -131,6 +164,8 @@ export default {
     display: none;
   }
   &-title {
+    background-color: white;
+    z-index: 6;
     padding-left: 15px;
     padding-top: 13px;
     position: fixed;
@@ -155,17 +190,29 @@ export default {
 
     &-img {
       @extend %avatar-size;
+      margin-right: 10px;
     }
     &-text {
-      margin-left: 10px;
+      width: 100%;
+
       display: flex;
-      flex-direction: row;
+      justify-content: space-between;
       &-name {
         margin-right: 5px;
         font-size: 15px;
         color: $color-black;
       }
       &-account {
+        font-size: 15px;
+        color: $color-gray;
+      }
+      &-time {
+        margin-right: 15px;
+        font-size: 15px;
+        color: $color-gray;
+      }
+      &-message {
+        margin-top: 1px;
         font-size: 15px;
         color: $color-gray;
       }
