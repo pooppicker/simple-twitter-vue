@@ -115,7 +115,7 @@ export default {
   border-left: 1px solid #e6ecf0;
   //outline: green 2px solid;
   height: 100vh;
-  margin-left: 2%;
+  margin-left: 2rem;
   width: 100%;
   //width: 50em;
   overflow: scroll;

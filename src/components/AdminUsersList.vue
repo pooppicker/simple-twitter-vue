@@ -109,7 +109,7 @@ export default {
 .adminUsers-container {
   border-left: 1px solid #e6ecf0;
   height: 100vh;
-  margin-left: 2%;
+  margin-left: 2rem;
   //outline: black 1px solid;
   overflow: scroll;
   position: relative;
