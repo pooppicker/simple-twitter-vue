@@ -16,20 +16,20 @@
 </style>
 
 <script>
-import { io } from "socket.io-client";
-export default {
-  data() {
-    return {
-      socket: [],
-    };
-  },
+// //import { io } from "socket.io-client";
+// export default {
+//   data() {
+//     return {
+//       socket: [],
+//     };
+//   },
 
-  created() {
-    const tokenInLocalStorage = localStorage.getItem("token");
-    this.socket = io("https://twitter-apis-demo.herokuapp.com", {
-      auth: { token: tokenInLocalStorage },
-    });
-     this.$store.commit("addSocket", this.socket);
-  },
-};
+//   // created() {
+//   //   const tokenInLocalStorage = localStorage.getItem("token");
+//   //   this.socket = io("https://twitter-apis-demo.herokuapp.com", {
+//   //     auth: { token: tokenInLocalStorage },
+//   //   });
+//   //    this.$store.commit("addSocket", this.socket);
+//   // },
+// };
 </script>

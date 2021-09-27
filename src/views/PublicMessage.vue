@@ -44,10 +44,10 @@
 <script>
 import NavBars from "./../components/NavBars";
 import Message from "./../components/Message.vue";
-//import { io } from "socket.io-client";
+import { io } from "socket.io-client";
 import MessageAPI from "./../apis/message";
 import { v4 as uuidv4 } from "uuid";
-import { mapState } from "vuex";
+//import { mapState } from "vuex";
 
 export default {
   name: "Public-message",
@@ -58,7 +58,7 @@ export default {
 
   data() {
     return {
-      //socket: [],
+      socket: [],
       users: [],
       usersCount: 0,
       roomId: 1,
@@ -67,12 +67,12 @@ export default {
   },
 
   methods: {
-    // createdSocket() {
-    //   const tokenInLocalStorage = localStorage.getItem("token");
-    //   this.socket = io("https://twitter-apis-demo.herokuapp.com", {
-    //     auth: { token: tokenInLocalStorage },
-    //   });
-    // },
+    createdSocket() {
+      const tokenInLocalStorage = localStorage.getItem("token");
+      this.socket = io("https://twitter-apis-demo.herokuapp.com", {
+        auth: { token: tokenInLocalStorage },
+      });
+    },
 
     //進去後傳房間給後端
     enterMessage() {
@@ -159,12 +159,12 @@ export default {
     },
   },
 
-    computed: {
-    ...mapState(["socket"]),
-  },
+  //   computed: {
+  //   ...mapState(["socket"]),
+  // },
 
   created() {
-    //this.createdSocket();
+    this.createdSocket();
     this.enterMessage();
   },
 
