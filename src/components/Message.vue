@@ -158,8 +158,8 @@
       padding-left: 30%;
       text-align: right;
       justify-content: flex-end;
-      &-content {
-      }
+      // &-content {
+      // }
       &-text {
         padding: 10px 15px;
         text-align: left;
