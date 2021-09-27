@@ -126,11 +126,11 @@ export default {
     },
 
     //後端確認收到訊息通知
-    debugNotice() {
-      this.socket.on("debug notice", (obj) => {
-        console.log(obj);
-      });
-    },
+    // debugNotice() {
+    //   this.socket.on("debug notice", (obj) => {
+    //     console.log(obj);
+    //   });
+    // },
 
     //取得歷史訊息
     async fetchMessage() {
@@ -163,7 +163,7 @@ export default {
   },
 
   mounted() {
-    this.debugNotice();
+   // this.debugNotice();
     this.fetchMessage();
     this.getMessage();
     this.message();
