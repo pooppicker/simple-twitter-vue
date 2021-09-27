@@ -46,6 +46,7 @@ import NavBars from "./../components/NavBars";
 import Message from "./../components/Message.vue";
 import { io } from "socket.io-client";
 import MessageAPI from "./../apis/message";
+import { v4 as uuidv4 } from "uuid";
 //import UserAPI from "./../apis/users";
 
 export default {

@@ -287,6 +287,7 @@ export default {
 }
 
 .public-users {
+  min-width: 250px;
   background-color: white;
   border-left: 1px solid #e6ecf0;
   height: 100vh;
@@ -346,6 +347,7 @@ export default {
         margin-right: 10px;
         font-size: 15px;
         color: $color-gray;
+        white-space:nowrap;
       }
       &-message {
         margin-top: 1px;
@@ -383,18 +385,35 @@ export default {
     position: fixed;
     margin-left: 0em;
     margin-top: 52px;
-    overflow-y: scroll;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    &::-webkit-scrollbar-button {
+      display: block;
+    }
+    
   }
   .public-users-content {
     margin-top: 55px;
 
     display: flex;
     &-text {
+      white-space:nowrap;
+      
       flex-direction: column;
       &-account {
         font-size: 13px;
+        display: inline;
+        white-space:nowrap;
       }
+       &-message {
+      display: none;
     }
+     &-time {
+       font-size: 13px;
+       white-space:nowrap;
+     }
+    }
+   
   }
   .public-users-title {
     display: none;
