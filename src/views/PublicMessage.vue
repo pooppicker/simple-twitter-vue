@@ -12,7 +12,7 @@
         </div>
         <div class="public-users-content">
           <!--底下跑v-for迴圈-->
-          <div v-for="user in users" :key="user.uuid">
+          <div v-for="user in users" :key="user.id">
             <div class="public-users-content-card">
               <router-link :to="{ name: 'User', params: { id: user.id } }">
                 <img class="public-users-content-img" :src="user.avatar" />
@@ -46,9 +46,8 @@ import NavBars from "./../components/NavBars";
 import Message from "./../components/Message.vue";
 import { io } from "socket.io-client";
 import MessageAPI from "./../apis/message";
-import { v4 as uuidv4 } from "uuid"
-
 //import UserAPI from "./../apis/users";
+import { v4 as uuidv4 } from "uuid";
 
 export default {
   name: "Public-message",
@@ -96,7 +95,7 @@ export default {
     getMessage() {
       this.socket.on("public chat", (obj) => {
         //console.log("msgobj", obj);
-        console.log("有沒有收到公開訊息");
+        //console.log("有沒有收到公開訊息");
            const newMessage = {
           ...obj,
           uuId: uuidv4(),

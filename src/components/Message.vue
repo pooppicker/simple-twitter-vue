@@ -1,6 +1,9 @@
 <template>
   <div class="message-part">
+<<<<<<< HEAD
     <MessageSpinner v-if="roomId===1 && messageSpiner" />
+=======
+>>>>>>> 1c838e9cfd5cc920f3bdc04657a76f4fd8e77d42
     <ChooseMessageSpiner v-if="roomId!==1 && chooseMessageSpiner" />
     <div class="message-title">
       <h2 v-if="roomId === 1">公開聊天室</h2>
@@ -158,8 +161,13 @@
       padding-left: 30%;
       text-align: right;
       justify-content: flex-end;
+<<<<<<< HEAD
       &-content {
       }
+=======
+      // &-content {
+      // }
+>>>>>>> 1c838e9cfd5cc920f3bdc04657a76f4fd8e77d42
       &-text {
         padding: 10px 15px;
         text-align: left;
@@ -240,7 +248,11 @@ import { mapState } from "vuex";
 //import MessageAPI from "./../apis/message";
 import { fromNowFilter } from "./../utils/mixins";
 //import UserAPI from "./../apis/users";
+<<<<<<< HEAD
 import MessageSpinner from "./MessageSpinner.vue";
+=======
+//import MessageSpinner from "./MessageSpinner.vue";
+>>>>>>> 1c838e9cfd5cc920f3bdc04657a76f4fd8e77d42
 import ChooseMessageSpiner from "./ChooseMessageSpiner.vue";
 import { v4 as uuidv4 } from "uuid"
 
@@ -261,7 +273,11 @@ export default {
   },
   components: {
     IconSendMessage,
+<<<<<<< HEAD
     MessageSpinner,
+=======
+   // MessageSpinner,
+>>>>>>> 1c838e9cfd5cc920f3bdc04657a76f4fd8e77d42
     ChooseMessageSpiner,
   },
   data() {

@@ -161,11 +161,12 @@ export default {
       }
     },
 
+    //使用者的房間列表
     async fetchUsers() {
       try {
         //console.log("有到這裡");
         const response = await MessageAPI.getUsers();
-        console.log("fetchUsers", response.data);
+        //console.log("fetchUsers", response.data);
         this.users = response.data.map((user) => ({
           userId: user.user.id,
           avatar: user.user.avatar,
@@ -183,48 +184,58 @@ export default {
     getMessage() {
       this.socket.on("private chat", (obj) => {
         // console.log("msgobj", obj);
-        //console.log("有沒有收到公開訊息");
         const newMessage = {
           ...obj,
           uuId: uuidv4(),
         };
-        this.Messages.push(newMessage);
-        this.users.map((user) => {
-          // console.log('user',user)
-          // console.log('userId',user.userId)
-          // console.log('newMessage.userId',newMessage.userId)
+        if(newMessage.userId === this.currentUser.id || newMessage.userId === this.otherUser.id) {
+          this.Messages.push(newMessage);
+        }
+        
+        //console.log("newMessage", newMessage);
+        this.updateUserList(newMessage);
+      });
+    },
 
-          //如果收到的訊息是正在對話的訊息，不考慮收件人與寄件人問題
-          if (user.userId === this.otherUser.id) {
-            console.log("newMessage", newMessage);
-            console.log("user", user);
+    updateUserList(newMessage) {
+      const UserListID = []
+      this.users.map((user) => {
+        UserListID.push(user.userId);
+        return
+      });
+      //console.log("UserListID", UserListID);
+      //非使用者送出的信件
+      if (newMessage.userId !== this.currentUser.id) {
+        this.users.map((user) => {
+          if (newMessage.userId === user.userId) {
             user.content = newMessage.text.content;
             user.createdAt = newMessage.createdAt;
-          } else if (user.userId !== this.otherUser.id) {
-            this.fetchUsers()
-            //如果收到的訊息非正在對話的訊息，僅考慮收件
-            if (user.userId === newMessage.userId) {
-              user.content = newMessage.text.content;
-              user.createdAt = newMessage.createdAt;
-            }
+            //console.log("傳來訊息，更新旁邊訊息即時通知");
           } else {
             return;
           }
         });
-
-        this.messageBottom = false;
-      });
+      }
+      //使用者傳信件即時更新
+      if (newMessage.userId === this.currentUser.id) {
+        //console.log('應該會到這裡')
+        if (UserListID.indexOf(this.otherUser.id) === -1) {
+         // console.log('我傳給新的人唷')
+          this.fetchUsers();
+        } else {
+         // console.log('我傳給舊的人唷')
+          this.users.map((user) => {
+            if (newMessage.text.receiverId === user.userId) {
+              user.content = newMessage.text.content;
+              user.createdAt = newMessage.createdAt;
+              //console.log("傳出去訊息，更新旁邊訊息即時通知");
+            } else {
+              return;
+            }
+          });
+        }
+      }
     },
-
-    //判斷是否為第一次進去聊天室的人
- 
-
-    //後端確認收到訊息通知
-    //   debugNotice() {
-    //     this.socket.on("debug notice", (obj) => {
-    //       console.log(obj);
-    //     });
-    //   },
   },
 
   created() {
@@ -246,7 +257,7 @@ export default {
   beforeRouteUpdate(to, from, next) {
     if (to.name === "Private-message") {
       const { id } = to.params;
-      console.log("toid", id);
+      //console.log("toid", id);
       this.createRoomId(id);
       next();
     } else {
