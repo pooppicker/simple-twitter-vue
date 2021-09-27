@@ -334,7 +334,7 @@ export default {
   
   created() {
     //const { id } = this.$route.params;
-    this.createdSocket();
+    //this.createdSocket();
      this.fetchMessage()
     //this.createRoomId(id);
   },
