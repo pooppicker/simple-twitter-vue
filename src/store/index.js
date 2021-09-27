@@ -23,7 +23,8 @@ export default new Vuex.Store({
     isAuthenticated: false,
     isNewPost: false,
     isNewUser: false,
-    token: ''
+    token: '',
+    socket:""
   },
   mutations: {
     setCurrentUser(state, currentUser) {
@@ -45,6 +46,9 @@ export default new Vuex.Store({
       state.isAuthenticated = false
       state.token =""
       localStorage.removeItem('token')
+    },
+    addSocket(state, socket) {
+      state.socket = socket
     }
   
 },
