@@ -14,7 +14,7 @@
         <div class="public-users-content">
           <!--底下跑v-for迴圈-->
           <div v-for="user in users" :key="user.uuId">
-            <div class="public-users-content-card">
+            <div :class="['public-users-content-card', {'active' : user.userId === otherUser.id}]">
               <router-link
                 :to="{ name: 'Private-message', params: { id: user.userId } }"
               >
@@ -322,7 +322,9 @@ export default {
       height: 75px;
       border-bottom: $color-message-gray 1px solid;
     }
-
+    .active {
+      border-right: 2px solid #FF6600;
+    }
     &-img {
       @extend %avatar-size;
       margin-right: 10px;
