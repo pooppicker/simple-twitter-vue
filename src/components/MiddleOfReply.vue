@@ -69,14 +69,18 @@
                   <h5>{{ reply.User.name }}</h5>
                 </router-link>
                 <p class="post-time">
-                  {{ reply.User.account }}·{{ reply.createdAt | fromNow }}
+                  @{{ reply.User.account }}·{{ reply.createdAt | fromNow }}
                 </p>
               </div>
               <div class="user-reply-to">
                 回覆
-                <span class="user-reply-account"
-                  >@{{ tweet.User.account }}</span
+                <router-link
+                  :to="{ name: 'User', params: { id: tweet.User.id } }"
                 >
+                  <span class="user-reply-account"
+                    >@{{ tweet.User.account }}</span
+                  >
+                </router-link>
               </div>
               <p class="tweet-detail-text">
                 {{ reply.comment }}
@@ -136,7 +140,6 @@ export default {
           ...response.data,
         };
         this.pageIsProcessing = false;
-        console.log(response.data);
       } catch (error) {
         console.log(error);
         Toast.fire({
@@ -191,6 +194,7 @@ export default {
   created() {
     const { id } = this.$route.params;
     this.fetchTweets(id);
+
   },
 };
 </script>
@@ -203,7 +207,7 @@ export default {
   display: flex;
   flex-direction: column;
   border-left: 1px solid #e6ecf0;
-  margin-left: 2%;
+  margin-left: 1.5em;
   position: relative;
   overflow: scroll;
   &::-webkit-scrollbar {
@@ -271,12 +275,8 @@ export default {
       strong {
         color: $color-black;
       }
-      .coms-amount {
-        cursor: pointer;
-      }
       .likes-amount {
         margin-left: 2rem;
-        cursor: pointer;
       }
     }
     .icons-area {
@@ -328,7 +328,6 @@ export default {
       color: $color-gray;
       .user-reply-account {
         color: $color-orange;
-        cursor: pointer;
       }
     }
   }

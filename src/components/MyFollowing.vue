@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-content">
       <div class="card-header">
-        <h4 class="card-title">Popular</h4>
+        <h4 class="card-title">跟隨誰</h4>
         <hr />
       </div>
 
@@ -16,8 +16,10 @@
               </router-link>
               <div class="user">
                 <router-link :to="{ name: 'User', params: { id: user.id } }">
-                  <h5 class="user-name">{{ user.name |  nameLength}}</h5>
-                  <h5 class="user-account">@{{ user.account | accountLength }}</h5>
+                  <h5 class="user-name">{{ user.name | nameLength }}</h5>
+                  <h5 class="user-account">
+                    @{{ user.account | accountLength }}
+                  </h5>
                 </router-link>
               </div>
             </div>
@@ -46,7 +48,6 @@
   </div>
 </template>
 
-
 <script>
 import UserAPI from "./../apis/users";
 import { Toast } from "./../utils/helpers";
@@ -59,6 +60,7 @@ export default {
   data() {
     return {
       users: [],
+      isMore: true,
     };
   },
 
@@ -140,13 +142,13 @@ export default {
 };
 </script>
 
-<style lang="scss" >
+<style lang="scss" scoped>
 @import "../assets/scss/colorAndSize.scss";
 @import "../assets/scss/efficientSetting.scss";
 
 .card {
   // outline: black 2px solid;
-  border-left: 1px solid #e6ecf0;
+  // border-left: 1px solid #e6ecf0;
   position: relative;
   background-color: white;
   z-index: 5;
@@ -164,6 +166,7 @@ export default {
     border-radius: 14px;
     padding-top: 14px;
     margin: 0 14px;
+
     //border: green 2px solid;
     .card-header {
       padding-top: 10px;

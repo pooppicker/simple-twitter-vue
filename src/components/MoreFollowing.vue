@@ -1,14 +1,13 @@
 <template>
-  <div class="card">
+  <div class="m-card">
     <div class="card-content">
       <div class="card-header">
-        <h4 class="card-title">Popular</h4>
+        <h4 class="card-title">跟隨誰</h4>
         <hr />
       </div>
 
       <div class="card-body">
-        <!--開始跑v-for迴圈處-->
-        <div class="user-card" v-for="user in users" :key="user.id">
+        <div class="user-card" v-for="user in topUsers" :key="user.id">
           <div class="user-info d-flex">
             <div class="user-detail d-flex">
               <router-link :to="{ name: 'User', params: { id: user.id } }">
@@ -16,8 +15,10 @@
               </router-link>
               <div class="user">
                 <router-link :to="{ name: 'User', params: { id: user.id } }">
-                  <h5 class="user-name">{{ user.name |  nameLength}}</h5>
-                  <h5 class="user-account">@{{ user.account | accountLength }}</h5>
+                  <h5 class="user-name">{{ user.name | nameLength }}</h5>
+                  <h5 class="user-account">
+                    @{{ user.account | accountLength }}
+                  </h5>
                 </router-link>
               </div>
             </div>
@@ -38,14 +39,12 @@
               </button>
             </div>
           </div>
-          <hr v-if="user.id !== users[9].id" />
         </div>
-        <!--v-for迴圈結束處-->
+        <button class="show-more" @click="onClick">顯示更多</button>
       </div>
     </div>
   </div>
 </template>
-
 
 <script>
 import UserAPI from "./../apis/users";
@@ -56,17 +55,24 @@ import { popularAccountLengthFilter } from "./../utils/mixins";
 
 export default {
   mixins: [popularNameLengthFilter, popularAccountLengthFilter],
+  props: {
+    onClick: {
+      type: Function,
+      required: true
+    },
+  },
   data() {
     return {
-      users: [],
+      topUsers: [],
+      
     };
   },
-
   methods: {
-    async fetchUser() {
+    async fetchTopUser() {
       try {
-        const response = await UserAPI.getTopUsers();
-        this.users = {
+        const response = await UserAPI.getTopfollowingUsers();
+        console.log(response);
+        this.topUsers = {
           ...response.data,
         };
       } catch (error) {
@@ -77,7 +83,6 @@ export default {
         });
       }
     },
-
     async cancelFollow(user) {
       try {
         user.isFollowed = false;
@@ -118,9 +123,8 @@ export default {
       }
     },
   },
-
   created() {
-    this.fetchUser();
+    this.fetchTopUser();
   },
   computed: {
     ...mapState(["currentUser", "isNewUser"]),
@@ -130,7 +134,7 @@ export default {
     isNewUser: {
       handler: function () {
         if (this.isNewUser) {
-          this.fetchUser();
+          this.fetchTopUser();
           this.$store.commit("updateNewUser");
         }
       },
@@ -140,30 +144,33 @@ export default {
 };
 </script>
 
-<style lang="scss" >
+<style lang="scss" scoped>
 @import "../assets/scss/colorAndSize.scss";
 @import "../assets/scss/efficientSetting.scss";
 
-.card {
+.m-card {
   // outline: black 2px solid;
-  border-left: 1px solid #e6ecf0;
+  // border-left: 1px solid #e6ecf0;
   position: relative;
   background-color: white;
+  //border-left: 1px solid #e6ecf0;
   z-index: 5;
-  height: 100vh;
+  // height: 100vh;
   margin-right: 20px;
   padding-left: 2%;
   padding-top: 14px;
-  overflow: scroll;
+  height: 100vh;
+  overflow: hidden;
   &::-webkit-scrollbar {
     display: none;
   }
   .card-content {
     background-color: #f5f8fa;
-    min-height: 770px;
-    border-radius: 14px;
+    height: 500px;
+    border-radius: 14px 14px 0 0;
     padding-top: 14px;
     margin: 0 14px;
+
     //border: green 2px solid;
     .card-header {
       padding-top: 10px;
@@ -181,8 +188,10 @@ export default {
       //border: yellow 2px solid;
       .user-card {
         min-height: 10%;
-
+        border-bottom: 1px solid #e6ecf0;
+        //padding-top:8px ;
         .user-info {
+          padding-top:10px ;
           margin: 0 15px;
           justify-content: space-between;
           .user {
@@ -220,6 +229,16 @@ export default {
         }
       }
     }
+    .show-more {
+      color: #FF6600;
+      font-size: 15px;
+      background-color: #f5f8fa;
+      min-height: 7%;
+      width: 100%;
+      border-radius: 0 0 14px 14px ;
+      display: flex;
+      padding: .7rem;
+    }
   }
 }
 
@@ -232,7 +251,7 @@ hr {
 //手機版
 
 @media screen and (max-width: 1200px) {
-  .card {
+  .m-card {
     .btn {
       display: none;
     }

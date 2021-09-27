@@ -22,7 +22,7 @@
           <router-link :to="{ name: 'User', params: { id: user.id } }">
             <h5>{{ user.name | accountLength}}</h5>
           </router-link>
-          <p>{{ user.account }}</p>
+          <p>@{{ user.account }}</p>
         </div>
         <!--icon-->
         <div class="adminUsers-icon d-flex">
@@ -109,7 +109,7 @@ export default {
 .adminUsers-container {
   border-left: 1px solid #e6ecf0;
   height: 100vh;
-  margin-left: 2%;
+  margin-left: 2rem;
   //outline: black 1px solid;
   overflow: scroll;
   position: relative;

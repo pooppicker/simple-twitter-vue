@@ -23,7 +23,7 @@
                   <h5>{{ tweet.User.name }}</h5>
                 </router-link>
                 <p class="post-time">
-                  {{ tweet.User.account }}·{{ tweet.createdAt | fromNow }}
+                  @{{ tweet.User.account }}·{{ tweet.createdAt | fromNow }}
                 </p>
               </div>
               <div
@@ -115,7 +115,7 @@ export default {
   border-left: 1px solid #e6ecf0;
   //outline: green 2px solid;
   height: 100vh;
-  margin-left: 2%;
+  margin-left: 2rem;
   width: 100%;
   //width: 50em;
   overflow: scroll;

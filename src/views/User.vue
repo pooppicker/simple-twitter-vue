@@ -35,7 +35,12 @@
               編輯個人資料
             </button>
             <template v-else>
+              <router-link
+                :to="{ name: 'Private-message', params: { id: profile.id } }"
+                >
               <IconMsg class="other-user-btn" />
+              </router-link>
+            
               <div
                 v-if="!profile.isNotified"
                 @click.stop.prevent="ChangeNotified"
@@ -192,7 +197,6 @@ export default {
     async fetchUser(userID) {
       try {
         const response = await UserAPI.getUser({ userID });
-        console.log(response);
         const {
           id,
           name,
@@ -346,7 +350,7 @@ export default {
   display: flex;
   flex-direction: column;
   border-left: 1px solid #e6ecf0;
-  margin-left: 2%;
+  margin-left: 1.5em;
   overflow: scroll;
   position: relative;
   &::-webkit-scrollbar {
@@ -372,7 +376,7 @@ export default {
     margin-top: 3.5em;
     height: 250px;
     position: relative;
-    cursor: pointer;
+   
     img {
       object-fit: cover;
     }
@@ -388,7 +392,7 @@ export default {
   }
   .edit-area {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     margin: 1rem 1rem;
 
     .user-edit-btn {
