@@ -49,4 +49,12 @@
   0%{transform:rotate(0deg);}
   100%{transform:rotate(360deg);}
 }
+
+//手機版
+@media screen and (max-width: 768px) {
+  .home-spinner-content {
+  width: 100%;}
+
+
+}
 </style>

@@ -213,6 +213,7 @@
 //手機板
 @media screen and (max-width: 768px) {
   .message-part {
+    flex-shrink:2;
     .message-title {
       top: 59px;
       background-color: $color-orange;

@@ -179,6 +179,7 @@ export default {
     }
     .navigation {
       margin-top: 48px;
+      white-space:nowrap;
       .post-button {
         width: 80%;
         height: 38px;
@@ -233,7 +234,7 @@ export default {
       }
       .nav-icon {
         width: 35px;
-        height:350px;
+        height:35px;
         margin: 0 20% 0 0;
         transform: translate(0, -1px);
       }
