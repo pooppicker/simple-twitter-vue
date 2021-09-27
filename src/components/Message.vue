@@ -276,7 +276,7 @@ export default {
   },
 
   methods: {
-    //建立連線
+   // 建立連線
     createdSocket() {
       const tokenInLocalStorage = localStorage.getItem("token");
       this.socket = io("https://twitter-apis-demo.herokuapp.com", {
@@ -331,7 +331,7 @@ export default {
     },
 
   },
-
+  
   created() {
     //const { id } = this.$route.params;
     this.createdSocket();
@@ -367,7 +367,7 @@ export default {
 
 
   computed: {
-    ...mapState(["currentUser"]),
+    ...mapState(["currentUser","socket"]),
   },
 };
 </script>

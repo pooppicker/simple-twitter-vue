@@ -89,7 +89,7 @@ export default {
 
   data() {
     return {
-      socket: [],
+     socket: [],
       users: [],
       usersCount: 0,
       roomId: "",
@@ -241,7 +241,7 @@ export default {
   created() {
     const { id } = this.$route.params;
     this.createRoomId(id);
-    this.createdSocket();
+   this.createdSocket();
     this.fetchUsers();
   },
 
