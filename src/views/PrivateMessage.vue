@@ -69,7 +69,7 @@
 <script>
 import NavBars from "./../components/NavBars";
 import Message from "./../components/Message.vue";
-import { io } from "socket.io-client";
+//import { io } from "socket.io-client";
 import UserAPI from "./../apis/users";
 import { mapState } from "vuex";
 import MessageAPI from "./../apis/message";
@@ -89,7 +89,7 @@ export default {
 
   data() {
     return {
-      socket: [],
+     // socket: [],
       users: [],
       usersCount: 0,
       roomId: "",
@@ -100,12 +100,12 @@ export default {
 
   methods: {
     //建立連線
-    createdSocket() {
-      const tokenInLocalStorage = localStorage.getItem("token");
-      this.socket = io("https://twitter-apis-demo.herokuapp.com", {
-        auth: { token: tokenInLocalStorage },
-      });
-    },
+    // createdSocket() {
+    //   const tokenInLocalStorage = localStorage.getItem("token");
+    //   this.socket = io("https://twitter-apis-demo.herokuapp.com", {
+    //     auth: { token: tokenInLocalStorage },
+    //   });
+    // },
 
     //創建房間
     async createRoomId(id) {
@@ -241,7 +241,7 @@ export default {
   created() {
     const { id } = this.$route.params;
     this.createRoomId(id);
-    this.createdSocket();
+   // this.createdSocket();
     this.fetchUsers();
   },
 
@@ -251,7 +251,7 @@ export default {
     //this.NoticeUser();
   },
   computed: {
-    ...mapState(["currentUser"]),
+    ...mapState(["currentUser","socket"]),
   },
 
   beforeRouteUpdate(to, from, next) {
