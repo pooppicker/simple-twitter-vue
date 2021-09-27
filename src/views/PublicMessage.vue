@@ -96,7 +96,7 @@ export default {
     getMessage() {
       this.socket.on("public chat", (obj) => {
         //console.log("msgobj", obj);
-        console.log("有沒有收到公開訊息");
+        //console.log("有沒有收到公開訊息");
            const newMessage = {
           ...obj,
           uuId: uuidv4(),

@@ -1,6 +1,5 @@
 <template>
   <div class="message-part">
-    <MessageSpinner v-if="roomId===1 && messageSpiner" />
     <ChooseMessageSpiner v-if="roomId!==1 && chooseMessageSpiner" />
     <div class="message-title">
       <h2 v-if="roomId === 1">公開聊天室</h2>
@@ -240,7 +239,7 @@ import { mapState } from "vuex";
 //import MessageAPI from "./../apis/message";
 import { fromNowFilter } from "./../utils/mixins";
 //import UserAPI from "./../apis/users";
-import MessageSpinner from "./MessageSpinner.vue";
+//import MessageSpinner from "./MessageSpinner.vue";
 import ChooseMessageSpiner from "./ChooseMessageSpiner.vue";
 import { v4 as uuidv4 } from "uuid"
 
@@ -261,7 +260,7 @@ export default {
   },
   components: {
     IconSendMessage,
-    MessageSpinner,
+   // MessageSpinner,
     ChooseMessageSpiner,
   },
   data() {
