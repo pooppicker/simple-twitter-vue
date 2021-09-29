@@ -5,7 +5,7 @@
       <h2 v-if="roomId === 1">公開聊天室</h2>
       <div v-else>
         <h2 class="message-title-name">
-          {{ otherUser.name ? otherUser.account : "私人聊天室" }}
+          {{ otherUser.name ? otherUser.name : "私人聊天室" }}
         </h2>
         <div class="message-title-account">
           @{{ otherUser.account ? otherUser.account : "請點選使用者" }}
@@ -367,7 +367,7 @@ export default {
 
 
   computed: {
-    ...mapState(["currentUser",]),
+    ...mapState(["currentUser"]),
   },
 };
 </script>
