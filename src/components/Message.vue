@@ -367,7 +367,7 @@ export default {
 
 
   computed: {
-    ...mapState(["currentUser","socket"]),
+    ...mapState(["currentUser",]),
   },
 };
 </script>
