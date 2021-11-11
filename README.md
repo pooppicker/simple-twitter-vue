@@ -6,6 +6,13 @@ It is a twitter-liked website, which has almost all the functions that you can s
 
 Here is the direct page for you to easily play with it https://pooppicker.github.io/simple-twitter-vue/#/twitter/home
 
+- Account: User1
+- Password: 12345678
+
+Admin
+- Account: root@example.com
+- Password: 12345678
+
 ## 📣 Features
 - sign up and make a account
 - sign in with your account
